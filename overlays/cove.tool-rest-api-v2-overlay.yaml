@@ -1,0 +1,115 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the cove.tool REST API v2
+  version: 1.0.0
+x-generated: '2026-08-11'
+x-method: generated
+x-source: openapi/cove.tool-rest-api-v2-openapi.yml
+x-extends: openapi/cove.tool-rest-api-v2-openapi.yml
+x-note: >-
+  cove.tool's published v2 specification declares NO operationId on any of its thirteen operations.
+  That is the single defect that most limits the spec's usefulness: every code generator, every MCP
+  tool binding and every Arazzo workflow needs a stable operation name, and without one each
+  consumer invents its own. This overlay assigns one operationId per operation using the provider's
+  own vocabulary, records the runtime headers the API demonstrably returns but does not document,
+  and flags two contract defects without silently correcting them. It ADDS to the published
+  contract and never mutates the original file.
+extends: openapi/cove.tool-rest-api-v2-openapi.yml
+actions:
+- target: $.paths['/auth/signup'].post
+  description: Assign a stable operationId.
+  update:
+    operationId: createUserAccount
+- target: $.paths['/profiles/{profile_id}'].get
+  description: Assign a stable operationId.
+  update:
+    operationId: getProfile
+- target: $.paths['/energy-codes'].get
+  description: Assign a stable operationId.
+  update:
+    operationId: listEnergyCodes
+- target: $.paths['/projects/'].post
+  description: Assign a stable operationId.
+  update:
+    operationId: createProject
+- target: $.paths['/projects/'].get
+  description: Assign a stable operationId.
+  update:
+    operationId: getProject
+- target: $.paths['/projects/{project_id}'].put
+  description: Assign a stable operationId.
+  update:
+    operationId: updateProject
+- target: $.paths['/projects/{project_id}/geometry'].post
+  description: Assign a stable operationId.
+  update:
+    operationId: uploadProjectGeometry
+- target: $.paths['/analysis'].post
+  description: Assign a stable operationId and record the absence of replay protection.
+  update:
+    operationId: startAnalysis
+    x-idempotent: false
+    x-idempotency-note: >-
+      This operation enqueues billable simulation jobs and supports no Idempotency-Key. A retry
+      after a timeout may enqueue the work twice, and there is no documented way for a caller to
+      detect or prevent it.
+- target: $.paths['/analysis/{project_id}'].get
+  description: Assign a stable operationId.
+  update:
+    operationId: getAnalysisResults
+- target: $.paths['/analysis/{project_id}/status'].get
+  description: Assign a stable operationId and mark the quota semantics.
+  update:
+    operationId: getAnalysisStatus
+    x-quota-endpoint: true
+    x-quota-note: >-
+      Returns the remaining number of jobs per analysis type for the project. This is the only
+      consumption ceiling cove.tool exposes, and it must be polled — it is never returned as a
+      header on the request a caller already made.
+- target: $.paths['/analysis/{project_id}/stop'].get
+  description: Assign a stable operationId and flag unsafe semantics on a safe method.
+  update:
+    operationId: stopAnalysis
+    x-http-semantics-defect: >-
+      This operation mutates server state — it halts running calculations — but is declared as a
+      GET. RFC 9110 section 9.2.1 defines GET as safe, so any cache, crawler, link prefetcher or
+      agent that speculatively follows the URL can cancel a customer's running simulation. Should
+      be POST or DELETE.
+- target: $.info
+  description: Record the runtime behaviors observed on the wire but absent from the contract.
+  update:
+    x-observed-runtime:
+      probed: '2026-08-11'
+      probe_target: https://app.covetool.com/api/v2/energy-codes
+      trace_header: x-cove-unique-trace-id
+      trace_note: >-
+        Every response, including 401s, carries a server-generated trace id of the shape
+        <uuid>-<unix-timestamp>. It is undocumented. Quote it when reporting a failure.
+      auth_challenge: 'www-authenticate: Token'
+      server: nginx/1.19.1
+      framework_signature: >-
+        Django REST Framework — the 401 body is DRF's default {"detail": "..."}, not the
+        {data, msg, errors} envelope this specification declares.
+      rate_limit_headers: none
+      security_headers:
+      - 'x-frame-options: SAMEORIGIN'
+      - 'x-content-type-options: nosniff'
+      - 'referrer-policy: same-origin'
+      - 'cross-origin-opener-policy: same-origin'
+      missing_security_headers:
+      - strict-transport-security
+- target: $.components.schemas.CreateProjectResponseData
+  description: Flag a required-field name that does not match any declared property.
+  update:
+    x-contract-defect: >-
+      The `required` list names `cbecs_eui`, but the property defined on this schema is spelled
+      `cebcs_eui`. As published, the schema requires a field it never defines, and every declared
+      field is required including nullable ones. Left uncorrected here — the fix belongs to
+      cove.tool, and silently renaming it in our copy would hide a real defect in their contract.
+- target: $.components.schemas.GeneralEndpointResponses
+  description: Record that the declared error envelope is contradicted by the shipped one.
+  update:
+    x-envelope-discrepancy: >-
+      Declared envelope is {data, msg, errors}. The live 401 from /api/v2/energy-codes returns
+      {"detail":"Authentication credentials were not provided."}. A client coded to this schema
+      reads undefined from errors[] on the most common failure it will encounter.

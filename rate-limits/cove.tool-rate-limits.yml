@@ -1,0 +1,56 @@
+generated: '2026-08-11'
+method: probed
+source: >-
+  live unauthenticated responses from https://app.covetool.com/api/v2/ and
+  https://app.covetool.com/api/v2/energy-codes; https://developers.covetool.com/openapi.yaml;
+  https://help.covetool.com/en/
+limit_count: 0
+published: false
+limits: []
+response_headers:
+  observed: []
+  absent:
+  - X-RateLimit-Limit
+  - X-RateLimit-Remaining
+  - X-RateLimit-Reset
+  - RateLimit-Limit
+  - RateLimit-Remaining
+  - RateLimit-Reset
+  - RateLimit-Policy
+  - Retry-After
+  note: >-
+    Full response header set observed on a live 401 from /api/v2/energy-codes was: date,
+    content-type, content-length, server (nginx/1.19.1), www-authenticate, vary, allow,
+    x-cove-unique-trace-id, x-frame-options, x-content-type-options, referrer-policy,
+    cross-origin-opener-policy. No rate-limit family header of any kind is present, so an agent has
+    no runtime signal to back off on — it can only discover a limit by being refused.
+exhaustion:
+  status_code: null
+  body: null
+  note: >-
+    No 429 response is declared on any operation in either specification, and the OpenAPI's own
+    status-code table (200/201/202/400/401/404/5xx) omits 429 entirely. Whether the API throttles
+    at all is undocumented.
+application_quota:
+  supported: true
+  endpoint: 'GET /analysis/{project_id}/status'
+  operation_summary: 'Obtains the remaining number of jobs per analysis type for a given project'
+  kind: simulation-job-allowance
+  note: >-
+    This is the one place cove.tool exposes a consumption ceiling, and it is worth distinguishing
+    carefully: it is a per-project count of remaining ANALYSIS JOBS, not an HTTP request rate. It is
+    read by polling a dedicated endpoint rather than by reading a header off the response you
+    already made, so a caller must spend a request to learn its budget. The allowance itself, and
+    what happens when it reaches zero, are not documented.
+docs: null
+note: >-
+  No rate limits are published anywhere on cove.tool's machine-readable surface. Recorded as an
+  honest zero: the developer portal, both OpenAPI documents and the help center were all read, and
+  none of them states a limit, a window, a burst, or a throttling status code.
+evidence:
+- url: https://app.covetool.com/api/v2/energy-codes
+  status: 401
+- url: https://app.covetool.com/api/v2/
+  status: 401
+- url: https://developers.covetool.com/openapi.yaml
+  status: 200

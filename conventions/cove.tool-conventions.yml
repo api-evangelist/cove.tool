@@ -1,0 +1,186 @@
+generated: '2026-08-11'
+method: searched
+source: >-
+  https://developers.covetool.com/openapi.yaml (info.description + operations),
+  https://developers.covetool.com/openapi-v1.yaml,
+  live unauthenticated response headers from https://app.covetool.com/api/v2/energy-codes
+docs: https://developers.covetool.com/
+summary: >-
+  cove.tool v2 is a Django REST Framework API behind nginx. It is a small, job-oriented surface:
+  create a project, upload geometry, start an analysis, poll for status, fetch results. There is
+  no idempotency mechanism, no pagination, no rate-limit signaling and no field expansion. The one
+  genuinely strong convention is request tracing — every response carries a server-generated
+  x-cove-unique-trace-id.
+
+authentication:
+  style: token
+  scheme_name: apiKeyAuth
+  transport: header
+  header: Authorization
+  format: 'Token <api_token>'
+  challenge_observed: 'www-authenticate: Token'
+  token_issuance: https://app.covetool.com/api/get-token
+  token_issuance_method: POST
+  note: >-
+    Documented in the OpenAPI info.description as a table pointing at
+    https://app.covetool.com/api/get-token. Confirmed live: an unauthenticated GET on
+    /api/v2/energy-codes returns 401 with `www-authenticate: Token`. A GET on /api/get-token
+    returns 405, confirming it is POST-only. POST /auth/signup is the single operation in the v2
+    spec that declares no security.
+  see: authentication/cove.tool-authentication.yml
+
+idempotency:
+  supported: false
+  header: null
+  scope: null
+  retention: null
+  note: >-
+    No Idempotency-Key header, no idempotency guidance and no request-fingerprinting language
+    anywhere in either OpenAPI or the developer portal. This matters more here than on a typical
+    CRUD API: POST /analysis enqueues billable simulation jobs, and a retried request has no
+    documented way to avoid enqueuing them twice. NO Idempotency pointer is wired in apis.yml.
+
+pagination:
+  supported: false
+  style: null
+  request_params: []
+  response_fields: []
+  note: >-
+    GET /projects/ takes a single optional `project_id` query parameter and returns one project —
+    there is no list-all-projects collection endpoint in v2, so pagination never arises. v1's
+    GET /projects lists all projects with no page, limit, offset or cursor parameter declared,
+    which is an unbounded collection response.
+
+filtering:
+  supported: partial
+  params:
+  - endpoint: GET /energy-codes
+    param: for_project
+    in: query
+    note: restricts the returned energy codes to those compatible with a given project
+  - endpoint: GET /energy-codes
+    param: name
+    in: query
+    note: filters energy codes by name
+  - endpoint: GET /projects/
+    param: project_id
+    in: query
+
+field_expansion:
+  supported: false
+  note: No expand, include, fields or sparse-fieldset parameter on any operation.
+
+metadata:
+  supported: false
+  note: No customer-controlled metadata bag on any resource.
+
+request_tracing:
+  supported: true
+  header: x-cove-unique-trace-id
+  direction: response
+  format: '<uuid>-<unix-timestamp>'
+  observed_example_shape: 'ed002d5a-822b-4e3a-9813-0a2198863d02-1786496213'
+  method: probed
+  note: >-
+    Observed live on an unauthenticated 401 from https://app.covetool.com/api/v2/energy-codes, so
+    the trace id is emitted even on rejected requests — which is the useful case, since it gives a
+    caller something to quote to support for a failure they cannot otherwise reproduce. It is NOT
+    documented in the OpenAPI or on the developer portal; a consumer only finds it by looking at
+    the wire. That is a documentation gap, not an implementation gap.
+
+versioning:
+  style: uri-path
+  current: v2
+  versions:
+  - version: v1
+    base: https://app.covetool.com/api
+    spec: openapi/cove.tool-api-v1-openapi.yml
+    status: still-served
+  - version: v2
+    base: https://app.covetool.com/api/v2
+    spec: openapi/cove.tool-rest-api-v2-openapi.yml
+    status: current
+  note: >-
+    Both versions are still published side by side from the developer portal
+    (openapi-v1.yaml and openapi.yaml). Nothing on the portal says v1 is deprecated, gives it a
+    sunset date, or tells a v1 caller how to migrate.
+  see: lifecycle/cove.tool-lifecycle.yml
+
+error_envelope:
+  documented_shape:
+    schema: GeneralEndpointResponses
+    fields:
+    - name: data
+      type: object
+      required: true
+    - name: msg
+      type: string
+      required: true
+    - name: errors
+      type: array
+      required: true
+  observed_shape:
+    fields:
+    - name: detail
+      type: string
+    observed_at: https://app.covetool.com/api/v2/energy-codes
+    observed_status: 401
+    observed_body: '{"detail":"Authentication credentials were not provided."}'
+  rfc9457: false
+  content_type: application/json
+  discrepancy: >-
+    DEFECT. The spec declares one envelope — {data, msg, errors} — for 4xx responses, but the live
+    401 returns the Django REST Framework default {detail}. A client that codes to the published
+    contract and reads `errors[]` will read undefined on the most common failure it will ever hit.
+    Recorded here rather than corrected: the fix is the provider's.
+  see: errors/cove.tool-problem-types.yml
+
+rate_limit_signaling:
+  supported: false
+  headers: []
+  exhaustion_status: null
+  note: >-
+    No X-RateLimit-*, no RateLimit-*, no Retry-After on any observed response, and no published
+    limits. The nearest thing to a quota signal is GET /analysis/{project_id}/status, which
+    returns the remaining number of jobs per analysis type for a project — an application-level
+    quota, not an HTTP rate limit.
+  see: rate-limits/cove.tool-rate-limits.yml
+
+response_security_headers:
+  method: probed
+  observed:
+  - header: x-frame-options
+    value: SAMEORIGIN
+  - header: x-content-type-options
+    value: nosniff
+  - header: referrer-policy
+    value: same-origin
+  - header: cross-origin-opener-policy
+    value: same-origin
+  absent:
+  - strict-transport-security
+  note: >-
+    Solid browser-facing defaults, but HSTS is not set on app.covetool.com, developers.covetool.com
+    or cove.inc.
+  see: security/cove.tool-domain-security.yml
+
+content_negotiation:
+  request: application/json
+  response: application/json
+  vary: 'Accept, Cookie, origin'
+  note: 'Geometry upload (POST /projects/{project_id}/geometry) is JSON, not a file upload.'
+
+async_semantics:
+  pattern: enqueue-and-poll
+  enqueue: 'POST /analysis -> 202 Accepted'
+  poll_status: 'GET /analysis/{project_id}/status'
+  fetch_results: 'GET /analysis/{project_id}'
+  cancel: 'GET /analysis/{project_id}/stop'
+  callbacks: false
+  webhooks: false
+  note: >-
+    Long-running simulations are strictly poll-based. Neither OpenAPI declares a `callbacks` block
+    and no webhook surface is documented anywhere, so a consumer must poll to know a run finished.
+    DEFECT of a second kind: the cancel operation is a GET
+    (GET /analysis/{project_id}/stop) that mutates server state by halting running calculations —
+    a non-idempotent side effect on a safe method, which any intermediary is entitled to prefetch.

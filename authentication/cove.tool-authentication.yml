@@ -1,0 +1,80 @@
+generated: '2026-08-11'
+method: searched
+source: >-
+  openapi/cove.tool-rest-api-v2-openapi.yml, openapi/cove.tool-api-v1-openapi.yml,
+  https://developers.covetool.com/ (info.description Authentication section),
+  live 401 from https://app.covetool.com/api/v2/energy-codes
+docs: https://developers.covetool.com/
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+  oauth2: false
+  oidc: false
+  mtls: false
+  basic: false
+  bearer: false
+schemes:
+- name: AuthToken
+  type: apiKey
+  in: header
+  parameter: Authorization
+  format: 'Token <api_token>'
+  sources:
+  - openapi/cove.tool-api-v1-openapi.yml
+  - openapi/cove.tool-rest-api-v2-openapi.yml
+  note: >-
+    Named `AuthToken` in v1 and `apiKeyAuth` in v2 — same mechanism, renamed across the version
+    boundary with no note in either document.
+- name: apiKeyAuth
+  type: apiKey
+  in: header
+  parameter: Authorization
+  format: 'Token <api_token>'
+  sources:
+  - openapi/cove.tool-rest-api-v2-openapi.yml
+token_issuance:
+  endpoint: https://app.covetool.com/api/get-token
+  method: POST
+  documented_in: 'OpenAPI info.description, "Generating an API Token" table'
+  v1_operation: 'POST /get-token'
+  probed_status: 405
+  probed_note: >-
+    A GET on /api/get-token returns 405, confirming POST-only. The credential exchange itself was
+    not exercised — it requires real account credentials, and this pipeline uses none.
+  prerequisite: 'A valid trial or licensed cove.tool account. There is no self-serve API tier.'
+observed:
+  method: probed
+  url: https://app.covetool.com/api/v2/energy-codes
+  status: 401
+  www_authenticate: Token
+  body: '{"detail":"Authentication credentials were not provided."}'
+  note: >-
+    Django REST Framework TokenAuthentication. The challenge scheme is `Token`, NOT RFC 6750
+    `Bearer` — a client that sends `Authorization: Bearer <t>` will be rejected. This distinction is
+    easy to miss because the v2 spec models the scheme as a generic `apiKey` in the `Authorization`
+    header without stating the prefix; the prefix is only visible on the wire and in the
+    description's examples.
+unauthenticated_operations:
+- operation: 'POST /auth/signup'
+  spec: openapi/cove.tool-rest-api-v2-openapi.yml
+  note: >-
+    Declares no `security` and is therefore anonymous, yet it creates a user account against an
+    organization's cove.tool license. This is the sharpest edge on the auth surface and it is not
+    called out in the documentation.
+scopes:
+  supported: false
+  note: >-
+    No OAuth2, no scopes, no permission strings. Authorization is coarse: a token acts as its
+    profile, and access is bounded by the business the profile belongs to — a cross-business
+    profile read returns 403. `is_owner` and `is_admin` on the profile are the only role signals,
+    and neither is settable through the API. No scopes/ artifact was written because there is
+    nothing to derive; derive-oauth-scopes.py returned zero oauth2 schemes.
+rotation:
+  documented: false
+  note: 'No token expiry, rotation, revocation or refresh guidance published.'
+transport_security:
+  https_required: true
+  hsts: false
+  note: 'TLS 1.2 on app.covetool.com; strict-transport-security is not set. See security/cove.tool-domain-security.yml.'

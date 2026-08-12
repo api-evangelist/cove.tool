@@ -1,0 +1,104 @@
+generated: '2026-08-11'
+method: derived
+source: >-
+  openapi/cove.tool-rest-api-v2-openapi.yml, openapi/cove.tool-api-v1-openapi.yml,
+  info.description error-code table, plus a live 401 observed at
+  https://app.covetool.com/api/v2/energy-codes
+format: proprietary
+rfc9457: false
+content_type: application/json
+envelope:
+  documented:
+    schema: GeneralEndpointResponses
+    fields: [data, msg, errors]
+    note: 'Declared required on all three fields; `errors` is an array.'
+  observed:
+    fields: [detail]
+    example: '{"detail":"Authentication credentials were not provided."}'
+    source_status: 401
+    note: >-
+      Django REST Framework default. The published envelope and the shipped envelope do not match
+      on 401 — see conventions/cove.tool-conventions.yml#error_envelope.
+catalog_published: false
+catalog_note: >-
+  cove.tool publishes an HTTP status-code table in the OpenAPI description, not an error catalog.
+  There are no machine-readable error codes, no per-error `type` URIs and no remediation text, so
+  a client can only branch on status code. Every entry below is DERIVED from the responses each
+  operation declares; titles come from the provider's own status table.
+status_table:
+- status: 200
+  category: OK
+- status: 201
+  category: Updated
+- status: 202
+  category: Accepted
+- status: 400
+  category: Bad Request
+- status: 401
+  category: Unauthorized Request
+- status: 404
+  category: Resource Not Found
+- status: 5xx
+  category: Internal Server Error
+problem_types:
+- id: bad-request
+  status: 400
+  title: Bad Request
+  declared_on:
+  - POST /auth/signup
+  - POST /projects/
+  - PUT /projects/{project_id}
+  - POST /projects/{project_id}/geometry
+  - POST /analysis
+  - GET /analysis/{project_id}
+  - GET /analysis/{project_id}/status
+  remediation: >-
+    Most commonly a malformed or incomplete request body. POST /projects/ requires name, location,
+    building_types and energy_code_id. POST /projects/{project_id}/geometry requires floors, walls,
+    windows, roofs, floor_area, roof_area, ground_floor_area, building_height and si_units, AND at
+    least one non-zero value across the wall_area_* and window_area_* cardinal-direction fields.
+- id: unauthorized
+  status: 401
+  title: Unauthorized Request
+  declared_on:
+  - GET /energy-codes
+  - POST /projects/
+  - PUT /projects/{project_id}
+  observed_body: '{"detail":"Authentication credentials were not provided."}'
+  observed_headers:
+    www-authenticate: Token
+  remediation: >-
+    Send `Authorization: Token <api_token>`. Mint a token by POSTing to
+    https://app.covetool.com/api/get-token with valid cove.tool account credentials.
+- id: forbidden
+  status: 403
+  title: You do not have permission
+  declared_on:
+  - GET /profiles/{profile_id}
+  remediation: >-
+    The token authenticates, but the profile requested is outside the caller's business. Profile
+    reads are scoped to the caller's own organization.
+- id: not-found
+  status: 404
+  title: Resource not found
+  declared_on:
+  - GET /profiles/{profile_id}
+  - GET /projects/
+  - GET /analysis/{project_id}
+  - GET /analysis/{project_id}/status
+  - GET /analysis/{project_id}/stop
+  remediation: 'The project_id or profile_id does not exist, or is not visible to this token.'
+- id: server-error
+  status: 5xx
+  title: Internal Server Error
+  declared_on: []
+  remediation: >-
+    Documented only in the description's status table; no 5xx response is declared on any
+    operation in either spec, so a client generated from the contract has no typed handling for
+    server failure. Quote the x-cove-unique-trace-id response header when reporting one.
+gaps:
+- No RFC 9457 application/problem+json.
+- No stable machine-readable error codes — status code is the only discriminator.
+- No 5xx response declared on any operation in either specification.
+- Documented envelope {data, msg, errors} contradicts the observed 401 envelope {detail}.
+- 400 responses declare no response body schema at all on any operation.

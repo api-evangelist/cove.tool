@@ -1,0 +1,93 @@
+generated: '2026-08-11'
+method: searched
+source: >-
+  https://developers.covetool.com/ (openapi.yaml + openapi-v1.yaml), https://help.covetool.com/en/,
+  live probes of status.covetool.com, status.cove.tools and covetool.statuspage.io
+versioning:
+  scheme: uri-path
+  current: v2
+  policy_published: false
+  policy_url: null
+  versions:
+  - version: '1.0.0'
+    label: v1
+    base: https://app.covetool.com/api
+    spec_url: https://developers.covetool.com/openapi-v1.yaml
+    status: still-served
+    deprecated: false
+    sunset: null
+  - version: '2.0.0'
+    label: v2
+    base: https://app.covetool.com/api/v2
+    spec_url: https://developers.covetool.com/openapi.yaml
+    status: current
+    deprecated: false
+    sunset: null
+  note: >-
+    Both major versions are served from the developer portal today. The v2 description says only
+    "Recently, we released the cove.tool API v2" — it does not mark v1 deprecated, does not give it
+    an end-of-life date, and publishes no migration guide, even though v2 changed the auth scheme
+    name, moved the base path, and replaced v1's POST /run-values geometry model with
+    POST /projects/{project_id}/geometry. A v1 caller has no published signal telling them when to
+    move.
+deprecation:
+  policy_published: false
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  deprecated_operations: []
+  note: >-
+    No RFC 8594 Sunset or Deprecation header was observed on any response, no deprecation policy
+    page exists, and no operation in either specification carries `deprecated: true`. NO
+    Deprecation pointer is wired into apis.yml.
+status_page:
+  published: false
+  url: null
+  note: >-
+    NEGATIVE RESULT, verified rather than assumed. status.covetool.com and status.cove.tools do
+    not resolve (connection failure, curl exit 000). covetool.statuspage.io returns HTTP 200, but
+    the body is Atlassian's own generic Statuspage marketing page — title "Real-Time Incident
+    Communication with Statuspage | Atlassian" — not a cove.tool status page. A 200 there is a
+    soft hit and was rejected. NO StatusPage pointer is wired into apis.yml.
+  evidence:
+  - url: https://status.covetool.com/
+    status: 000
+  - url: https://status.cove.tools/
+    status: 000
+  - url: https://covetool.statuspage.io/
+    status: 200
+    verdict: generic Atlassian marketing page, not this provider's status page
+sla:
+  published: false
+  url: null
+  note: No public uptime or support SLA found on the developer portal or the help center.
+changelog:
+  published: false
+  url: null
+  note: >-
+    No dated API changelog or release-notes feed. The company's newsroom lives on cove.inc, which
+    is behind a SiteGround captcha (202 on every path, including a control path), so it cannot be
+    read or dated by a machine even where announcements exist. No ChangeLog artifact or pointer
+    was written.
+  evidence:
+  - url: https://cove.inc/newsroom/cove-tool-announces-api-tool/
+    status: 202
+support:
+  channel: help-center
+  url: https://help.covetool.com/en/
+  vendor: Intercom
+  note: 'The developer portal itself embeds the Intercom widget (app_id c50p8y5u).'
+company_lifecycle:
+  founded: 2017
+  headquarters: Atlanta, Georgia, United States
+  rebrand:
+    from: cove.tool
+    to: cove
+    announced: '2025-01-09'
+    source: https://www.businesswire.com/news/home/20250109493410/en/cove.tool-Rebrands-to-cove-Embraces-a-Future-Driven-by-AI-and-Innovation
+    note: >-
+      The brand moved to cove.inc, but the ENTIRE developer surface stayed on the covetool.com
+      domain — developers.covetool.com, app.covetool.com and help.covetool.com are all live, and
+      both OpenAPI files still carry the cove.tool name and a termsOfService URL on the retired
+      cove.tools domain. The API was not rebranded with the company.

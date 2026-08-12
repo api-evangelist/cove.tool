@@ -1,0 +1,1413 @@
+openapi: 3.0.0
+info:
+  version: 2.0.0
+  title: cove.tool REST API v2
+  termsOfService: https://www.cove.tools/terms-of-use
+  x-logo:
+    url: ./covetool_logo.png
+    altText: cove.tool logo
+  description: "# Introduction\nThe cove.tool API is a set of HTTP endpoints that help your app integrate\
+    \ with cove.tool. The cove.tool API is developed around the RESTful architecture\n\nRecently, we released\
+    \ the cove.tool API v2. The cove.tool API v2 includes a modern foundation, new and advanced features\
+    \ to how cove.tool can integrate seamlessly into your app.\n\n# Getting Started\nIn order to start\
+    \ making calls to the API, each request will have to be authenticated. This is done by providing an\
+    \ authentication token on every request. It checks whether the user is authorized and has permission\
+    \ to perform the following actions.  See more in Authentication section.\n1. **Cove.tool account**\
+    \ - Make sure to have access to a valid (trial/licensed) cove.tool account.\n2. **Projects created\
+    \ with cove.tool** - Once you login to your cove.tool account, make sure to create project(s) you\
+    \ wish to start making API requests with! As these are the projects that the API relies on to obtain,\
+    \ update and retrieve information.\n\n# Authentication\nBy providing an authentication token on every\
+    \ request, it checks whether the user is authorized and has permission to update and retrieve data.\n\
+    \  ## Generating an API Token\n  | URL | https://app.covetool.com/api/get-token |\n  |-----|----------------------------------------|\n\
+    \n\n# Testing\nIn order to understand how the cove.tool API can work for you, the easiest way is to\
+    \ start making requests! We recommend using standard API testing tools such as HTTPie or Postman to\
+    \ start interacting with the API over HTTP.\n\n# Error Codes\n| HTTP Status Code |        Category\
+    \       |\n|:----------------:|:---------------------:|\n|        200       |           OK       \
+    \   |\n|        201       |        Updated        |\n|        202       |        Accepted       |\n\
+    |        400       |      Bad Request      |\n|        401       |  Unauthorized Request |\n|    \
+    \    404       |   Resource Not Found  |\n|        5xx       | Internal Server Error |\n\n_Happy Developing!_\n"
+servers:
+- url: https://app.covetool.com/api/v2
+tags:
+- name: User
+- name: Profiles
+- name: Energy Codes
+- name: Projects
+- name: Project Geometry
+- name: Daylight Analysis
+paths:
+  /auth/signup:
+    post:
+      tags:
+      - User
+      summary: Enables the creation of a cove.tool user account
+      description: cove.tool accounts can now be created via an API call within your business/organization.
+        This adds a potential new user account to your cove.tool license that are able to access cove.tool
+        products and features.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSignupRequests'
+        description: User information of a cove.tool account to be created
+      responses:
+        '201':
+          description: Successfully Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSignupOKResponses'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /profiles/{profile_id}:
+    get:
+      tags:
+      - Profiles
+      security:
+      - apiKeyAuth: []
+      summary: Obtain user information
+      description: Retrieves the details of a user account within your business/organiation if it exists.
+        If the profile ID does not exist, this call returns an error.
+      parameters:
+      - in: path
+        name: profile_id
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of profile to obtain
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileResponse'
+        '403':
+          description: You do not have permission
+        '404':
+          description: Resource not found
+  /energy-codes:
+    get:
+      tags:
+      - Energy Codes
+      security:
+      - apiKeyAuth: []
+      summary: Enumerates list of energy codes supported by cove.tool or in specific projects
+      description: Retrieve a list of available energy codes supported by cove.tool's automated model
+        generation or for a specific project and its compatible energy codes depending on the query parameters
+        passed in.
+      parameters:
+      - in: query
+        name: for_project
+        description: Specific project number
+        example: 1
+        schema:
+          type: integer
+      - in: query
+        name: name
+        schema:
+          $ref: '#/components/schemas/EnergyCodesEnum'
+        example: California
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - $ref: '#/components/schemas/EnergyCodeForProjectsResponses'
+                - $ref: '#/components/schemas/EnergyCodeResponses'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /projects/:
+    post:
+      tags:
+      - Projects
+      security:
+      - apiKeyAuth: []
+      summary: Enables the creation of a new cove.tool project
+      description: Skip the 'Create Project' page and create
+      requestBody:
+        description: 'Note: `location` should be in latitude, longitude coordinates'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProjectRequestBody'
+      responses:
+        '201':
+          description: Successfully Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateProjectResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    get:
+      tags:
+      - Projects
+      security:
+      - apiKeyAuth: []
+      summary: Retrieves a project's detail and information
+      description: Returns a given project ID's detail and information if it exists.
+      parameters:
+      - in: query
+        name: project_id
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProjectInfoResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /projects/{project_id}:
+    put:
+      tags:
+      - Projects
+      security:
+      - apiKeyAuth: []
+      summary: Updates a project's detail and information
+      parameters:
+      - in: path
+        required: true
+        name: project_id
+        schema:
+          type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProjectRequestBody'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateProjectResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /projects/{project_id}/geometry:
+    post:
+      tags:
+      - Project Geometry
+      security:
+      - apiKeyAuth: []
+      summary: Updates a project's 3D geometry
+      description: 'Gives you the ability to update a project''s 3D geometry that will be utilized to
+        perform Daylight Analysis with analysis.tool.
+
+        Updating project geometry requires at least *one* non-zero value in the **wall_area_X**, and **window_area_X**
+        property (where **X** is the cardinal direction).'
+      parameters:
+      - in: path
+        required: true
+        name: project_id
+        schema:
+          type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Update3DGeometryRequestBody'
+      responses:
+        '201':
+          description: Successfully Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateGeometryAreasResponses'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /analysis:
+    post:
+      tags:
+      - Daylight Analysis
+      security:
+      - apiKeyAuth: []
+      summary: Kickstarts all analysis types for a given project
+      description: Fires off the daylight analysis calculations to start running for a given project.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RunDaylightAnalysisRequestBody'
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunDaylightAnalysisResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /analysis/{project_id}:
+    get:
+      tags:
+      - Daylight Analysis
+      security:
+      - apiKeyAuth: []
+      summary: Retrieves the results for daylight analysis for a given project
+      parameters:
+      - in: path
+        required: true
+        name: project_id
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DaylightAnalysisResultsResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /analysis/{project_id}/status:
+    get:
+      tags:
+      - Daylight Analysis
+      security:
+      - apiKeyAuth: []
+      summary: Obtains the remaining number of jobs per analysis type for a given project
+      parameters:
+      - in: path
+        required: true
+        name: project_id
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DaylightAnalysisStatusResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /analysis/{project_id}/stop:
+    get:
+      tags:
+      - Daylight Analysis
+      security:
+      - apiKeyAuth: []
+      summary: Halts all analyses calculations for a given project
+      parameters:
+      - in: path
+        required: true
+        name: project_id
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StopDaylightAnalysisResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+  responses:
+    OK:
+      description: Success
+    Created:
+      description: Successfully created
+    BadRequest:
+      description: Invalid request. Check contents of your response body.
+    NotFound:
+      description: The specified resource was not found. Verify if the URI is accurate.
+    Unauthorized:
+      description: Unauthorized request. Check your API token if it is valid.
+    InternalServerError:
+      description: Internal Server Error. Try again later.
+  schemas:
+    GeneralEndpointResponses:
+      type: object
+      required:
+      - data
+      - msg
+      - errors
+      properties:
+        data:
+          type: object
+        msg:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    UserSignupOKResponses:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/UserInformationResponseData'
+      example:
+        data:
+          is_owner: false
+          is_admin: false
+          created_at: '2022-01-28T12:00:47.649935-05:00'
+          email: user@company.com
+          first_name: John
+          last_name: Smith
+          business:
+            name: My Company Name
+            telephone: 123-456-7890
+            user_limit: 10
+            domain: mycompanywebsite.com
+            size: null
+        msg: A new user-profile was created. Activate via email.
+        error: []
+    UserSignupRequests:
+      type: object
+      required:
+      - email
+      - password
+      - first_name
+      - last_name
+      properties:
+        email:
+          type: string
+          format: email
+          example: hello@covetool.com
+        password:
+          type: string
+          format: password
+          example: mysupersecurepassword
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Smith
+    UserInformationResponseData:
+      type: object
+      required:
+      - is_owner
+      - is_admin
+      - created_at
+      - email
+      - first_name
+      - last_name
+      - business
+      properties:
+        is_owner:
+          type: boolean
+        is_admin:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        email:
+          type: string
+          format: email
+        first_name:
+          type: string
+        last_name:
+          type: string
+        business:
+          type: object
+          properties:
+            name:
+              type: string
+            telephone:
+              type: number
+            user_limit:
+              type: number
+            domain:
+              type: string
+              format: url
+            size:
+              type: number
+    UserProfileResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      properties:
+        data:
+          $ref: '#/components/schemas/UserInformationResponseData'
+      example:
+        data:
+          is_owner: true
+          is_admin: false
+          created_at: '2022-01-28T12:00:47.649935-05:00'
+          email: user@covetool.com
+          first_name: John
+          last_name: Smith
+          business:
+            name: Cove Tool
+            telephone: 770-777-7777
+            user_limit: 10
+            domain: covetool.com
+            size: null
+        msg: Successfully retrieved resource
+        errors: {}
+    EnergyCodesEnum:
+      type: string
+      description: Energy code names
+      nullable: true
+      enum:
+      - ASHRAE
+      - California
+      - Japan
+      - UK
+    EnergyCodeResponseData:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+    EnergyCodeForProjectResponseData:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/EnergyCodeResponseData'
+      - type: object
+      required:
+      - selected
+      properties:
+        selected:
+          type: boolean
+    EnergyCodeResponses:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/EnergyCodeResponseData'
+      example:
+        data:
+        - id: 1
+          name: ASHRAE 2007
+        - id: 2
+          name: ASHRAE 2010
+        - id: 3
+          name: ASHRAE 2013
+        - id: 7
+          name: ASHRAE 2016
+        - id: 12
+          name: ASHRAE 2019
+        - id: 9
+          name: ASHRAE Residential 2018
+        - id: 4
+          name: Commercial - California Title 24 2016
+        - id: 10
+          name: Commercial - California Title 24 2019
+        - id: 16
+          name: Japan Commericla Energy Code
+        - id: 17
+          name: Japan Residential Energy Code
+        - id: 5
+          name: NECB 2011
+        - id: 6
+          name: NECB 2015
+        - id: 15
+          name: NECB 2017
+        - id: 14
+          name: National Construction Code (NCC) 2019
+        - id: 8
+          name: Single Family Home - California Title 24 2016
+        - id: 11
+          name: Single Family Home - California Title 24 2019
+        - id: 13
+          name: UK NM
+        msg: Successfully found results.
+        errors: {}
+    EnergyCodeForProjectsResponses:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/EnergyCodeForProjectResponseData'
+      example:
+        data:
+        - id: 1
+          name: ASHRAE 2007
+          selected: false
+        - id: 2
+          name: ASHRAE 2010
+          selected: false
+        - id: 3
+          name: ASHRAE 2013
+          selected: true
+        - id: 7
+          name: ASHRAE 2016
+          selected: false
+        - id: 12
+          name: ASHRAE Residential 2018
+          selected: false
+        msg: Successfully found results.
+        errors: {}
+    CreatedByResponseData:
+      type: object
+      required:
+      - id
+      - email
+      - first_name
+      - last_name
+      properties:
+        id:
+          type: number
+        email:
+          type: string
+          format: email
+        first_name:
+          type: string
+        last_name:
+          type: string
+    CreateProjectRequestBody:
+      type: object
+      required:
+      - name
+      - location
+      - building_types
+      - energy_code_id
+      properties:
+        name:
+          type: string
+          example: Marietta Office Retail Space
+        location:
+          type: string
+          example: 34.177114, -86.830390
+        building_types:
+          type: array
+          items:
+            type: string
+          example:
+          - Office
+          - Retail
+        energy_code_id:
+          type: number
+          example: 12
+    CreateProjectResponseData:
+      type: object
+      required:
+      - id
+      - name
+      - number
+      - si_units
+      - created_by
+      - business_id
+      - eui
+      - cbecs_eui
+      - energy_code
+      - climate_zone
+      - editing
+      - read_only
+      - created_at
+      - updated_at
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        number:
+          type: number
+        si_units:
+          type: boolean
+        created_by:
+          $ref: '#/components/schemas/CreatedByResponseData'
+        business_id:
+          type: number
+        eui:
+          type: number
+          format: double
+        cebcs_eui:
+          type: number
+          format: double
+        energy_code:
+          $ref: '#/components/schemas/EnergyCodeResponseData'
+        climate_zone:
+          type: object
+        editing:
+          type: boolean
+        read_only:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    CreateProjectResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CreateProjectResponseData'
+      example:
+        data:
+          id: 28
+          name: Marietta Office Retail Space
+          number: null
+          si_units: false
+          created_by:
+            id: 2
+            email: janewalker@company.com
+            first_name: Jane
+            last_name: Walker
+          business_id: 1045
+          eui: null
+          cbecs_eui: null
+          energy_code:
+            id: 12
+            name: ASHRAE 2019
+          climate_zone: null
+          editing: false
+          read_only: false
+          created_at: '2022-01-28T12:00:47.649935-05:00'
+          updated_at: '2022-01-28T12:00:47.649935-05:00'
+        msg: A new project was created.
+        errors: {}
+    GetProjectInfoResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CreateProjectResponseData'
+      example:
+        data:
+          id: 1
+          name: Education building
+          number: null
+          si_units: false
+          created_by:
+            id: 3
+            email: anotherUser@company.com
+            first_name: Mary
+            last_name: Lambert
+          business_id: 1046
+          eui: 180.658486364008
+          cbecs_eui: 341.870031592839
+          energy_code:
+            id: 3
+            name: ASHRAE 2013
+          climate_zone:
+            id: 9
+            name: Climate Zone 3A
+          editing: false
+          read_only: false
+          created_at: '2022-01-28T12:00:47.649935-05:00'
+          updated_at: '2022-01-28T12:00:47.649935-05:00'
+        msg: Successfully retrieved resource.
+        errors: {}
+    EuiBreakdownHeaders:
+      type: array
+      items:
+        type: string
+      example:
+      - Cooling
+      - Heating
+      - Lighting
+      - Equipment
+      - Fans
+      - Pumps
+      - Hot Water
+    UpdateGeometryAreasResponses:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      properties:
+        data:
+          type: object
+          required:
+          - eui
+          - eui_breakdown
+          - floors_count
+          - triangles_count
+          properties:
+            eui_breakdown:
+              type: object
+              required:
+              - headers
+              - values
+              - total_gas
+              - total_electric
+              - total_electric_without_pv
+              - Primary Energy Heating
+              - Primary Energy Domestic Hot Water
+              properties:
+                headers:
+                  $ref: '#/components/schemas/EuiBreakdownHeaders'
+                values:
+                  type: array
+                  items:
+                    type: number
+                    format: double
+                  example:
+                  - 42.69810373890001
+                  - 215.9911661803
+                  - 35.150749997999995
+                  - 26.540714283
+                  - 83.00345598700001
+                  - 4.380000116000001
+                  - 5.9237200512
+                total_gas:
+                  type: number
+                  format: double
+                  example: 10.4080428009
+                total_electric:
+                  type: number
+                  format: double
+                  example: 174.19649714809515
+                total_electric_without_pv:
+                  type: number
+                  format: double
+                  example: 3602.852278444
+                Primary Energy Heating:
+                  type: string
+                  example: electric
+                Primary Energy Domestic Hot Water:
+                  type: string
+                  example: gas
+            floors_count:
+              type: number
+              example: 5
+            triangles_count:
+              type: number
+              example: 34
+      example:
+        data:
+          eui: 3707.0816073715214
+          eui_breakdown:
+            values:
+            - 42.69810373890001
+            - 215.9911661803
+            - 35.150749997999995
+            - 26.540714283
+            - 83.00345598700001
+            - 4.380000116000001
+            - 5.9237200512
+            headers:
+            - Cooling
+            - Heating
+            - Lighting
+            - Equipment
+            - Fans
+            - Pumps
+            - Hot Water
+            total_gas: 104.22932892752092
+            total_electric: 3602.852278444
+            total_electric_without_pv: 3602.852278444
+            Primary Energy Heating: 0
+            Primary Energy Domestic Hot Water: 0
+          floors_count: 5
+          triangles_count: 34
+    Update3DGeometryResponseData:
+      type: object
+      required:
+      - eui
+      - eui_breakdown
+      - floors_count
+      - triangles_count
+      properties:
+        eui:
+          type: number
+          format: double
+          example: 3705.177877517469
+        floors_count:
+          type: number
+          example: 5
+        triangles_count:
+          type: number
+          example: 34
+        eui_breakdown:
+          type: object
+          required:
+          - headers
+          - values
+          - total_gas
+          - total_electric
+          - total_electric_without_pv
+          - Primary Energy Heating
+          - Primary energy Domestic Hot Water
+          properties:
+            headers:
+              $ref: '#/components/schemas/EuiBreakdownHeaders'
+            values:
+              type: array
+              items:
+                type: number
+                format: double
+                example:
+                - 1903.2504539299998
+                - 95.11954287456933
+                - 33.782687913000004
+                - 37.931129325
+                - 1623.7142198299998
+                - 2.190000058
+                - 9.1898435869
+            total_gas:
+              type: number
+              format: double
+              example: 104.30938646146936
+            total_electric:
+              type: number
+              format: double
+              example: 3600.8684910559996
+            total_electric_without_pv:
+              type: number
+              format: double
+              example: 3600.8684910559996
+            Primary Energy Heating:
+              type: number
+              example: 0
+            Primary Energy Domestic Hot Water:
+              type: number
+              example: 0
+    Update3DGeometryResponses:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Update3DGeometryResponseData'
+      example:
+        data:
+          eui: 3705.177877517469
+          eui_breakdown: null
+          floors_count: 5
+          triangles_count: 34
+        msg: Successfully uploaded project geometry.
+        errors: {}
+    Update3DGeometryRequestBody:
+      type: object
+      required:
+      - floors
+      - walls
+      - windows
+      - roofs
+      - floor_area
+      - roof_area
+      - ground_floor_area
+      - building_height
+      - si_units
+      properties:
+        floors:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        walls:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        windows:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        roofs:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        floor_area:
+          type: number
+          format: double
+          example: 37.21
+        roof_area:
+          type: number
+          format: double
+          example: 37.21
+        ground_floor_area:
+          type: number
+          format: double
+          example: 37.21
+        building_height:
+          type: number
+          example: 4.115
+        si_units:
+          type: boolean
+          example: true
+        below_grade_walls:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        outdoor_floors:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        interior_walls:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        spandrels:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        skylights:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        shading_devices:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        skylight_area:
+          type: number
+          format: double
+          example: 0
+        underground_area:
+          type: number
+          format: double
+          example: 0
+        rooms:
+          $ref: '#/components/schemas/RoomsMeshObject'
+        wall_area_n:
+          type: number
+          format: double
+          example: 23.707
+        wall_area_ne:
+          type: number
+          format: double
+          example: 0
+        wall_area_e:
+          type: number
+          format: double
+          example: 25.1
+        wall_area_se:
+          type: number
+          format: double
+          example: 0
+        wall_area_s:
+          type: number
+          format: double
+          example: 23.707
+        wall_area_sw:
+          type: number
+          format: double
+          example: 0
+        wall_area_w:
+          type: number
+          format: double
+          example: 23.158
+        wall_area_nw:
+          type: number
+          format: double
+          example: 0
+        window_area_n:
+          type: number
+          format: double
+          example: 1.394
+        window_area_ne:
+          type: number
+          format: double
+          example: 0
+        window_area_e:
+          type: number
+          format: double
+          example: 0
+        window_area_se:
+          type: number
+          format: double
+          example: 0
+        window_area_s:
+          type: number
+          format: double
+          example: 1.394
+        window_area_sw:
+          type: number
+          format: double
+          example: 0
+        window_area_w:
+          type: number
+          format: double
+          example: 0
+        window_area_nw:
+          type: number
+          format: double
+          example: 0
+        roof_u_value:
+          type: number
+          format: double
+          example: 0.183
+        ground_floor_u_value:
+          type: number
+          format: double
+          example: 0.17600000000000002
+        skylight_u_value:
+          type: number
+          format: double
+          example: 2.84
+        skylight_shgc:
+          type: number
+          format: double
+          example: 0.4
+        window_u_value_n:
+          type: number
+          format: double
+          example: 0.38
+        wall_u_value_n:
+          type: number
+          format: double
+          example: 0.3132
+        basement_depth:
+          type: number
+          example: 0
+    RoomsMeshObject:
+      type: object
+      required:
+      - rooms
+      - Windows
+      properties:
+        rooms:
+          type: array
+          items:
+            type: object
+            required:
+            - Faces
+            - area
+            - volume
+            - roomId
+            - name
+            - number
+            - levelName
+            - levelId
+            properties:
+              Faces:
+                type: array
+                items:
+                  type: object
+                  required:
+                  - Mesh
+                  properties:
+                    Mesh:
+                      $ref: '#/components/schemas/MeshObjectV2'
+                    areaIDs:
+                      type: array
+                      items:
+                        type: string
+                        format: uuid
+                    area:
+                      type: number
+                      format: double
+                      example: 37.21
+                    Center:
+                      allOf:
+                      - $ref: '#/components/schemas/CenterObject'
+                    Normal:
+                      allOf:
+                      - $ref: '#/components/schemas/NormalObject'
+                    type:
+                      type: string
+                      example: Floor
+                    roofId:
+                      type: string
+                      format: uuid
+                      example: 84c72356-bc7b-4c95-a9bc-b6a676206957
+                    roofArea:
+                      type: number
+                      format: double
+                      example: 37.21
+                    floorId:
+                      type: string
+                      format: uuid
+                      example: 69f0a2a8-2160-4294-a909-a9977d9d67b3
+                    obc:
+                      type: string
+                      example: Ground
+              area:
+                type: number
+                format: double
+                example: 37.21
+              volume:
+                type: number
+                format: double
+                example: 15311.170800000002
+              roomId:
+                type: string
+                format: uuid
+                example: db20906a-731d-4dfd-9103-29593575b05c
+              name:
+                type: string
+                example: Room
+              number:
+                type: number
+                example: 1
+              levelName:
+                type: string
+                example: Floor 1
+              levelId:
+                type: string
+                format: uuid
+                example: 78c93975-070c-4219-bcae-3be319b3cfce
+        Windows:
+          type: array
+          items:
+            type: object
+            required:
+            - Center
+            - Normal
+            - Mesh
+            - area
+            - holeId
+            properties:
+              Center:
+                allOf:
+                - $ref: '#/components/schemas/CenterObject'
+              Normal:
+                allOf:
+                - $ref: '#/components/schemas/NormalObject'
+              Mesh:
+                required:
+                - Vertices
+                - Triangles
+                - wallId
+                properties:
+                  Vertices:
+                    type: array
+                    items:
+                      type: object
+                      allOf:
+                      - $ref: '#/components/schemas/VerticesObject'
+                  Triangles:
+                    type: array
+                    items:
+                      allOf:
+                      - $ref: '#/components/schemas/TrianglesArray'
+                  wallId:
+                    type: string
+                    format: uuid
+                    example: 097c40f5-b020-4017-8888-f252e1ce4e0b
+              area:
+                type: number
+                format: double
+              holeId:
+                type: string
+                format: uuid
+    RunDaylightAnalysisRequestBody:
+      type: object
+      required:
+      - project_id
+      - analysis_types
+      properties:
+        project_id:
+          type: number
+          example: 33
+        analysis_types:
+          type: array
+          items:
+            type: string
+          example:
+          - daylight
+    RunDaylightAnalysisResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      example:
+        data: null
+        msg: The analysis job was accepted.
+        errors: {}
+    DaylightAnalysisResultsResponseData:
+      type: array
+      items:
+        type: object
+        required:
+        - run_id
+        - building_type
+        - floors
+        - ase
+        - sda
+        properties:
+          run_id:
+            type: number
+          building_type:
+            type: string
+          floors:
+            type: array
+            items:
+              type: object
+              required:
+              - id
+              - ase
+              - sda
+              properties:
+                id:
+                  type: number
+                ase:
+                  type: number
+                  format: double
+                sda:
+                  type: number
+                  format: double
+          ase:
+            type: number
+            format: double
+          sda:
+            type: number
+            format: double
+    DaylightAnalysisResultsResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DaylightAnalysisResultsResponseData'
+      example:
+        data:
+        - run_id: 3
+          building_type: Education
+          floors:
+          - id: 430
+            ase: 10.891089108910892
+            sda: 26.732673267326735
+          ase: 10.891089108910892
+          sda: 26.732673267326735
+        msg: Successfully found results.
+        errors: {}
+    DaylightAnalysisStatusResponseData:
+      type: array
+      items:
+        type: object
+        required:
+        - analysis
+        - jobs_total
+        - jobs_remaining
+        properties:
+          analysis:
+            type: string
+          jobs_total:
+            type: number
+          jobs_remaining:
+            type: number
+    DaylightAnalysisStatusResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DaylightAnalysisStatusResponseData'
+      example:
+        data:
+        - analysis: daylight
+          jobs_total: 5
+          jobs_remaining: 0
+        - analysis: covid
+          jobs_total: 5
+          jobs_remaining: 0
+        - analysis: lvc
+          jobs_total: 5
+          jobs_remaining: 0
+        - analysis: radiation
+          jobs_total: 6
+          jobs_remaining: 0
+        msg: Successfully retrieved resource.
+        errors: {}
+    StopDaylightAnalysisResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      example:
+        data: null
+        msg: All analyses were successfully halted.
+        errors: {}
+    VerticesObject:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/VerticesModel'
+      - type: object
+      example:
+      - X: 0.666022
+        Y: 226.752487
+        Z: 25.262917
+      - X: 0.66602
+        Y: 50.666023
+        Z: 25.262917
+    TrianglesArray:
+      allOf:
+      - type: array
+      example:
+      - - 1
+        - 2
+        - 3
+      - - 31
+        - 28
+        - 0
+    VerticesModel:
+      type: object
+      properties:
+        X:
+          type: number
+          format: double
+        Y:
+          type: number
+          format: double
+        Z:
+          type: number
+          format: double
+    MeshObject:
+      type: array
+      items:
+        type: object
+        required:
+        - Mesh
+        - Center
+        - Normal
+        properties:
+          Mesh:
+            type: object
+            required:
+            - Vertices
+            - Triangles
+            properties:
+              Vertices:
+                $ref: '#/components/schemas/VerticesObject'
+              Triangles:
+                $ref: '#/components/schemas/TrianglesArray'
+          Center:
+            $ref: '#/components/schemas/CenterObject'
+          Normal:
+            $ref: '#/components/schemas/NormalObject'
+    CenterObject:
+      allOf:
+      - $ref: '#/components/schemas/VerticesModel'
+      - type: object
+      example:
+        X: 72.45084
+        Y: 119.337007
+        Z: 25.262917
+    NormalObject:
+      allOf:
+      - $ref: '#/components/schemas/VerticesModel'
+      - type: object
+      example:
+        X: 0
+        Y: 0
+        Z: 1
+    MeshObjectV2:
+      type: object
+      required:
+      - Vertices
+      - Triangles
+      properties:
+        Vertices:
+          $ref: '#/components/schemas/VerticesObject'
+        Triangles:
+          $ref: '#/components/schemas/TrianglesArray'

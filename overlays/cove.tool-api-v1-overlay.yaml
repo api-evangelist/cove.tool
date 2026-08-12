@@ -1,0 +1,53 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the cove.tool API v1
+  version: 1.0.0
+x-generated: '2026-08-11'
+x-method: generated
+x-source: openapi/cove.tool-api-v1-openapi.yml
+x-extends: openapi/cove.tool-api-v1-openapi.yml
+x-note: >-
+  v1 is still served from https://developers.covetool.com/openapi-v1.yaml alongside v2, with no
+  deprecation marker, no sunset date and no migration guide, even though v2 changed the base path,
+  renamed the security scheme and replaced v1's run-values geometry model outright. This overlay
+  assigns the operationIds v1 also lacks and records the version's real standing so a consumer
+  reading only v1 is not left to assume it is current.
+extends: openapi/cove.tool-api-v1-openapi.yml
+actions:
+- target: $.paths['/get-token'].post
+  description: Assign a stable operationId.
+  update:
+    operationId: createAuthToken
+- target: $.paths['/projects'].get
+  description: Assign a stable operationId and record the unbounded collection.
+  update:
+    operationId: listProjects
+    x-pagination: none
+    x-pagination-note: >-
+      Returns all projects for the authenticated account with no page, limit, offset or cursor
+      parameter declared. Response size grows without bound with the account's project count.
+- target: $.paths['/run-values'].post
+  description: Assign a stable operationId and record the v2 replacement.
+  update:
+    operationId: updateRunValues
+    x-superseded-by: 'POST /projects/{project_id}/geometry (v2)'
+    x-superseded-note: >-
+      v1 modeled a project as having many runs — one per building use type — each identified by its
+      `url` and carrying many run values. v2 collapsed this into `building_types[]` on the project
+      plus a single geometry document keyed by project_id. This is a breaking model change between
+      the two versions, and neither specification says so.
+- target: $.info
+  description: Record v1's real lifecycle standing, which the published spec does not state.
+  update:
+    x-lifecycle:
+      status: still-served
+      current_version: v2
+      current_spec: https://developers.covetool.com/openapi.yaml
+      deprecated_by_provider: false
+      sunset_published: false
+      migration_guide: null
+      assessed: '2026-08-11'
+      note: >-
+        Not marked deprecated by cove.tool. Recorded as superseded-in-practice: v2 is described by
+        the provider as the current release, but v1 carries no Deprecation or Sunset signal in
+        either the document or the response headers.

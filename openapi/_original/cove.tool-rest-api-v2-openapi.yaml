@@ -1,0 +1,2751 @@
+# openapi: 3.0.0
+# servers:
+#   - url: //petstore.swagger.io/v2
+#     description: Default server
+#   - url: //petstore.swagger.io/sandbox
+#     description: Sandbox server
+# info:
+#   description: |
+#     This is a sample server Petstore server.
+#     You can find out more about Swagger at
+#     [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).
+#     For this sample, you can use the api key `special-key` to test the authorization filters.
+
+#     # Introduction
+#     This API is documented in **OpenAPI format** and is based on
+#     [Petstore sample](http://petstore.swagger.io/) provided by [swagger.io](http://swagger.io) team.
+#     It was **extended** to illustrate features of [generator-openapi-repo](https://github.com/Rebilly/generator-openapi-repo)
+#     tool and [ReDoc](https://github.com/Redocly/redoc) documentation. In addition to standard
+#     OpenAPI syntax we use a few [vendor extensions](https://github.com/Redocly/redoc/blob/master/docs/redoc-vendor-extensions.md).
+
+#     # OpenAPI Specification
+#     This API is documented in **OpenAPI format** and is based on
+#     [Petstore sample](http://petstore.swagger.io/) provided by [swagger.io](http://swagger.io) team.
+#     It was **extended** to illustrate features of [generator-openapi-repo](https://github.com/Rebilly/generator-openapi-repo)
+#     tool and [ReDoc](https://github.com/Redocly/redoc) documentation. In addition to standard
+#     OpenAPI syntax we use a few [vendor extensions](https://github.com/Redocly/redoc/blob/master/docs/redoc-vendor-extensions.md).
+
+#     # Cross-Origin Resource Sharing
+#     This API features Cross-Origin Resource Sharing (CORS) implemented in compliance with  [W3C spec](https://www.w3.org/TR/cors/).
+#     And that allows cross-domain communication from the browser.
+#     All responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.
+
+#     # Authentication
+
+#     Petstore offers two forms of authentication:
+#       - API Key
+#       - OAuth2
+#     OAuth2 - an open protocol to allow secure authorization in a simple
+#     and standard method from web, mobile and desktop applications.
+
+#     <SecurityDefinitions />
+
+#   version: 1.0.0
+#   title: Swagger Petstore
+#   termsOfService: 'http://swagger.io/terms/'
+#   contact:
+#     name: API Support
+#     email: apiteam@swagger.io
+#     url: https://github.com/Redocly/redoc
+#   x-logo:
+#     url: 'https://redocly.github.io/redoc/petstore-logo.png'
+#     altText: Petstore logo
+#   license:
+#     name: Apache 2.0
+#     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+# externalDocs:
+#   description: Find out how to create Github repo for your OpenAPI spec.
+#   url: 'https://github.com/Rebilly/generator-openapi-repo'
+# tags:
+#   - name: pet
+#     description: Everything about your Pets
+#   - name: store
+#     description: Access to Petstore orders
+#   - name: user
+#     description: Operations about user
+#   - name: pet_model
+#     x-displayName: The Pet Model
+#     description: |
+#       <SchemaDefinition schemaRef="#/components/schemas/Pet" />
+#   - name: store_model
+#     x-displayName: The Order Model
+#     description: |
+#       <SchemaDefinition schemaRef="#/components/schemas/Order" exampleRef="#/components/examples/Order" showReadOnly={true} showWriteOnly={true} />
+# x-tagGroups:
+#   - name: General
+#     tags:
+#       - pet
+#       - store
+#   - name: User Management
+#     tags:
+#       - user
+#   - name: Models
+#     tags:
+#       - pet_model
+#       - store_model
+# paths:
+#   /pet:
+#     parameters:
+#       - name: Accept-Language
+#         in: header
+#         description: "The language you prefer for messages. Supported values are en-AU, en-CA, en-GB, en-US"
+#         example: en-US
+#         required: false
+#         schema:
+#           type: string
+#           default: en-AU
+#       - name: cookieParam
+#         in: cookie
+#         description: Some cookie
+#         required: true
+#         schema:
+#           type: integer
+#           format: int64
+#     post:
+#       tags:
+#         - pet
+#       summary: Add a new pet to the store
+#       description: Add new pet to the store inventory.
+#       operationId: addPet
+#       responses:
+#         '405':
+#           description: Invalid input
+#       security:
+#         - petstore_auth:
+#             - 'write:pets'
+#             - 'read:pets'
+#       x-codeSamples:
+#         - lang: 'C#'
+#           source: |
+#             PetStore.v1.Pet pet = new PetStore.v1.Pet();
+#             pet.setApiKey("your api key");
+#             pet.petType = PetStore.v1.Pet.TYPE_DOG;
+#             pet.name = "Rex";
+#             // set other fields
+#             PetStoreResponse response = pet.create();
+#             if (response.statusCode == HttpStatusCode.Created)
+#             {
+#               // Successfully created
+#             }
+#             else
+#             {
+#               // Something wrong -- check response for errors
+#               Console.WriteLine(response.getRawResponse());
+#             }
+#         - lang: PHP
+#           source: |
+#             $form = new \PetStore\Entities\Pet();
+#             $form->setPetType("Dog");
+#             $form->setName("Rex");
+#             // set other fields
+#             try {
+#                 $pet = $client->pets()->create($form);
+#             } catch (UnprocessableEntityException $e) {
+#                 var_dump($e->getErrors());
+#             }
+#       requestBody:
+#         $ref: '#/components/requestBodies/Pet'
+#     put:
+#       tags:
+#         - pet
+#       summary: Update an existing pet
+#       description: ''
+#       operationId: updatePet
+#       responses:
+#         '400':
+#           description: Invalid ID supplied
+#         '404':
+#           description: Pet not found
+#         '405':
+#           description: Validation exception
+#       security:
+#         - petstore_auth:
+#             - 'write:pets'
+#             - 'read:pets'
+#       x-codeSamples:
+#         - lang: PHP
+#           source: |
+#             $form = new \PetStore\Entities\Pet();
+#             $form->setPetId(1);
+#             $form->setPetType("Dog");
+#             $form->setName("Rex");
+#             // set other fields
+#             try {
+#                 $pet = $client->pets()->update($form);
+#             } catch (UnprocessableEntityException $e) {
+#                 var_dump($e->getErrors());
+#             }
+#       requestBody:
+#         $ref: '#/components/requestBodies/Pet'
+#   '/pet/{petId}':
+#     get:
+#       tags:
+#         - pet
+#       summary: Find pet by ID
+#       description: Returns a single pet
+#       operationId: getPetById
+#       parameters:
+#         - name: petId
+#           in: path
+#           description: ID of pet to return
+#           required: true
+#           deprecated: true
+#           schema:
+#             type: integer
+#             format: int64
+#       responses:
+#         '200':
+#           description: successful operation
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/Pet'
+#             application/xml:
+#               schema:
+#                 $ref: '#/components/schemas/Pet'
+#         '400':
+#           description: Invalid ID supplied
+#         '404':
+#           description: Pet not found
+#       security:
+#         - api_key: []
+#     post:
+#       tags:
+#         - pet
+#       summary: Updates a pet in the store with form data
+#       description: ''
+#       operationId: updatePetWithForm
+#       parameters:
+#         - name: petId
+#           in: path
+#           description: ID of pet that needs to be updated
+#           required: true
+#           schema:
+#             type: integer
+#             format: int64
+#       responses:
+#         '405':
+#           description: Invalid input
+#       security:
+#         - petstore_auth:
+#             - 'write:pets'
+#             - 'read:pets'
+#       requestBody:
+#         content:
+#           application/x-www-form-urlencoded:
+#             schema:
+#               type: object
+#               properties:
+#                 name:
+#                   description: Updated name of the pet
+#                   type: string
+#                 status:
+#                   description: Updated status of the pet
+#                   type: string
+#     delete:
+#       tags:
+#         - pet
+#       summary: Deletes a pet
+#       description: ''
+#       operationId: deletePet
+#       parameters:
+#         - name: api_key
+#           in: header
+#           required: false
+#           schema:
+#             type: string
+#           example: "Bearer <TOKEN>"
+#         - name: petId
+#           in: path
+#           description: Pet id to delete
+#           required: true
+#           schema:
+#             type: integer
+#             format: int64
+#       responses:
+#         '400':
+#           description: Invalid pet value
+#       security:
+#         - petstore_auth:
+#             - 'write:pets'
+#             - 'read:pets'
+#   '/pet/{petId}/uploadImage':
+#     post:
+#       tags:
+#         - pet
+#       summary: uploads an image
+#       description: ''
+#       operationId: uploadFile
+#       parameters:
+#         - name: petId
+#           in: path
+#           description: ID of pet to update
+#           required: true
+#           schema:
+#             type: integer
+#             format: int64
+#       responses:
+#         '200':
+#           description: successful operation
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/ApiResponse'
+#       security:
+#         - petstore_auth:
+#             - 'write:pets'
+#             - 'read:pets'
+#       requestBody:
+#         content:
+#           application/octet-stream:
+#             schema:
+#               type: string
+#               format: binary
+#   /pet/findByStatus:
+#     get:
+#       tags:
+#         - pet
+#       summary: Finds Pets by status
+#       description: Multiple status values can be provided with comma separated strings
+#       operationId: findPetsByStatus
+#       parameters:
+#         - name: status
+#           in: query
+#           description: Status values that need to be considered for filter
+#           required: true
+#           style: form
+#           schema:
+#             type: array
+#             minItems: 1
+#             maxItems: 3
+#             items:
+#               type: string
+#               enum:
+#                 - available
+#                 - pending
+#                 - sold
+#               default: available
+#       responses:
+#         '200':
+#           description: successful operation
+#           content:
+#             application/json:
+#               schema:
+#                 type: array
+#                 items:
+#                   $ref: '#/components/schemas/Pet'
+#             application/xml:
+#               schema:
+#                 type: array
+#                 items:
+#                   $ref: '#/components/schemas/Pet'
+#         '400':
+#           description: Invalid status value
+#       security:
+#         - petstore_auth:
+#             - 'write:pets'
+#             - 'read:pets'
+#   /pet/findByTags:
+#     get:
+#       tags:
+#         - pet
+#       summary: Finds Pets by tags
+#       description: >-
+#         Multiple tags can be provided with comma separated strings. Use tag1,
+#         tag2, tag3 for testing.
+#       operationId: findPetsByTags
+#       deprecated: true
+#       parameters:
+#         - name: tags
+#           in: query
+#           description: Tags to filter by
+#           required: true
+#           style: form
+#           schema:
+#             type: array
+#             items:
+#               type: string
+#       responses:
+#         '200':
+#           description: successful operation
+#           content:
+#             application/json:
+#               schema:
+#                 type: array
+#                 items:
+#                   $ref: '#/components/schemas/Pet'
+#             application/xml:
+#               schema:
+#                 type: array
+#                 maxItems: 999
+#                 items:
+#                   maxItems: 111
+#                   $ref: '#/components/schemas/Pet'
+#         '400':
+#           description: Invalid tag value
+#       security:
+#         - petstore_auth:
+#             - 'write:pets'
+#             - 'read:pets'
+#   /store/inventory:
+#     get:
+#       tags:
+#         - store
+#       summary: Returns pet inventories by status
+#       description: Returns a map of status codes to quantities
+#       operationId: getInventory
+#       responses:
+#         '200':
+#           description: successful operation
+#           content:
+#             application/json:
+#               schema:
+#                 type: object
+#                 additionalProperties:
+#                   type: integer
+#                   format: int32
+#       security:
+#         - api_key: []
+#   /store/order:
+#     post:
+#       tags:
+#         - store
+#       summary: Place an order for a pet
+#       description: ''
+#       operationId: placeOrder
+#       responses:
+#         '200':
+#           description: successful operation
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/Order'
+#             application/xml:
+#               schema:
+#                 $ref: '#/components/schemas/Order'
+#         '400':
+#           description: Invalid Order
+#           content:
+#             application/json:
+#               example:
+#                 status: 400
+#                 message: "Invalid Order"
+#       requestBody:
+#         content:
+#           application/json:
+#             schema:
+#               $ref: '#/components/schemas/Order'
+#         description: order placed for purchasing the pet
+#         required: true
+#   '/store/order/{orderId}':
+#     get:
+#       tags:
+#         - store
+#       summary: Find purchase order by ID
+#       description: >-
+#         For valid response try integer IDs with value <= 5 or > 10. Other values
+#         will generated exceptions
+#       operationId: getOrderById
+#       parameters:
+#         - name: orderId
+#           in: path
+#           description: ID of pet that needs to be fetched
+#           required: true
+#           schema:
+#             type: integer
+#             format: int64
+#             minimum: 1
+#             maximum: 5
+#       responses:
+#         '200':
+#           description: successful operation
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/Order'
+#             application/xml:
+#               schema:
+#                 $ref: '#/components/schemas/Order'
+#         '400':
+#           description: Invalid ID supplied
+#         '404':
+#           description: Order not found
+#     delete:
+#       tags:
+#         - store
+#       summary: Delete purchase order by ID
+#       description: >-
+#         For valid response try integer IDs with value < 1000. Anything above
+#         1000 or nonintegers will generate API errors
+#       operationId: deleteOrder
+#       parameters:
+#         - name: orderId
+#           in: path
+#           description: ID of the order that needs to be deleted
+#           required: true
+#           schema:
+#             type: string
+#             minimum: 1
+#       responses:
+#         '400':
+#           description: Invalid ID supplied
+#         '404':
+#           description: Order not found
+#   /store/subscribe:
+#     post:
+#       tags:
+#         - store
+#       summary: Subscribe to the Store events
+#       description: Add subscription for a store events
+#       requestBody:
+#         content:
+#           application/json:
+#             schema:
+#               type: object
+#               properties:
+#                 callbackUrl:
+#                   type: string
+#                   format: uri
+#                   description: This URL will be called by the server when the desired event will occur
+#                   example: https://myserver.com/send/callback/here
+#                 eventName:
+#                   type: string
+#                   description: Event name for the subscription
+#                   enum:
+#                     - orderInProgress
+#                     - orderShipped
+#                     - orderDelivered
+#                   example: orderInProgress
+#               required:
+#                 - callbackUrl
+#                 - eventName
+#       responses:
+#         '201':
+#           description: Subscription added
+#           content:
+#             application/json:
+#               schema:
+#                 type: object
+#                 properties:
+#                   subscriptionId:
+#                     type: string
+#                     example: AAA-123-BBB-456
+#       callbacks:
+#         orderInProgress:
+#           '{$request.body#/callbackUrl}?event={$request.body#/eventName}':
+#             servers:
+#               - url: //callback-url.path-level/v1
+#                 description: Path level server 1
+#               - url: //callback-url.path-level/v2
+#                 description: Path level server 2
+#             post:
+#               summary: Order in Progress (Summary)
+#               description: A callback triggered every time an Order is updated status to "inProgress" (Description)
+#               externalDocs:
+#                 description: Find out more
+#                 url: 'https://more-details.com/demo'
+#               requestBody:
+#                 content:
+#                   application/json:
+#                     schema:
+#                       type: object
+#                       properties:
+#                         orderId:
+#                           type: string
+#                           example: '123'
+#                         timestamp:
+#                           type: string
+#                           format: date-time
+#                           example: '2018-10-19T16:46:45Z'
+#                         status:
+#                           type: string
+#                           example: 'inProgress'
+#                   application/xml:
+#                     schema:
+#                       type: object
+#                       properties:
+#                         orderId:
+#                           type: string
+#                           example: '123'
+#                     example: |
+#                       <?xml version="1.0" encoding="UTF-8"?>
+#                       <root>
+#                         <orderId>123</orderId>
+#                         <status>inProgress</status>
+#                         <timestamp>2018-10-19T16:46:45Z</timestamp>
+#                       </root>
+#               responses:
+#                 '200':
+#                   description: Callback successfully processed and no retries will be performed
+#                   content:
+#                     application/json:
+#                       schema:
+#                         type: object
+#                         properties:
+#                           someProp:
+#                             type: string
+#                             example: '123'
+#                 '299':
+#                   description: Response for cancelling subscription
+#                 '500':
+#                   description: Callback processing failed and retries will be performed
+#               x-codeSamples:
+#                 - lang: 'C#'
+#                   source: |
+#                     PetStore.v1.Pet pet = new PetStore.v1.Pet();
+#                     pet.setApiKey("your api key");
+#                     pet.petType = PetStore.v1.Pet.TYPE_DOG;
+#                     pet.name = "Rex";
+#                     // set other fields
+#                     PetStoreResponse response = pet.create();
+#                     if (response.statusCode == HttpStatusCode.Created)
+#                     {
+#                       // Successfully created
+#                     }
+#                     else
+#                     {
+#                       // Something wrong -- check response for errors
+#                       Console.WriteLine(response.getRawResponse());
+#                     }
+#                 - lang: PHP
+#                   source: |
+#                     $form = new \PetStore\Entities\Pet();
+#                     $form->setPetType("Dog");
+#                     $form->setName("Rex");
+#                     // set other fields
+#                     try {
+#                         $pet = $client->pets()->create($form);
+#                     } catch (UnprocessableEntityException $e) {
+#                         var_dump($e->getErrors());
+#                     }
+#             put:
+#               description: Order in Progress (Only Description)
+#               servers:
+#                 - url: //callback-url.operation-level/v1
+#                   description: Operation level server 1 (Operation override)
+#                 - url: //callback-url.operation-level/v2
+#                   description: Operation level server 2 (Operation override)
+#               requestBody:
+#                 content:
+#                   application/json:
+#                     schema:
+#                       type: object
+#                       properties:
+#                         orderId:
+#                           type: string
+#                           example: '123'
+#                         timestamp:
+#                           type: string
+#                           format: date-time
+#                           example: '2018-10-19T16:46:45Z'
+#                         status:
+#                           type: string
+#                           example: 'inProgress'
+#                   application/xml:
+#                     schema:
+#                       type: object
+#                       properties:
+#                         orderId:
+#                           type: string
+#                           example: '123'
+#                     example: |
+#                       <?xml version="1.0" encoding="UTF-8"?>
+#                       <root>
+#                         <orderId>123</orderId>
+#                         <status>inProgress</status>
+#                         <timestamp>2018-10-19T16:46:45Z</timestamp>
+#                       </root>
+#               responses:
+#                 '200':
+#                   description: Callback successfully processed and no retries will be performed
+#                   content:
+#                     application/json:
+#                       schema:
+#                         type: object
+#                         properties:
+#                           someProp:
+#                             type: string
+#                             example: '123'
+#         orderShipped:
+#           '{$request.body#/callbackUrl}?event={$request.body#/eventName}':
+#             post:
+#               description: |
+#                 Very long description
+#                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+#                 incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+#                 nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+#                 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+#                 fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+#                 culpa qui officia deserunt mollit anim id est laborum.
+#               requestBody:
+#                 content:
+#                   application/json:
+#                     schema:
+#                       type: object
+#                       properties:
+#                         orderId:
+#                           type: string
+#                           example: '123'
+#                         timestamp:
+#                           type: string
+#                           format: date-time
+#                           example: '2018-10-19T16:46:45Z'
+#                         estimatedDeliveryDate:
+#                           type: string
+#                           format: date-time
+#                           example: '2018-11-11T16:00:00Z'
+#               responses:
+#                 '200':
+#                   description: Callback successfully processed and no retries will be performed
+#         orderDelivered:
+#           'http://notificationServer.com?url={$request.body#/callbackUrl}&event={$request.body#/eventName}':
+#             post:
+#               deprecated: true
+#               summary: Order delivered
+#               description: A callback triggered every time an Order is delivered to the recipient
+#               requestBody:
+#                 content:
+#                   application/json:
+#                     schema:
+#                       type: object
+#                       properties:
+#                         orderId:
+#                           type: string
+#                           example: '123'
+#                         timestamp:
+#                           type: string
+#                           format: date-time
+#                           example: '2018-10-19T16:46:45Z'
+#               responses:
+#                 '200':
+#                   description: Callback successfully processed and no retries will be performed
+#   /user:
+#     post:
+#       tags:
+#         - user
+#       summary: Create user
+#       description: This can only be done by the logged in user.
+#       operationId: createUser
+#       responses:
+#         default:
+#           description: successful operation
+#       requestBody:
+#         content:
+#           application/json:
+#             schema:
+#               $ref: '#/components/schemas/User'
+#         description: Created user object
+#         required: true
+#   '/user/{username}':
+#     get:
+#       tags:
+#         - user
+#       summary: Get user by user name
+#       description: ''
+#       operationId: getUserByName
+#       parameters:
+#         - name: username
+#           in: path
+#           description: 'The name that needs to be fetched. Use user1 for testing. '
+#           required: true
+#           schema:
+#             type: string
+#       responses:
+#         '200':
+#           description: successful operation
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/User'
+#             application/xml:
+#               schema:
+#                 $ref: '#/components/schemas/User'
+#         '400':
+#           description: Invalid username supplied
+#         '404':
+#           description: User not found
+#     put:
+#       tags:
+#         - user
+#       summary: Updated user
+#       description: This can only be done by the logged in user.
+#       operationId: updateUser
+#       parameters:
+#         - name: username
+#           in: path
+#           description: name that need to be deleted
+#           required: true
+#           schema:
+#             type: string
+#       responses:
+#         '400':
+#           description: Invalid user supplied
+#         '404':
+#           description: User not found
+#       requestBody:
+#         content:
+#           application/json:
+#             schema:
+#               $ref: '#/components/schemas/User'
+#         description: Updated user object
+#         required: true
+#     delete:
+#       tags:
+#         - user
+#       summary: Delete user
+#       description: This can only be done by the logged in user.
+#       operationId: deleteUser
+#       parameters:
+#         - name: username
+#           in: path
+#           description: The name that needs to be deleted
+#           required: true
+#           schema:
+#             type: string
+#       responses:
+#         '400':
+#           description: Invalid username supplied
+#         '404':
+#           description: User not found
+#   /user/createWithArray:
+#     post:
+#       tags:
+#         - user
+#       summary: Creates list of users with given input array
+#       description: ''
+#       operationId: createUsersWithArrayInput
+#       responses:
+#         default:
+#           description: successful operation
+#       requestBody:
+#         $ref: '#/components/requestBodies/UserArray'
+#   /user/createWithList:
+#     post:
+#       tags:
+#         - user
+#       summary: Creates list of users with given input array
+#       description: ''
+#       operationId: createUsersWithListInput
+#       responses:
+#         default:
+#           description: successful operation
+#       requestBody:
+#         $ref: '#/components/requestBodies/UserArray'
+#   /user/login:
+#     get:
+#       tags:
+#         - user
+#       summary: Logs user into the system
+#       description: ''
+#       operationId: loginUser
+#       parameters:
+#         - name: username
+#           in: query
+#           description: The user name for login
+#           required: true
+#           schema:
+#             type: string
+#         - name: password
+#           in: query
+#           description: The password for login in clear text
+#           required: true
+#           schema:
+#             type: string
+#       responses:
+#         '200':
+#           description: successful operation
+#           headers:
+#             X-Rate-Limit:
+#               description: calls per hour allowed by the user
+#               schema:
+#                 type: integer
+#                 format: int32
+#             X-Expires-After:
+#               description: date in UTC when token expires
+#               schema:
+#                 type: string
+#                 format: date-time
+#           content:
+#             application/json:
+#               schema:
+#                 type: string
+#               examples:
+#                 response:
+#                   value: OK
+#             application/xml:
+#               schema:
+#                 type: string
+#               examples:
+#                 response:
+#                   value:  <Message> OK </Message>
+#             text/plain:
+#               examples:
+#                 response:
+#                   value:  OK
+#         '400':
+#           description: Invalid username/password supplied
+#   /user/logout:
+#     get:
+#       tags:
+#         - user
+#       summary: Logs out current logged in user session
+#       description: ''
+#       operationId: logoutUser
+#       responses:
+#         default:
+#           description: successful operation
+# components:
+#   schemas:
+#     ApiResponse:
+#       type: object
+#       properties:
+#         code:
+#           type: integer
+#           format: int32
+#         type:
+#           type: string
+#         message:
+#           type: string
+#     Cat:
+#       description: A representation of a cat
+#       allOf:
+#         - $ref: '#/components/schemas/Pet'
+#         - type: object
+#           properties:
+#             huntingSkill:
+#               type: string
+#               description: The measured skill for hunting
+#               default: lazy
+#               example: adventurous
+#               enum:
+#                 - clueless
+#                 - lazy
+#                 - adventurous
+#                 - aggressive
+#           required:
+#             - huntingSkill
+#     Category:
+#       type: object
+#       properties:
+#         id:
+#           description: Category ID
+#           allOf:
+#             - $ref: '#/components/schemas/Id'
+#         name:
+#           description: Category name
+#           type: string
+#           minLength: 1
+#         sub:
+#           description: Test Sub Category
+#           type: object
+#           properties:
+#             prop1:
+#               type: string
+#               description: Dumb Property
+#       xml:
+#         name: Category
+#     Dog:
+#       description: A representation of a dog
+#       allOf:
+#         - $ref: '#/components/schemas/Pet'
+#         - type: object
+#           properties:
+#             packSize:
+#               type: integer
+#               format: int32
+#               description: The size of the pack the dog is from
+#               default: 1
+#               minimum: 1
+#           required:
+#             - packSize
+#     HoneyBee:
+#       description: A representation of a honey bee
+#       allOf:
+#         - $ref: '#/components/schemas/Pet'
+#         - type: object
+#           properties:
+#             honeyPerDay:
+#               type: number
+#               description: Average amount of honey produced per day in ounces
+#               example: 3.14
+#               multipleOf: .01
+#           required:
+#             - honeyPerDay
+#     Id:
+#       type: integer
+#       format: int64
+#       readOnly: true
+#     Order:
+#       type: object
+#       properties:
+#         id:
+#           description: Order ID
+#           allOf:
+#             - $ref: '#/components/schemas/Id'
+#         petId:
+#           description: Pet ID
+#           allOf:
+#             - $ref: '#/components/schemas/Id'
+#         quantity:
+#           type: integer
+#           format: int32
+#           minimum: 1
+#           default: 1
+#         shipDate:
+#           description: Estimated ship date
+#           type: string
+#           format: date-time
+#         status:
+#           type: string
+#           description: Order Status
+#           enum:
+#             - placed
+#             - approved
+#             - delivered
+#         complete:
+#           description: Indicates whenever order was completed or not
+#           type: boolean
+#           default: false
+#           readOnly: true
+#         requestId:
+#           description: Unique Request Id
+#           type: string
+#           writeOnly: true
+#       xml:
+#         name: Order
+#     Pet:
+#       type: object
+#       required:
+#         - name
+#         - photoUrls
+#       discriminator:
+#         propertyName: petType
+#         mapping:
+#           cat: '#/components/schemas/Cat'
+#           dog: '#/components/schemas/Dog'
+#           bee: '#/components/schemas/HoneyBee'
+#       properties:
+#         id:
+#           externalDocs:
+#             description: "Find more info here"
+#             url: "https://example.com"
+#           description: Pet ID
+#           allOf:
+#             - $ref: '#/components/schemas/Id'
+#         category:
+#           description: Categories this pet belongs to
+#           allOf:
+#             - $ref: '#/components/schemas/Category'
+#         name:
+#           description: The name given to a pet
+#           type: string
+#           example: Guru
+#         photoUrls:
+#           description: The list of URL to a cute photos featuring pet
+#           type: array
+#           maxItems: 20
+#           xml:
+#             name: photoUrl
+#             wrapped: true
+#           items:
+#             type: string
+#             format: url
+#         friend:
+#           allOf:
+#             - $ref: '#/components/schemas/Pet'
+#         tags:
+#           description: Tags attached to the pet
+#           type: array
+#           minItems: 1
+#           xml:
+#             name: tag
+#             wrapped: true
+#           items:
+#             $ref: '#/components/schemas/Tag'
+#         status:
+#           type: string
+#           description: Pet status in the store
+#           enum:
+#             - available
+#             - pending
+#             - sold
+#         petType:
+#           description: Type of a pet
+#           type: string
+#       xml:
+#         name: Pet
+#     Tag:
+#       type: object
+#       properties:
+#         id:
+#           description: Tag ID
+#           allOf:
+#             - $ref: '#/components/schemas/Id'
+#         name:
+#           description: Tag name
+#           type: string
+#           minLength: 1
+#       xml:
+#         name: Tag
+#     User:
+#       type: object
+#       properties:
+#         id:
+#           $ref: '#/components/schemas/Id'
+#         pet:
+#           oneOf:
+#             - $ref: '#/components/schemas/Pet'
+#             - $ref: '#/components/schemas/Tag'
+#         username:
+#           description: User supplied username
+#           type: string
+#           minLength: 4
+#           example: John78
+#         firstName:
+#           description: User first name
+#           type: string
+#           minLength: 1
+#           example: John
+#         lastName:
+#           description: User last name
+#           type: string
+#           minLength: 1
+#           example: Smith
+#         email:
+#           description: User email address
+#           type: string
+#           format: email
+#           example: john.smith@example.com
+#         password:
+#           type: string
+#           description: >-
+#             User password, MUST contain a mix of upper and lower case letters,
+#             as well as digits
+#           format: password
+#           minLength: 8
+#           pattern: '/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/'
+#           example: drowssaP123
+#         phone:
+#           description: User phone number in international format
+#           type: string
+#           pattern: '/^\+(?:[0-9]-?){6,14}[0-9]$/'
+#           example: +1-202-555-0192
+#         userStatus:
+#           description: User status
+#           type: integer
+#           format: int32
+#       xml:
+#         name: User
+#   requestBodies:
+#     Pet:
+#       content:
+#         application/json:
+#           schema:
+#             allOf:
+#               - description: My Pet
+#                 title: Pettie
+#               - $ref: '#/components/schemas/Pet'
+#         application/xml:
+#           schema:
+#             type: 'object'
+#             properties:
+#               name:
+#                 type: string
+#                 description: hooray
+#       description: Pet object that needs to be added to the store
+#       required: true
+#     UserArray:
+#       content:
+#         application/json:
+#           schema:
+#             type: array
+#             items:
+#               $ref: '#/components/schemas/User'
+#       description: List of user object
+#       required: true
+#   securitySchemes:
+#     petstore_auth:
+#       description: |
+#         Get access to data while protecting your account credentials.
+#         OAuth2 is also a safer and more secure way to give you access.
+#       type: oauth2
+#       flows:
+#         implicit:
+#           authorizationUrl: 'http://petstore.swagger.io/api/oauth/dialog'
+#           scopes:
+#             'write:pets': modify pets in your account
+#             'read:pets': read your pets
+#     api_key:
+#       description: >
+#         For this sample, you can use the api key `special-key` to test the
+#         authorization filters.
+#       type: apiKey
+#       name: api_key
+#       in: header
+#   examples:
+#     Order:
+#       value:
+#         quantity: 1
+#         shipDate: '2018-10-19T16:46:45Z'
+#         status: placed
+#         complete: false
+# x-webhooks:
+#   newPet:
+#     post:
+#       summary: New pet
+#       description: Information about a new pet in the systems
+#       operationId: newPet
+#       tags:
+#         - pet
+#       requestBody:
+#         content:
+#           application/json:
+#             schema:
+#               $ref: "#/components/schemas/Pet"
+#       responses:
+#         "200":
+#           description: Return a 200 status to indicate that the data was received successfully
+
+
+# ------------------------------------------------------------------------------------------------------
+openapi: 3.0.0
+info:
+  version: 2.0.0
+  title: cove.tool REST API v2
+  termsOfService: https://www.cove.tools/terms-of-use
+  x-logo:
+    url: './covetool_logo.png'
+    altText: cove.tool logo
+  # description: >-
+  #   The cove.tool REST API can be used to upload your project's geometry and
+  #   obtain an EUI breakdown. In order to start making calls to the cove.tool
+  #   API, obtain an API token (authentication token). Authentication tokens are
+  #   used to help identify the user attempting to make the HTTP requests.
+
+
+  #   By providing an authentication token on every request, it checks whether the
+  #   user is authorized and has permission to update and retrieve data.
+  
+  #   ### Requirements
+    
+  #   1. **cove.tool account** - Make sure to have access to a valid (trial/licensed) cove.tool account.
+  #       - If you do not have a cove.tool account, you can register for one [here](https://app.covetool.com).
+    
+  #   2. **projects created with cove.tool** - Once you login to your cove.tool account, make sure to create project(s) you wish to update the geometry and obtain an EUI breakdown for! As these are the projects that the API relies on to obtain and retrieve information.
+    
+
+  #   ### Pre-requisite Knowledge
+
+  #   It is imperative to take note of the 3 basic objects (**project**, **runs**,
+  #   **run values**); how they interact and related with one another when trying
+  #   to make updates to project geometry. _An individual project has many runs,
+  #   and a run has many run values._
+
+
+  #   The run represents the data for a given building type/use type. We currently
+  #   offer the following use types:
+  #     - Office
+  #     - Apartments
+  #     - Education
+  #     - Hospital
+  #     - Hotel
+  #     - Lab
+  #     - Retail
+  #     - Single Family Home
+  #     - Other
+      
+  #   ie. A mixed use project with Office, Retail and Apartments would have 3
+  #   runs. The _"unique ID"_ is the **url** which must be included when updating
+  #   an object.
+    
+  #   ### Testing
+  #     Utilizing standard API testing tools such as [HTTPie](https://httpie.io/) or [Postman](https://www.postman.com/) is a great way to start making calls to the cove.tool API.
+    
+  #   _Happy Developing!_
+  description: |
+    # Introduction
+    The cove.tool API is a set of HTTP endpoints that help your app integrate with cove.tool. The cove.tool API is developed around the RESTful architecture
+
+    Recently, we released the cove.tool API v2. The cove.tool API v2 includes a modern foundation, new and advanced features to how cove.tool can integrate seamlessly into your app.
+
+    # Getting Started
+    In order to start making calls to the API, each request will have to be authenticated. This is done by providing an authentication token on every request. It checks whether the user is authorized and has permission to perform the following actions.  See more in Authentication section.
+    1. **Cove.tool account** - Make sure to have access to a valid (trial/licensed) cove.tool account.
+    2. **Projects created with cove.tool** - Once you login to your cove.tool account, make sure to create project(s) you wish to start making API requests with! As these are the projects that the API relies on to obtain, update and retrieve information.
+
+    # Authentication
+    By providing an authentication token on every request, it checks whether the user is authorized and has permission to update and retrieve data.
+      ## Generating an API Token
+      | URL | https://app.covetool.com/api/get-token |
+      |-----|----------------------------------------|
+
+
+    # Testing
+    In order to understand how the cove.tool API can work for you, the easiest way is to start making requests! We recommend using standard API testing tools such as HTTPie or Postman to start interacting with the API over HTTP.
+    
+    # Error Codes
+    | HTTP Status Code |        Category       |
+    |:----------------:|:---------------------:|
+    |        200       |           OK          |
+    |        201       |        Updated        |
+    |        202       |        Accepted       |
+    |        400       |      Bad Request      |
+    |        401       |  Unauthorized Request |
+    |        404       |   Resource Not Found  |
+    |        5xx       | Internal Server Error |
+
+    _Happy Developing!_
+servers:
+  - url: https://app.covetool.com/api/v2
+tags:
+  - name: User
+  - name: Profiles
+  - name: Energy Codes
+  - name: Projects
+  - name: Project Geometry
+  - name: Daylight Analysis
+
+paths:
+  /auth/signup:
+    post:
+      tags:
+        - User
+      summary: Enables the creation of a cove.tool user account
+      description: cove.tool accounts can now be created via an API call within your business/organization. This adds a potential new user account to your cove.tool license that are able to access cove.tool products and features.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSignupRequests'
+        description: User information of a cove.tool account to be created
+      responses:
+        # OK 
+        '201':
+          description: Successfully Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSignupOKResponses'
+                # $ref: '#/components/schemas/UserInformation'
+        # Bad Request - 400
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /profiles/{profile_id}:
+    get:
+      tags:
+        - Profiles
+      security:
+        - apiKeyAuth: []
+      summary: Obtain user information
+      description: Retrieves the details of a user account within your business/organiation if it exists. If the profile ID does not exist, this call returns an error.
+      parameters:
+        - in: path
+          name: profile_id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of profile to obtain
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileResponse'
+        '403':
+          description: You do not have permission
+        '404':
+          description: Resource not found
+  /energy-codes:
+    get:
+      tags:
+        - Energy Codes
+      security:
+        - apiKeyAuth: []
+      summary: Enumerates list of energy codes supported by cove.tool or in specific projects
+      description: Retrieve a list of available energy codes supported by cove.tool's automated model generation or for a specific project and its compatible energy codes depending on the query parameters passed in.
+      
+      parameters:
+        - in: query
+          name: for_project
+          description: Specific project number
+          example:
+            1
+          schema:
+            type: integer
+        - in: query
+          name: name
+          schema:
+            $ref: '#/components/schemas/EnergyCodesEnum'
+          example: California
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/EnergyCodeForProjectsResponses'
+                  - $ref: '#/components/schemas/EnergyCodeResponses'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      # description: |
+      #   Retrieves a list of supported energy codes within cove.tool
+        
+      #   When given a project ID, returns all the valid energy codes and the specific energy code selected for the project.
+      
+      #   Can also filter out all the available energy codes by name by passing in the name query parameter.
+  /projects/:
+    post:
+      tags:
+        - Projects
+      security:
+        - apiKeyAuth: []
+      summary: Enables the creation of a new cove.tool project
+      description: Skip the 'Create Project' page and create
+      requestBody:
+        description: "Note: `location` should be in latitude, longitude coordinates"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProjectRequestBody'
+      responses:
+        '201':
+          description: Successfully Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateProjectResponse'
+        '400':
+            $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    get:
+      tags:
+        - Projects
+      security:
+        - apiKeyAuth: []
+      summary: Retrieves a project's detail and information
+      description: Returns a given project ID's detail and information if it exists.
+      parameters:
+        - in: query
+          name: project_id
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProjectInfoResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /projects/{project_id}:
+    put:
+      tags:
+        - Projects
+      security:
+        - apiKeyAuth: []
+      summary: Updates a project's detail and information
+      parameters:
+        - in: path
+          required: true
+          name: project_id
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:  
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProjectRequestBody'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateProjectResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  # TODO: WIP
+  /projects/{project_id}/geometry:
+    post:
+      tags:
+        - Project Geometry
+      security:
+        - apiKeyAuth: []
+      summary: Updates a project's 3D geometry
+      description: Gives you the ability to update a project's 3D geometry that will be utilized to perform Daylight Analysis with analysis.tool.
+      
+        Updating project geometry requires at least *one* non-zero value in the **wall_area_X**, and **window_area_X** property (where **X** is the cardinal direction).
+        
+        # List of available cardinal directions (replace **X** with the following acceptable cardinal direction):
+        #   - n
+        #   - s
+        #   - e
+        #   - w
+        #   - ne
+        #   - nw
+        #   - se
+        #   - sw
+        
+        # Note that units should be in ft, so areas would be in ft<sup>2</sup> regardless of project units.
+        
+        # Each category requires an array of objects represented as vertex and triangle data. Note that you can send each category separately. Each mesh must have a list of Vertices along with Triangles which refer to Vertices by inex. Normal and Center are required for each mesh so that the faces are rendered in the correct direction/position. LevelId and DerivingElementUniqueId are optional fields.
+      parameters:
+        - in: path
+          required: true
+          name: project_id
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              # TODO: Incomplete request body
+              $ref: '#/components/schemas/Update3DGeometryRequestBody'
+              # # TODO: Development
+              # $ref: '#/components/schemas/RoomsMeshObject'
+      responses:
+        '201':
+          description: Successfully Created
+          content:
+            application/json:
+              schema:
+                # $ref: '#/components/schemas/Update3DGeometryResponses'
+                $ref: '#/components/schemas/UpdateGeometryAreasResponses'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /analysis:
+    post:
+      tags:
+        - Daylight Analysis
+      security:
+        - apiKeyAuth: []
+      summary: Kickstarts all analysis types for a given project
+      description: Fires off the daylight analysis calculations to start running for a given project.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RunDaylightAnalysisRequestBody'
+      responses:
+        '202':
+          description: "Accepted"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunDaylightAnalysisResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /analysis/{project_id}:
+    get:
+      tags:
+        - Daylight Analysis
+      security:
+        - apiKeyAuth: []
+      summary: Retrieves the results for daylight analysis for a given project
+      parameters:
+        - in: path
+          required: true
+          name: project_id
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DaylightAnalysisResultsResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /analysis/{project_id}/status:
+    get:
+      tags:
+        - Daylight Analysis
+      security:
+        - apiKeyAuth: []
+      summary: Obtains the remaining number of jobs per analysis type for a given project
+      parameters:
+        - in: path
+          required: true
+          name: project_id
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DaylightAnalysisStatusResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /analysis/{project_id}/stop:
+    get:
+      tags:
+        - Daylight Analysis
+      security:
+        - apiKeyAuth: []
+      summary: Halts all analyses calculations for a given project
+      parameters:
+        - in: path
+          required: true
+          name: project_id
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StopDaylightAnalysisResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+  responses:
+    OK:
+      # 200
+      description: Success
+    Created:
+      # 201
+      description: Successfully created
+    BadRequest:
+      # 400
+      description: Invalid request. Check contents of your response body.
+    NotFound:
+      # 404
+      description: The specified resource was not found. Verify if the URI is accurate.
+    Unauthorized:
+      # 401
+      description: Unauthorized request. Check your API token if it is valid.
+    InternalServerError:
+      # 500
+      description: Internal Server Error. Try again later.
+  schemas:
+    GeneralEndpointResponses:
+      type: object
+      required:
+        - data
+        - msg
+        - errors
+      properties:
+        data:
+          type: object
+        msg:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    # ================== /auth/signup =============================
+    UserSignupOKResponses:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/GeneralEndpointResponses'
+        - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/UserInformationResponseData'
+      example:
+        data:
+          is_owner: false
+          is_admin: false
+          created_at: "2022-01-28T12:00:47.649935-05:00"
+          email: user@company.com
+          first_name: John
+          last_name: Smith
+          business: 
+            name: My Company Name
+            telephone: 123-456-7890
+            user_limit: 10
+            domain: mycompanywebsite.com
+            size: null
+        msg: A new user-profile was created. Activate via email.
+        error: []
+    UserSignupRequests:
+      type: object
+      required:
+        - email
+        - password
+        - first_name
+        - last_name
+      properties:
+        email: 
+          type: string
+          format: email
+          example: hello@covetool.com
+        password:
+          type: string
+          format: password
+          example: mysupersecurepassword
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Smith
+    # ================== /profiles/{profile_id} =============================
+    # Schema/Model
+    UserInformationResponseData:
+      type: object
+      required:
+        - is_owner
+        - is_admin
+        - created_at
+        - email
+        - first_name
+        - last_name
+        - business
+      properties:
+        is_owner:
+          type: boolean
+        is_admin:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        email:  
+          type: string
+          format: email
+        first_name:
+          type: string
+        last_name:
+          type: string
+        business:
+          type: object
+          properties:
+            name:
+              type: string
+            telephone:
+              type: number
+            user_limit:
+              type: number
+            domain:
+              type: string
+              format: url
+            size:
+              type: number
+    UserProfileResponse:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/GeneralEndpointResponses'
+      properties:
+        data:
+          $ref: '#/components/schemas/UserInformationResponseData'
+      example:
+        data: 
+          is_owner: true
+          is_admin: false
+          created_at: "2022-01-28T12:00:47.649935-05:00"
+          email: user@covetool.com
+          first_name: John
+          last_name: Smith
+          business:
+            name: Cove Tool
+            telephone: 770-777-7777
+            user_limit: 10
+            domain: covetool.com
+            size: null
+        msg: "Successfully retrieved resource"
+        errors: {}
+    # TODO: User associated business
+    # ================== /energy-codes/ =============================
+    EnergyCodesEnum:
+      type: string
+      description: Energy code names
+      nullable: true
+      enum:
+        - ASHRAE
+        - California
+        - Japan
+        - UK
+    EnergyCodeResponseData:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+    EnergyCodeForProjectResponseData:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/EnergyCodeResponseData'
+        - type: object
+      required:
+        - selected
+      properties:
+        selected:
+          type: boolean
+    EnergyCodeResponses:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/GeneralEndpointResponses'
+        - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/EnergyCodeResponseData'
+      example:
+        data:
+          - id: 1
+            name: ASHRAE 2007
+          - id: 2
+            name: ASHRAE 2010
+          - id: 3
+            name: ASHRAE 2013
+          - id: 7
+            name: ASHRAE 2016
+          - id: 12
+            name: ASHRAE 2019
+          - id: 9
+            name: ASHRAE Residential 2018
+          - id: 4
+            name: Commercial - California Title 24 2016
+          - id: 10
+            name: Commercial - California Title 24 2019
+          - id: 16
+            name: Japan Commericla Energy Code
+          - id: 17
+            name: Japan Residential Energy Code
+          - id: 5
+            name: NECB 2011
+          - id: 6
+            name: NECB 2015
+          - id: 15
+            name: NECB 2017
+          - id: 14
+            name: National Construction Code (NCC) 2019
+          - id: 8
+            name: Single Family Home - California Title 24 2016
+          - id: 11
+            name: Single Family Home - California Title 24 2019
+          - id: 13
+            name: UK NM
+        msg: "Successfully found results."
+        errors: {}
+    EnergyCodeForProjectsResponses:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/GeneralEndpointResponses'
+        - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/EnergyCodeForProjectResponseData'
+      example:
+        data:
+          - id: 1
+            name: ASHRAE 2007
+            selected: false
+          - id: 2
+            name: ASHRAE 2010
+            selected: false
+          - id: 3
+            name: ASHRAE 2013
+            selected: true
+          - id: 7
+            name: ASHRAE 2016
+            selected: false
+          - id: 12
+            name: ASHRAE Residential 2018
+            selected: false
+        msg: "Successfully found results."
+        errors: {}
+    
+    # ================== /projects/ =============================
+    CreatedByResponseData:
+      type: object
+      required:
+        - id
+        - email
+        - first_name
+        - last_name
+      properties:
+        id:
+          type: number
+        email:
+          type: string
+          format: email
+        first_name:
+          type: string
+        last_name:
+          type: string
+    
+    CreateProjectRequestBody:
+      type: object
+      required:
+        - name
+        - location
+        - building_types
+        - energy_code_id
+      properties:
+        name:
+          type: string
+          example: "Marietta Office Retail Space"
+        location:
+          type: string
+          example: "34.177114, -86.830390"
+        building_types:
+          type: array
+          items: 
+            type: string
+          example: ["Office", "Retail"]
+        energy_code_id:
+          type: number
+          example: 12
+  
+    CreateProjectResponseData:
+      type: object
+      required:
+        - id
+        - name
+        - number
+        - si_units
+        - created_by
+        - business_id
+        - eui
+        - cbecs_eui
+        - energy_code
+        - climate_zone
+        - editing
+        - read_only
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: number
+        name: 
+          type: string
+        number:
+          type: number
+        si_units:
+          type: boolean
+        # TODO: user profile
+        created_by:
+          $ref: '#/components/schemas/CreatedByResponseData'
+        business_id:  
+          type: number
+        eui:
+          type: number
+          format: double
+        cebcs_eui:
+          type: number
+          format: double
+         # TODO: energy_code response list
+        energy_code:
+          $ref: '#/components/schemas/EnergyCodeResponseData'
+        climate_zone:
+          type: object
+        editing:  
+          type: boolean
+        read_only:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+          
+    CreateProjectResponse:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/GeneralEndpointResponses'
+        - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CreateProjectResponseData'
+      example:
+        data:
+          id: 28
+          name: "Marietta Office Retail Space"
+          number: null
+          si_units: false
+          # TODO:
+          created_by:
+            id: 2
+            email: "janewalker@company.com"
+            first_name: "Jane"
+            last_name: "Walker"
+          business_id: 1045
+          eui: null
+          cbecs_eui: null
+          # TODO:
+          energy_code:
+            id: 12
+            name: ASHRAE 2019
+          climate_zone: null
+          editing: false
+          read_only: false
+          # TODO:
+          created_at: "2022-01-28T12:00:47.649935-05:00"
+          # TODO:
+          updated_at: "2022-01-28T12:00:47.649935-05:00"
+        msg: "A new project was created."
+        errors: {}
+        
+    GetProjectInfoResponse:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/GeneralEndpointResponses'
+        - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CreateProjectResponseData'
+      example:
+        data:
+          id: 1
+          name: "Education building"
+          number: null
+          si_units: false
+          # TODO:
+          created_by:
+            id: 3
+            email: "anotherUser@company.com"
+            first_name: "Mary"
+            last_name: "Lambert"
+          business_id: 1046
+          eui: 180.658486364008
+          cbecs_eui: 341.870031592839
+          # TODO:
+          energy_code:
+            id: 3
+            name: ASHRAE 2013
+          # TODO:
+          climate_zone:
+            id: 9
+            name: "Climate Zone 3A"
+          editing: false
+          read_only: false
+          # TODO:
+          created_at: "2022-01-28T12:00:47.649935-05:00"
+          # TODO:
+          updated_at: "2022-01-28T12:00:47.649935-05:00"
+        msg: "Successfully retrieved resource."
+        errors: {}
+        
+    EuiBreakdownHeaders:
+      type: array
+      items:
+        type: string
+      example:
+        - Cooling
+        - Heating
+        - Lighting
+        - Equipment
+        - Fans
+        - Pumps
+        - Hot Water
+    # TODO: eui_breakdown section example - how do we want to display the rest of the examples too
+    # TODO: TAKEN FROM v1 (Modify this to use GeneralEndpointResponses) - more work may be needed
+    UpdateGeometryAreasResponses:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/GeneralEndpointResponses'
+      properties:
+        data:
+          type: object
+          required:
+            - eui
+            - eui_breakdown
+            # v2 addition
+            - floors_count
+            - triangles_count
+          properties:
+            eui_breakdown:
+              type: object
+              required:
+                - headers
+                - values
+                - total_gas
+                - total_electric
+                - total_electric_without_pv
+                - Primary Energy Heating
+                - Primary Energy Domestic Hot Water
+              properties:
+                headers:
+                  $ref: "#/components/schemas/EuiBreakdownHeaders"
+                values:
+                  type: array
+                  items:
+                    type: number
+                    format: double
+                  example:
+                    - 42.69810373890001
+                    - 215.9911661803
+                    - 35.150749997999995
+                    - 26.540714283
+                    - 83.00345598700001
+                    - 4.380000116000001
+                    - 5.9237200512
+                total_gas:
+                  type: number
+                  format: double
+                  example: 10.4080428009
+                total_electric:
+                  type: number
+                  format: double
+                  example: 174.19649714809515
+                total_electric_without_pv:
+                  type: number
+                  format: double
+                  example: 3602.852278444
+                Primary Energy Heating:
+                  type: string
+                  example: electric
+                Primary Energy Domestic Hot Water:
+                  type: string
+                  example: gas
+            floors_count:
+              type: number
+              example: 5
+            triangles_count:
+              type: number
+              example: 34
+      example:
+        data:
+          eui: 3707.0816073715214
+          eui_breakdown:
+            values:
+              - 42.69810373890001
+              - 215.9911661803
+              - 35.150749997999995
+              - 26.540714283
+              - 83.00345598700001
+              - 4.380000116000001
+              - 5.9237200512
+            headers:
+              - Cooling
+              - Heating
+              - Lighting
+              - Equipment
+              - Fans
+              - Pumps
+              - Hot Water
+            total_gas: 104.22932892752092
+            total_electric: 3602.852278444
+            total_electric_without_pv: 3602.852278444
+            Primary Energy Heating: 0
+            Primary Energy Domestic Hot Water: 0
+          floors_count: 5
+          triangles_count: 34
+
+             
+      #   msg: "Successfully uploaded project geometry."
+      #   errors: {}
+    Update3DGeometryResponseData:
+      type: object
+      required:
+        - eui
+        - eui_breakdown
+        - floors_count
+        - triangles_count
+      properties:
+        eui:
+          type: number
+          format: double
+          example: 3705.177877517469
+        floors_count:
+          type: number
+          example: 5
+        triangles_count:
+          type: number
+          example: 34
+        eui_breakdown:
+          type: object
+          required:
+            - headers
+            - values
+            - total_gas
+            - total_electric
+            - total_electric_without_pv
+            - Primary Energy Heating
+            - Primary energy Domestic Hot Water
+          properties:
+            headers:
+              $ref: '#/components/schemas/EuiBreakdownHeaders'
+            values:
+              type: array
+              items:
+                type: number
+                format: double
+                example:
+                  - 1903.2504539299998
+                  - 95.11954287456933
+                  - 33.782687913000004
+                  - 37.931129325
+                  - 1623.7142198299998
+                  - 2.190000058
+                  - 9.1898435869
+            total_gas: 
+              type: number
+              format: double
+              example: 104.30938646146936
+            total_electric: 
+              type: number
+              format: double
+              example: 3600.8684910559996
+            total_electric_without_pv: 
+              type: number
+              format: double
+              example: 3600.8684910559996
+            Primary Energy Heating:
+              type: number
+              example: 0
+            Primary Energy Domestic Hot Water:
+              type: number
+              example: 0
+    Update3DGeometryResponses:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/GeneralEndpointResponses'
+        - type: object
+      properties:
+        data: 
+          $ref: '#/components/schemas/Update3DGeometryResponseData'
+      example:
+        data:
+          eui: 3705.177877517469
+          eui_breakdown:
+          floors_count: 5
+          triangles_count: 34
+        msg: "Successfully uploaded project geometry."
+        errors: {}
+    # TODO: Update3DGeometryRequestBody
+    Update3DGeometryRequestBody:
+      type: object
+      required:
+        - floors
+        - walls
+        - windows
+        - roofs
+        - floor_area
+        - roof_area
+        - ground_floor_area
+        - building_height
+        - si_units
+      properties:
+        floors:
+          allOf:
+            - $ref: '#/components/schemas/MeshObject'
+        walls:
+          allOf:
+            - $ref: '#/components/schemas/MeshObject'
+        windows:
+          allOf:
+            - $ref: '#/components/schemas/MeshObject'
+        roofs:
+          allOf:
+            - $ref: '#/components/schemas/MeshObject'
+        floor_area:
+          type: number
+          format: double
+          example: 37.21
+        roof_area:
+          type: number
+          format: double
+          example: 37.21
+        ground_floor_area:
+          type: number
+          format: double
+          example: 37.21
+        building_height:
+          type: number
+          example: 4.115
+        si_units:
+          type: boolean
+          example: true
+        # Optional
+        below_grade_walls:
+          allOf:
+            - $ref: '#/components/schemas/MeshObject'
+        outdoor_floors:
+          allOf:
+            - $ref: '#/components/schemas/MeshObject'
+        interior_walls:
+          allOf:
+            - $ref: '#/components/schemas/MeshObject'
+        spandrels:
+          allOf:
+            - $ref: '#/components/schemas/MeshObject'
+        skylights:
+          allOf:
+            - $ref: '#/components/schemas/MeshObject'
+        shading_devices:
+          allOf:
+            - $ref: '#/components/schemas/MeshObject'
+        skylight_area:
+          type: number
+          format: double
+          example: 0
+        underground_area:
+          type: number
+          format: double
+          example: 0
+        # TODO: Special different
+        rooms:
+          $ref: '#/components/schemas/RoomsMeshObject'
+        wall_area_n:
+          type: number
+          format: double
+          example: 23.707
+        wall_area_ne:
+          type: number
+          format: double
+          example: 0
+        wall_area_e:
+          type: number
+          format: double
+          example: 25.1
+        wall_area_se:
+          type: number
+          format: double
+          example: 0
+        wall_area_s:
+          type: number
+          format: double
+          example: 23.707
+        wall_area_sw:
+          type: number
+          format: double
+          example: 0
+        wall_area_w:
+          type: number
+          format: double
+          example: 23.158
+        wall_area_nw:
+          type: number
+          format: double
+          example: 0
+        window_area_n:
+          type: number
+          format: double
+          example: 1.394
+        window_area_ne:
+          type: number
+          format: double
+          example: 0
+        window_area_e:
+          type: number
+          format: double
+          example: 0
+        window_area_se:
+          type: number
+          format: double
+          example: 0
+        window_area_s:
+          type: number
+          format: double
+          example: 1.394
+        window_area_sw:
+          type: number
+          format: double
+          example: 0
+        window_area_w:
+          type: number
+          format: double
+          example: 0
+        window_area_nw:
+          type: number
+          format: double
+          example: 0
+        roof_u_value: 
+          type: number
+          format: double
+          example: 0.183
+        ground_floor_u_value:
+          type: number
+          format: double
+          example: 0.17600000000000002
+        skylight_u_value:
+          type: number
+          format: double
+          example: 2.84
+        skylight_shgc:
+          type: number
+          format: double
+          example: 0.4
+        window_u_value_n:
+          type: number
+          format: double
+          example: 0.38
+        wall_u_value_n:
+          type: number
+          format: double
+          example: 0.3132
+        basement_depth:
+          type: number
+          example: 0
+    RoomsMeshObject:
+    # for open studio, only walls need center and normals
+    # so not every mesh may have one assigned and that's okay
+      type: object
+      required:
+        - rooms
+        - Windows
+      properties:
+        rooms:
+          type: array
+          items:
+            type: object
+            required:
+              - Faces
+              - area
+              - volume
+              - roomId
+              - name
+              - number
+              - levelName
+              - levelId
+              
+            properties:
+              Faces:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - Mesh
+                  properties:
+                    Mesh:
+                      $ref: '#/components/schemas/MeshObjectV2'
+                    areaIDs:
+                      type: array
+                      items:
+                        type: string
+                        format: uuid
+                        # example:
+                    area:
+                      type: number
+                      format: double
+                      example: 37.21
+                    Center:
+                      allOf:
+                        - $ref: '#/components/schemas/CenterObject'
+                    Normal:
+                      allOf:
+                        - $ref: '#/components/schemas/NormalObject'
+                    type:
+                      type: string
+                      example: "Floor"
+                    roofId:
+                      type: string
+                      format: uuid
+                      example: "84c72356-bc7b-4c95-a9bc-b6a676206957"
+                    roofArea:
+                      type: number
+                      format: double
+                      example: 37.21
+                    floorId:
+                      type: string
+                      format: uuid
+                      example: "69f0a2a8-2160-4294-a909-a9977d9d67b3"
+                    obc:
+                      type: string
+                      example: "Ground"
+              area:
+                type: number
+                format: double
+                example: 37.21
+              volume:
+                type: number
+                format: double
+                example: 15311.170800000002
+              roomId:
+                type: string
+                format: uuid
+                example: "db20906a-731d-4dfd-9103-29593575b05c"
+              name:
+                type: string
+                example: "Room"
+              number:
+                type: number
+                example: 1
+              levelName:
+                type: string
+                example: "Floor 1"
+              levelId:
+                type: string
+                format: uuid
+                example: "78c93975-070c-4219-bcae-3be319b3cfce"
+        # TODO: Better format this
+        Windows:
+          type: array
+          items:
+            type: object
+            required:
+              - Center
+              - Normal
+              - Mesh
+              - area
+              - holeId
+            properties:
+              Center:
+                allOf:
+                  - $ref: '#/components/schemas/CenterObject'
+              Normal:
+                allOf:
+                  - $ref: '#/components/schemas/NormalObject'
+              Mesh:
+                # allOf:
+                #   # TODO: Change Mesh to remove Center and Normal
+                #   - $ref: '#/components/schemas/MeshObject'
+                required:
+                  - Vertices
+                  - Triangles
+                  - wallId
+                properties:
+                  Vertices:
+                    type: array
+                    items:
+                      type: object
+                      allOf:
+                        - $ref: '#/components/schemas/VerticesObject'
+                  Triangles:
+                    type: array
+                    items:
+                      allOf:
+                        - $ref: '#/components/schemas/TrianglesArray'
+                  wallId:
+                    type: string
+                    format: uuid
+                    example: "097c40f5-b020-4017-8888-f252e1ce4e0b"
+              area:
+                type: number
+                format: double
+              holeId:
+                type: string
+                format: uuid
+    # ================== /analysis/ =============================      
+    RunDaylightAnalysisRequestBody:
+      type: object
+      required:
+        - project_id
+        - analysis_types
+      properties:
+        project_id:
+          type: number
+          example: 33
+        analysis_types:
+          type: array
+          items:
+            type: string
+          example:
+            - daylight
+    RunDaylightAnalysisResponse:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/GeneralEndpointResponses'
+        - type: object
+      example:
+        data: null
+        msg: "The analysis job was accepted."
+        errors: {}
+    DaylightAnalysisResultsResponseData:
+      type: array
+      items:
+        type: object
+        required:
+          - run_id
+          - building_type
+          - floors
+          - ase
+          - sda
+        properties:
+          run_id:
+            type: number
+          building_type:
+            type: string
+          floors:
+            type: array
+            items:
+              type: object
+              required:
+                - id
+                - ase
+                - sda
+              properties:
+                id:
+                  type: number
+                ase:
+                  type: number
+                  format: double
+                sda:
+                  type: number
+                  format: double
+          ase:
+            type: number
+            format: double
+          sda:
+            type: number
+            format: double
+    DaylightAnalysisResultsResponse:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/GeneralEndpointResponses'
+        - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DaylightAnalysisResultsResponseData'
+      example:
+        data:
+          - run_id: 3
+            building_type: "Education"
+            floors:
+              - id: 430
+                ase: 10.891089108910892
+                sda: 26.732673267326735
+            ase: 10.891089108910892
+            sda: 26.732673267326735
+        msg: "Successfully found results."
+        errors: {}
+    DaylightAnalysisStatusResponseData:
+      type: array
+      items:
+        type: object
+        required:
+          - analysis
+          - jobs_total
+          - jobs_remaining
+        properties:
+          analysis:
+            type: string
+          jobs_total:
+            type: number
+          jobs_remaining:
+            type: number
+    DaylightAnalysisStatusResponse:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/GeneralEndpointResponses'
+        - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DaylightAnalysisStatusResponseData'
+      example:
+        data:
+          - analysis: "daylight"
+            jobs_total: 5
+            jobs_remaining: 0
+          - analysis: "covid"
+            jobs_total: 5
+            jobs_remaining: 0
+          - analysis: "lvc"
+            jobs_total: 5
+            jobs_remaining: 0
+          - analysis: "radiation"
+            jobs_total: 6
+            jobs_remaining: 0
+        msg: "Successfully retrieved resource."
+        errors: {}
+    StopDaylightAnalysisResponse:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/GeneralEndpointResponses'
+        - type: object
+      example:
+        data: null
+        msg: "All analyses were successfully halted."
+        errors: {}
+    
+    # ---------------------------------------------------- from v1
+    VerticesObject:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/VerticesModel'
+        - type: object
+      example:
+        - X: 0.666022
+          Y: 226.752487
+          Z: 25.262917
+        - X: 0.66602
+          Y: 50.666023
+          Z: 25.262917
+    TrianglesArray:
+      allOf:
+        - type: array
+      example:
+        - [1, 2, 3]
+        - [31, 28, 0]
+        
+    VerticesModel:
+      type: object
+      properties:
+        X:
+          type: number
+          format: double
+        Y:
+          type: number
+          format: double
+        Z:
+          type: number
+          format: double
+    MeshObject:
+      type: array
+      items:
+        type: object
+        required:
+          - Mesh
+          - Center
+          - Normal
+        properties:
+          Mesh:
+            type: object
+            required:
+              - Vertices
+              - Triangles
+            properties:
+              Vertices:
+                $ref: '#/components/schemas/VerticesObject'
+              Triangles:
+                $ref: '#/components/schemas/TrianglesArray'
+          Center:
+            $ref: '#/components/schemas/CenterObject'
+          Normal:
+            $ref: '#/components/schemas/NormalObject'
+    CenterObject:
+      allOf:
+        - $ref: '#/components/schemas/VerticesModel'
+        - type: object
+      example:
+        X: 72.45084
+        Y: 119.337007
+        Z: 25.262917
+    NormalObject:
+      allOf:
+        - $ref: '#/components/schemas/VerticesModel'
+        - type: object
+      example:
+        X: 0
+        Y: 0
+        Z: 1
+    MeshObjectV2:
+      type: object
+      required:
+        - Vertices
+        - Triangles
+      properties:
+        Vertices:
+          $ref: '#/components/schemas/VerticesObject'
+        Triangles:
+          $ref: '#/components/schemas/TrianglesArray'

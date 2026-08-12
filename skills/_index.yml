@@ -1,0 +1,63 @@
+generated: '2026-08-11'
+method: generated
+source: openapi/cove.tool-rest-api-v2-openapi.yml
+provider_published_skills: false
+provider_published_skills_note: >-
+  cove.tool publishes no AGENTS.md, no skills directory and no llms.txt. These skills are generated
+  by API Evangelist from cove.tool's own public OpenAPI, grounded in real methods and paths — the
+  specification declares no operationId, so nothing binds to one.
+api: cove.tool REST API v2
+base_url: https://app.covetool.com/api/v2
+auth:
+  type: token
+  header: Authorization
+  format: 'Token <api_token>'
+  issuance: https://app.covetool.com/api/get-token
+skills:
+- name: cove.tool-run-daylight-analysis
+  file: skills/cove.tool-run-daylight-analysis.md
+  description: >-
+    The marquee flow — energy code, project, geometry, start, poll, results — including the
+    non-zero cardinal-area rule that causes most 400s and the retry hazard on the un-idempotent
+    analysis enqueue.
+  operations:
+  - GET /energy-codes
+  - POST /projects/
+  - POST /projects/{project_id}/geometry
+  - POST /analysis
+  - GET /analysis/{project_id}/status
+  - GET /analysis/{project_id}
+  - GET /analysis/{project_id}/stop
+- name: cove.tool-provision-team-access
+  file: skills/cove.tool-provision-team-access.md
+  description: >-
+    Create a user account on the organization's license and verify its business membership,
+    with the handling the unauthenticated signup endpoint demands.
+  operations:
+  - POST /auth/signup
+  - GET /profiles/{profile_id}
+cross_cutting:
+  conventions: conventions/cove.tool-conventions.yml
+  errors: errors/cove.tool-problem-types.yml
+  rate_limits: rate-limits/cove.tool-rate-limits.yml
+  authentication: authentication/cove.tool-authentication.yml
+  data_model: data-model/cove.tool-data-model.yml
+agent_hazards:
+- id: unsafe-get-cancels-work
+  where: 'GET /analysis/{project_id}/stop'
+  note: >-
+    A GET that halts running simulations. Any agent that speculatively fetches URLs it discovers
+    will cancel a customer's job. Never surface this as a browsable link.
+- id: unauthenticated-account-creation
+  where: 'POST /auth/signup'
+  note: >-
+    The only operation with no declared security, and it adds users to the caller's license. Never
+    expose it as an agent-callable tool.
+- id: no-idempotency-on-billable-enqueue
+  where: 'POST /analysis'
+  note: 'No Idempotency-Key. A blind retry may double-enqueue simulation work.'
+- id: no-backoff-signal
+  where: all
+  note: >-
+    No RateLimit-*, no Retry-After, no declared 429. An agent must pace itself from its own clock,
+    not from the response.

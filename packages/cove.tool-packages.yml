@@ -1,0 +1,82 @@
+generated: '2026-08-11'
+method: searched
+source: >-
+  registry.npmjs.org search, pypi.org/pypi/<pkg>/json, api.github.com/orgs/covetool,
+  api.github.com/search/repositories?q=covetool, developers.covetool.com, help.covetool.com
+package_count: 0
+official_sdk_count: 0
+summary: >-
+  cove.tool publishes a public REST API (v1 and v2 OpenAPI served from developers.covetool.com)
+  but ships NO first-party client library on any package registry. The developer portal's own
+  guidance is to call the API with HTTPie or Postman — there is no SDK layer between a consumer
+  and the raw HTTP surface. No Packages or SDKs pointer is wired into apis.yml, because emitting
+  one for an empty result would credit the provider with a distribution surface it does not have.
+registries_searched:
+- registry: npm
+  query: covetool, cove.tool
+  endpoint: https://registry.npmjs.org/-/v1/search
+  results: 0
+- registry: pypi
+  queries:
+  - name: covetool
+    endpoint: https://pypi.org/pypi/covetool/json
+    status: 404
+  - name: cove-tool
+    endpoint: https://pypi.org/pypi/cove-tool/json
+    status: 404
+  - name: covetool-api
+    endpoint: https://pypi.org/pypi/covetool-api/json
+    status: 404
+  results: 0
+- registry: github
+  endpoint: https://api.github.com/orgs/covetool/repos
+  status: 200
+  results: 0
+  note: >-
+    The org github.com/covetool ("Cove Tool, Inc.", Atlanta GA, created 2018-06-21) is real and
+    holds 8 public repos — Benchmark, PachydermAcoustic_Universal, RhinoToJson, GHvA3C,
+    opencitymodel, react-planner, clima, sqs-consumer. Every one is either a fork of a third-party
+    project or an unrelated research tool; NONE is a cove.tool API client. Most recent push across
+    the org is 2023-05-19.
+- registry: postman
+  endpoint: https://www.postman.com/_api/ws/proxy (search-all)
+  results: 0
+  note: >-
+    Zero public Postman workspaces, collections or APIs match "covetool", despite cove.tool's own
+    launch announcement and third-party trackers claiming a Postman collection is available. If a
+    collection exists it is not published to the public Postman network.
+packages: []
+unverifiable:
+- name: cove.tool Rhino / Grasshopper plugin
+  kind: cad-plugin
+  official: true
+  registry: vendor-download
+  version: null
+  published: null
+  note: >-
+    cove.tool distributes host-application plugins for Rhino/Grasshopper, Revit and SketchUp that
+    upload model geometry into a cove.tool project. These are END-USER CAD PLUGINS, not API client
+    libraries, so they are recorded here as context and deliberately do NOT earn an SDKs pointer.
+    Version and release date could not be read: the vendor download pages on cove.inc are behind a
+    SiteGround captcha (202 on every path) and food4rhino.com/app/covetool returned 403 to an
+    automated fetch. version is null because it was CHECKED and unreadable, not because it was
+    skipped.
+  evidence:
+  - url: https://cove.inc/rhinoceros-plugin/
+    status: 202
+  - url: https://www.food4rhino.com/en/app/covetool
+    status: 403
+- name: cove.tool Revit plugin
+  kind: cad-plugin
+  official: true
+  registry: vendor-download
+  version: null
+  published: null
+  note: Same wall as the Rhino plugin — no machine-readable distribution point found.
+- name: cove.tool SketchUp plugin
+  kind: cad-plugin
+  official: true
+  registry: vendor-download
+  version: null
+  published: null
+  note: Same wall as the Rhino plugin — no machine-readable distribution point found.

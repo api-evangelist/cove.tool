@@ -1,0 +1,86 @@
+generated: '2026-08-11'
+method: probed
+source: live HTTP probes of every cove.tool host
+note: >-
+  Every /.well-known/ path 404s on the API host (app.covetool.com) and the developer portal
+  (developers.covetool.com). The corporate site cove.inc sits behind a SiteGround captcha that
+  answers 202 with a redirect stub for EVERY path including the site root and a deliberately
+  invented control path, so nothing served there can be read by a machine and no 202 from that
+  host is evidence of a document. Recorded as an absence. NO WellKnown or SecurityTxt pointer is
+  emitted in apis.yml because no path returned a real document.
+hit_count: 0
+hosts:
+- host: app.covetool.com
+  note: 'API host. Django/DRF behind nginx; every probed /.well-known/ path returns the app 404 HTML.'
+  paths:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+  - path: /.well-known/apple-app-site-association
+    status: 404
+    file: null
+- host: developers.covetool.com
+  note: 'ReDoc static developer portal. Serves the OpenAPI files but no /.well-known/ documents.'
+  paths:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+- host: help.covetool.com
+  note: 'Intercom-hosted help center.'
+  paths:
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+- host: cove.inc
+  note: >-
+    UNREADABLE, not absent. Every path returns 202 with a SiteGround captcha redirect stub —
+    including https://cove.inc/ itself and the control path /definitely-not-real-xyz123, which
+    returned the same 202. Treated as a miss on every path.
+  paths:
+  - path: /.well-known/security.txt
+    status: 202
+    file: null
+    body: bot-challenge stub, not a document
+  - path: /.well-known/agent-card.json
+    status: 202
+    file: null
+    body: bot-challenge stub, not a document
+  - path: /.well-known/agent.json
+    status: 202
+    file: null
+    body: bot-challenge stub, not a document
+  - path: /llms.txt
+    status: 202
+    file: null
+    body: bot-challenge stub, not a document
+x-evidence:
+  fetched: '2026-08-11'
+  control_path_tested: https://cove.inc/definitely-not-real-xyz123
+  control_path_status: 202

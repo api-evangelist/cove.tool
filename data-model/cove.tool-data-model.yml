@@ -1,0 +1,163 @@
+generated: '2026-08-11'
+method: derived
+source: >-
+  openapi/cove.tool-rest-api-v2-openapi.yml (components.schemas + path parameters),
+  openapi/cove.tool-api-v1-openapi.yml
+summary: >-
+  A four-entity domain — Business owns Profiles, Profiles create Projects, a Project selects an
+  EnergyCode and carries one Geometry payload, and a Project is the subject of Analysis runs whose
+  Results are returned as a mesh-per-room grid. Every relationship is expressed as a numeric `id`;
+  there are no prefixed or otherwise self-describing identifiers, and no $ref-embedded sub-resource
+  links, so an agent cannot tell a project_id from a profile_id from an energy_code_id by looking
+  at one.
+id_convention:
+  type: integer
+  prefixed: false
+  opaque: false
+  note: >-
+    All identifiers are bare integers (project id 33, energy_code_id 12). No id-prefix scheme, no
+    URIs, no UUIDs on business objects. The only UUID anywhere on the surface is the
+    x-cove-unique-trace-id response header, which identifies a REQUEST, not a resource.
+entities:
+- name: Business
+  schema: 'UserInformationResponseData.business'
+  key: business_id
+  description: 'The organization / licensed account that owns users and projects.'
+  fields: [business (object)]
+- name: Profile
+  schema: [UserProfileResponse, UserInformationResponseData, CreatedByResponseData, UserSignupRequests]
+  key: profile_id
+  path: '/profiles/{profile_id}'
+  description: 'A user account inside a business. Created via POST /auth/signup.'
+  fields: [id, email, first_name, last_name, is_owner, is_admin, created_at, business]
+- name: Project
+  schema: [CreateProjectRequestBody, CreateProjectResponseData, GetProjectInfoResponse]
+  key: id
+  path: '/projects/{project_id}'
+  description: >-
+    The central entity. Everything else hangs off a project: geometry is uploaded to it, analyses
+    are run against it, and results are read from it.
+  fields:
+  - id
+  - name
+  - number
+  - si_units
+  - created_by
+  - business_id
+  - eui
+  - cebcs_eui
+  - energy_code
+  - climate_zone
+  - editing
+  - read_only
+  - created_at
+  - updated_at
+  defect: >-
+    The schema's `required` list names `cbecs_eui`, but the property it defines is spelled
+    `cebcs_eui`. A generated client validating against the contract will demand a field the
+    contract never declares.
+- name: EnergyCode
+  schema: [EnergyCodesEnum, EnergyCodeResponseData, EnergyCodeForProjectResponseData]
+  key: id
+  path: /energy-codes
+  description: >-
+    The code a project is evaluated against. Enumerated live rather than frozen in the spec, and
+    filterable by name or by project compatibility.
+  fields: [id, name, selected]
+- name: Geometry
+  schema: [Update3DGeometryRequestBody, Update3DGeometryResponseData, UpdateGeometryAreasResponses]
+  key: null
+  path: '/projects/{project_id}/geometry'
+  description: >-
+    The building model. Not an independently addressable resource — it is written to a project and
+    has no id of its own and no GET.
+  fields:
+  - floors
+  - walls
+  - windows
+  - roofs
+  - below_grade_walls
+  - outdoor_floors
+  - interior_walls
+  - spandrels
+  - skylights
+  - shading_devices
+  - rooms
+  - floor_area
+  - roof_area
+  - ground_floor_area
+  - building_height
+  - skylight_area
+  - underground_area
+  - si_units
+  - 'wall_area_{n,ne,e,se,s,sw,w,nw}'
+  - 'window_area_{n,ne,e,se,s,sw,w,nw}'
+  note: >-
+    Wall and window areas are decomposed across eight cardinal directions. At least one non-zero
+    value across wall_area_* and window_area_* is required, which is the single most common cause
+    of a 400 on this operation.
+- name: Analysis
+  schema: [RunDaylightAnalysisRequestBody, RunDaylightAnalysisResponse, DaylightAnalysisStatusResponseData]
+  key: project_id
+  path: '/analysis, /analysis/{project_id}, /analysis/{project_id}/status, /analysis/{project_id}/stop'
+  description: >-
+    A simulation run. Keyed by project_id rather than by a run id of its own, so a project has at
+    most one addressable analysis state at a time from the API's point of view.
+  fields: [project_id, analysis_types]
+- name: AnalysisResult
+  schema: [DaylightAnalysisResultsResponseData, RoomsMeshObject, MeshObject, MeshObjectV2, VerticesObject, VerticesModel, TrianglesArray, CenterObject, NormalObject]
+  key: null
+  description: 'Grid-based daylight results returned as per-room meshes (vertices, triangles, centers, normals).'
+- name: Run
+  schema: 'v1 only'
+  key: url
+  path: '/run-values (v1)'
+  description: >-
+    v1 modeled a project as having many RUNS, one per building use type (Office, Apartments,
+    Education, Hospital, Hotel, Lab, Retail, Single Family Home, Other), each with many run values,
+    and identified a run by its `url` rather than an id. v2 replaced this with `building_types[]`
+    on the project plus a single geometry document. This is the largest breaking change between the
+    two versions and it is not documented as one.
+relationships:
+- from: Business
+  to: Profile
+  type: has_many
+  via: business_id
+- from: Profile
+  to: Project
+  type: has_many
+  via: created_by
+- from: Project
+  to: Business
+  type: belongs_to
+  via: business_id
+- from: Project
+  to: EnergyCode
+  type: has_one
+  via: energy_code_id
+- from: Project
+  to: Geometry
+  type: has_one
+  via: 'path /projects/{project_id}/geometry'
+- from: Project
+  to: Analysis
+  type: has_many
+  via: 'path /analysis/{project_id}'
+- from: Analysis
+  to: AnalysisResult
+  type: has_many
+  via: 'rooms mesh array'
+- from: Geometry
+  to: AnalysisResult
+  type: has_many
+  via: rooms
+- from: Project
+  to: Run
+  type: has_many
+  via: 'url (v1 only)'
+envelope:
+  note: >-
+    Every response is wrapped: {data, msg, errors}. The entity is always at `.data`, so a consumer
+    unwraps one level before reaching any object described above.
+render: null
+render_note: 'No subway/ diagram exists for this provider yet.'

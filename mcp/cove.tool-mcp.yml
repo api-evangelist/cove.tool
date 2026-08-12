@@ -1,0 +1,99 @@
+generated: '2026-08-11'
+method: derived
+source: openapi/cove.tool-rest-api-v2-openapi.yml
+status: candidate
+provider_publishes_mcp: false
+pointer_emitted: false
+pointer_note: >-
+  NO `type: MCPServer` pointer is wired into apis.yml. cove.tool does not operate an MCP server;
+  everything below is an API Evangelist DERIVATION from their OpenAPI, offered as a candidate tool
+  shape, and wiring a pointer for it would credit the provider with an agent surface they have not
+  built.
+search:
+  result: none
+  probed:
+  - url: https://app.covetool.com/mcp
+    status: 404
+  - url: https://app.covetool.com/api/mcp
+    status: 404
+  - url: https://app.covetool.com/sse
+    status: 404
+  - url: https://mcp.covetool.com/
+    status: 000
+  - url: https://developers.covetool.com/mcp
+    status: 405
+  - url: https://app.covetool.com/.well-known/ai-plugin.json
+    status: 404
+  note: >-
+    developers.covetool.com/mcp returned 405 rather than 404 only because it is a static host that
+    rejects POST on any path — GET on the same path returns the ReDoc HTML shell. It is not an MCP
+    endpoint. No MCP server, no registry listing, and no MCP mention in the docs or help center.
+candidate_server:
+  name: cove.tool
+  transport: streamable-http
+  auth:
+    type: token
+    header: Authorization
+    format: 'Token <api_token>'
+    issuance: https://app.covetool.com/api/get-token
+  base: https://app.covetool.com/api/v2
+tools:
+- name: list_energy_codes
+  rest: 'GET /energy-codes'
+  description: 'List the energy codes cove.tool supports, optionally filtered by name or by project compatibility.'
+  input_schema_from: 'query parameters for_project, name'
+  read_only: true
+- name: get_project
+  rest: 'GET /projects/'
+  description: "Retrieve a project's detail and information."
+  input_schema_from: 'query parameter project_id'
+  read_only: true
+- name: create_project
+  rest: 'POST /projects/'
+  description: 'Create a new cove.tool project.'
+  input_schema_from: CreateProjectRequestBody
+  required: [name, location, building_types, energy_code_id]
+  read_only: false
+- name: update_project
+  rest: 'PUT /projects/{project_id}'
+  description: "Update a project's detail and information."
+  read_only: false
+- name: upload_project_geometry
+  rest: 'POST /projects/{project_id}/geometry'
+  description: "Upload or replace a project's 3D building geometry."
+  input_schema_from: Update3DGeometryRequestBody
+  read_only: false
+- name: start_analysis
+  rest: 'POST /analysis'
+  description: 'Start the requested analysis types for a project. Returns 202; results are polled.'
+  input_schema_from: RunDaylightAnalysisRequestBody
+  required: [project_id, analysis_types]
+  read_only: false
+- name: get_analysis_status
+  rest: 'GET /analysis/{project_id}/status'
+  description: 'Get the remaining number of jobs per analysis type for a project.'
+  read_only: true
+- name: get_analysis_results
+  rest: 'GET /analysis/{project_id}'
+  description: 'Retrieve daylight analysis results for a project.'
+  read_only: true
+- name: stop_analysis
+  rest: 'GET /analysis/{project_id}/stop'
+  description: 'Halt all running analysis calculations for a project.'
+  read_only: false
+  caveat: 'Backed by a GET that mutates state — safe-method semantics do not hold here.'
+- name: get_profile
+  rest: 'GET /profiles/{profile_id}'
+  description: 'Retrieve a user profile within the caller''s business.'
+  read_only: true
+excluded:
+- rest: 'POST /auth/signup'
+  reason: >-
+    Creates user accounts against the organization's license and is the only unauthenticated
+    operation on the surface. Deliberately excluded from a candidate agent tool set.
+agent_readiness_note: >-
+  The surface is a good structural fit for an agent — a bounded set of ten operations, an
+  enqueue-and-poll job model, and an explicit remaining-jobs quota endpoint. What is missing is
+  everything an agent needs to be safe: no operationIds in the spec to bind against, no idempotency
+  on the job-enqueueing POST, no rate-limit headers to back off on, no 429 declared, and no webhook
+  or callback so an agent must poll to learn a run finished.

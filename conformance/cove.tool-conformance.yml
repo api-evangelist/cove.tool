@@ -1,0 +1,146 @@
+generated: '2026-08-11'
+method: derived
+source: >-
+  openapi/cove.tool-rest-api-v2-openapi.yml, openapi/cove.tool-api-v1-openapi.yml,
+  live response headers from https://app.covetool.com/api/v2/,
+  security/cove.tool-domain-security.yml, https://developers.covetool.com/
+summary: >-
+  cove.tool conforms to OpenAPI 3.0.0 and to plain REST-over-HTTP conventions, and to essentially
+  nothing else. There is no OAuth2, no OIDC, no RFC 9457, no RFC 8594, no RFC 9111 caching
+  guidance, no idempotency and no published compliance program. The building-performance domain
+  standards it implements — ASHRAE 90.1, IECC, Title 24, LEED, sDA/ASE per IES LM-83 — are
+  properties of the SIMULATION ENGINE, and are exposed through the API's data (the energy-codes
+  enumeration) rather than being conformance claims about the API itself. They are recorded
+  separately below so the distinction is not lost.
+conformance:
+- id: openapi
+  name: OpenAPI Specification
+  version: 3.0.0
+  conforms: true
+  evidence: >-
+    Two documents published by the provider at https://developers.covetool.com/openapi.yaml and
+    https://developers.covetool.com/openapi-v1.yaml. Both declare openapi 3.0.0, both parse, both
+    carry an absolute servers[] entry naming the real API host.
+- id: rest
+  name: REST over HTTP with resource URLs and standard status codes
+  conforms: true
+  evidence: >-
+    Provider's own claim in the OpenAPI description ("developed around the RESTful architecture")
+    and confirmed by the surface: resource-based paths, JSON in and out, standard status codes.
+  caveat: >-
+    Partial. GET /analysis/{project_id}/stop mutates server state on a safe method, which violates
+    the HTTP semantics of GET (RFC 9110 §9.2.1).
+- id: json
+  name: application/json request and response bodies
+  conforms: true
+  evidence: 'Every declared request body and 2xx response in both specs is application/json.'
+- id: bearer-token-auth
+  name: Token authentication in the Authorization header
+  conforms: true
+  evidence: >-
+    apiKey scheme in header `Authorization`; live 401 returns `www-authenticate: Token`. Note this
+    is DRF Token auth, not RFC 6750 Bearer — the scheme word is `Token`, not `Bearer`.
+- id: oauth2
+  name: OAuth 2.0
+  conforms: false
+  evidence: >-
+    No oauth2 securityScheme in either specification, no /.well-known/oauth-authorization-server
+    (404 on app.covetool.com), no authorization or token endpoint documented beyond the
+    credential-exchange endpoint POST /api/get-token.
+- id: oidc
+  name: OpenID Connect
+  conforms: false
+  evidence: 'https://app.covetool.com/.well-known/openid-configuration returned 404.'
+- id: rfc9457
+  name: RFC 9457 Problem Details for HTTP APIs
+  conforms: false
+  evidence: >-
+    No application/problem+json anywhere. Documented envelope is {data, msg, errors}; observed 401
+    envelope is the DRF {detail}. See errors/cove.tool-problem-types.yml.
+- id: rfc8594
+  name: RFC 8594 Sunset HTTP Header
+  conforms: false
+  evidence: 'No Sunset or Deprecation header observed; v1 and v2 are served side by side with no EOL signal.'
+- id: idempotency
+  name: Idempotency keys on unsafe methods
+  conforms: false
+  evidence: >-
+    No Idempotency-Key header or equivalent. POST /analysis enqueues simulation jobs with no
+    documented replay protection.
+- id: pagination
+  name: Pagination on collection responses
+  conforms: false
+  evidence: >-
+    v1 GET /projects returns all projects with no page/limit/offset/cursor parameter. v2 has no
+    collection-listing operation at all.
+- id: rate-limit-headers
+  name: RateLimit header fields for HTTP (draft) / X-RateLimit-*
+  conforms: false
+  evidence: 'No RateLimit-*, X-RateLimit-* or Retry-After header observed on any response.'
+- id: cors
+  name: Cross-Origin Resource Sharing
+  conforms: partial
+  evidence: >-
+    `vary: origin` and `cross-origin-opener-policy: same-origin` are returned, so origin is part of
+    the response calculus, but no Access-Control-Allow-Origin was returned to an unauthenticated
+    anonymous request and no CORS policy is documented.
+- id: tls
+  name: TLS on every published host
+  conforms: true
+  evidence: >-
+    app.covetool.com and developers.covetool.com negotiate TLS 1.2; cove.inc negotiates TLS 1.3.
+    See security/cove.tool-domain-security.yml.
+- id: hsts
+  name: HTTP Strict Transport Security
+  conforms: false
+  evidence: 'strict-transport-security absent on app.covetool.com, developers.covetool.com and cove.inc.'
+- id: dnssec
+  name: DNSSEC
+  conforms: false
+  evidence: 'Not enabled on covetool.com or cove.inc.'
+- id: caa
+  name: CAA records
+  conforms: false
+  evidence: 'No CAA records on covetool.com or cove.inc.'
+- id: spf
+  name: SPF
+  conforms: true
+  evidence: 'SPF present on covetool.com and cove.inc.'
+- id: dmarc
+  name: DMARC
+  conforms: true
+  evidence: 'DMARC present on both domains, policy `quarantine`.'
+- id: security-txt
+  name: RFC 9116 security.txt
+  conforms: false
+  evidence: '404 on app.covetool.com and developers.covetool.com; unreadable (202 captcha) on cove.inc.'
+compliance_certifications:
+  published: false
+  note: >-
+    No SOC 2, ISO 27001, PCI DSS, HIPAA or FedRAMP claim was found on any machine-readable cove.tool
+    surface, and no trust center exists. probe-security-programs.py returned vdp=none trust=none.
+    NO Compliance pointer is wired into apis.yml.
+domain_standards_referenced:
+  note: >-
+    These are standards the cove.tool ANALYSIS ENGINE computes against, surfaced through the API's
+    data. They are NOT conformance claims about the HTTP interface, and they are recorded
+    separately so they are never counted as API conformance.
+  standards:
+  - id: energy-codes
+    name: Energy codes enumeration
+    exposed_via: 'GET /energy-codes (EnergyCodesEnum)'
+    note: >-
+      The API returns the set of energy codes cove.tool's automated model generation supports, and
+      which of them are compatible with a given project. The enumeration is served live rather than
+      frozen in the spec, so the authoritative list is the endpoint response.
+  - id: sda-ase
+    name: Spatial Daylight Autonomy / Annual Sunlight Exposure
+    exposed_via: 'GET /analysis/{project_id}'
+    note: 'Daylight metrics returned per analysis run, alongside the EUI breakdown.'
+  - id: eui
+    name: Energy Use Intensity breakdown
+    exposed_via: 'project resource (eui, cebcs_eui) and EuiBreakdownHeaders'
+    note: >-
+      The project schema carries both `eui` and `cebcs_eui`, the latter a CBECS baseline comparison.
+      Note the spec's own typo: the property is spelled `cebcs_eui` but the schema's `required`
+      list names `cbecs_eui`, so the contract requires a field it never defines.

@@ -1,23 +1,141 @@
 aid: cove.tool
 name: Cove.Tool
-description: 'Cove.Tool is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: 'cove.tool (rebranded to "cove" in 2025) is an Atlanta, Georgia building-performance
+  analysis platform for architects, engineers and contractors, founded in 2017 by Sandeep Ahuja,
+  Patrick Chopson and Daniel Chopson. Its analysis.tool engine runs energy, daylight, glare,
+  embodied carbon, water, radiation, shadow and cost-versus-performance optimization on early-stage
+  building designs. The company publishes a public REST API — marketed as api.tool — that lets
+  software vendors and design firms create projects, upload building geometry, select an energy
+  code, kick off daylight and energy simulation, poll job status and retrieve EUI, sDA and ASE
+  results without using the web application. Two OpenAPI 3.0 definitions are served from the
+  developer portal: a three-operation v1 and a thirteen-operation v2.'
+image: https://developers.covetool.com/covetool_logo.png
 url: https://raw.githubusercontent.com/api-evangelist/cove.tool/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
+x-harvest-listing: https://www.hiive.com/securities/cove.tool-stock
 specificationVersion: '0.20'
 created: '2026-08-11'
 modified: '2026-08-11'
 tags:
 - Company
-apis: []
+- Building Performance
+- Energy Modeling
+- Daylight Analysis
+- Sustainability
+- Architecture
+- AEC
+- Simulation
+- Embodied Carbon
+- Building Design
+apis:
+- aid: cove.tool:rest-api-v2
+  name: cove.tool REST API v2
+  description: 'The current cove.tool REST API. Thirteen operations across six tags — User,
+    Profiles, Energy Codes, Projects, Project Geometry and Daylight Analysis — covering account
+    creation, project create/read/update, 3D geometry upload, energy-code lookup, and starting,
+    polling, retrieving and stopping daylight/energy analysis runs. Token authentication is sent
+    in the Authorization header; tokens are minted at https://app.covetool.com/api/get-token.'
+  humanURL: https://developers.covetool.com/
+  baseURL: https://app.covetool.com/api/v2
+  tags:
+  - Building Performance
+  - Daylight Analysis
+  - Energy Modeling
+  - Projects
+  - Simulation
+  properties:
+  - type: OpenAPI
+    url: openapi/cove.tool-rest-api-v2-openapi.yml
+  - type: Overlay
+    url: overlays/cove.tool-rest-api-v2-overlay.yaml
+  - type: Documentation
+    url: https://developers.covetool.com/
+- aid: cove.tool:api-v1
+  name: cove.tool API v1
+  description: 'The original cove.tool API, still served from the developer portal alongside v2.
+    Three operations: obtain an API token, list projects and their associated information, and
+    update run values (geometry) for a given project and run.'
+  humanURL: https://developers.covetool.com/
+  baseURL: https://app.covetool.com/api
+  tags:
+  - Authentication
+  - Projects
+  - Building Performance
+  properties:
+  - type: OpenAPI
+    url: openapi/cove.tool-api-v1-openapi.yml
+  - type: Overlay
+    url: overlays/cove.tool-api-v1-overlay.yaml
+  - type: Documentation
+    url: https://developers.covetool.com/
+x-enrichment:
+  date: '2026-08-11'
+  status: enriched
+  artifacts_added: 22
+  pass: local-v1
+x-coverage:
+  state: covered
+  detail: >-
+    Two real OpenAPI 3.0 documents were harvested verbatim from the provider's own developer portal
+    and the live API host was probed for runtime semantics. The corporate site cove.inc is behind a
+    SiteGround captcha (202 on every path including a control path), which cost the pricing,
+    newsroom and plugin-download pages, but it did not block the developer surface.
+  evidence:
+  - url: https://developers.covetool.com/openapi.yaml
+    status: 200
+  - url: https://developers.covetool.com/openapi-v1.yaml
+    status: 200
+  - url: https://app.covetool.com/api/v2/energy-codes
+    status: 401
+  - url: https://cove.inc/
+    status: 202
+  checked: '2026-08-11'
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DomainSecurity
+  url: security/cove.tool-domain-security.yml
+- type: Authentication
+  url: authentication/cove.tool-authentication.yml
 - type: Website
-  url: https://www.hiive.com/securities/cove.tool-stock
+  url: https://cove.inc/
+- type: DeveloperPortal
+  url: https://developers.covetool.com/
+- type: APIReference
+  url: https://developers.covetool.com/
+- type: Documentation
+  url: https://help.covetool.com/en/
+- type: GettingStarted
+  url: https://help.covetool.com/en/articles/6022777-what-is-the-cove-tool-api
+- type: Support
+  url: https://help.covetool.com/en/
+- type: HelpCenter
+  url: https://help.covetool.com/en/
+- type: SignUp
+  url: https://app.covetool.com/login/
+- type: GitHubOrganization
+  url: https://github.com/covetool
+- type: TermsOfService
+  url: https://www.cove.tools/terms-of-use
+- type: Conventions
+  url: conventions/cove.tool-conventions.yml
+- type: ErrorCatalog
+  url: errors/cove.tool-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/cove.tool-lifecycle.yml
+- type: Conformance
+  url: conformance/cove.tool-conformance.yml
+- type: Plans
+  url: plans/cove.tool-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/cove.tool-rate-limits.yml
+- type: DataModel
+  url: data-model/cove.tool-data-model.yml
+- type: LLMsTxt
+  url: llms/cove.tool-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml

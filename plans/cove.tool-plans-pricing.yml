@@ -1,0 +1,42 @@
+generated: '2026-08-11'
+method: searched
+source: >-
+  https://developers.covetool.com/, https://help.covetool.com/en/,
+  https://help.covetool.com/en/articles/6022777-what-is-the-cove-tool-api, web search for
+  cove.tool / api.tool pricing
+plan_count: 0
+public_pricing: false
+currency: null
+plans: []
+note: >-
+  cove.tool publishes NO public pricing for the platform or for api.tool. There is no /pricing page
+  reachable by a machine, no price on the developer portal, and no plan or credit table in the help
+  center. Access is gated on a commercial relationship rather than a published tier: the OpenAPI's
+  own getting-started text requires "a valid (trial/licensed) cove.tool account" before any call
+  can be made, and the api.tool product page routes to a "Get a Demo" form. Third-party software
+  directories (G2, FinancesOnline, aec+tech) all record cove.tool pricing as quote-only.
+gating:
+  model: contact-sales
+  prerequisite: 'A valid trial or licensed cove.tool account'
+  prerequisite_source: 'OpenAPI info.description, Getting Started section'
+  demo_form: https://cove.tools/connect-to-learn-more-about-api-tool
+  signup: https://app.covetool.com/login/
+quota_signal:
+  note: >-
+    The only quota mechanism visible in the contract is application-level, not commercial:
+    GET /analysis/{project_id}/status returns the remaining number of jobs per analysis type for a
+    project. The API therefore meters simulation work, but neither the allowance nor its price is
+    published.
+evidence:
+- url: https://cove.inc/pricing/
+  status: 202
+  verdict: >-
+    Unreadable, not absent — cove.inc answers 202 with a SiteGround captcha stub on every path,
+    including the site root and an invented control path. No pricing could be read there, and no
+    claim is made about what it contains.
+- url: https://developers.covetool.com/
+  status: 200
+  verdict: developer portal carries no pricing, plans or credit information
+- url: https://help.covetool.com/en/articles/6022777-what-is-the-cove-tool-api
+  status: 200
+  verdict: 'help center API article documents capability only; no pricing or licensing detail'

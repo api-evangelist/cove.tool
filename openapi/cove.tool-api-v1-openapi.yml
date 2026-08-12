@@ -1,0 +1,913 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: cove.tool API
+  termsOfService: https://www.cove.tools/terms-of-use
+  contact:
+    name: API Support
+    email: developers@covetool.com
+  x-logo:
+    url: ./covetool_logo.png
+    altText: cove.tool logo
+    href: https://cove.tools
+  x-apiVersions:
+    versions:
+    - v1
+    - v2
+    versionSpecs:
+    - openapi-v1.yaml
+    - openapi-v2.yaml
+    defaultVersionSpec: v1
+  description: "# Introduction\n\n  The cove.tool API contain the following HTTP endpoints to upload your\
+    \ project's geometry and obtain an Energy Usage Intensity (EUI) breakdown. The cove.tool API is developed\
+    \ around the RESTful architecture which offers resource-based URLs, and uses standard HTTP methods\
+    \ and status codes.\n  <br/><br/>\n  We recently released the [cove.tool API v2](v2) as of February\
+    \ 2022! The cove.tool API v2 features a completely full-fledged way to start analyzing building performance\
+    \ metrics into your projects such as creating users, projects, obtaining user information and geometry\
+    \ values such as meshes and more! \n  \n  <SourceCodeSection sourceCode=\"#/components/schemas/BasePathURL\"\
+    \ lang=\"cURL\" label=\"Base Url\" />\n\n# Getting Started\nEvery call made to the cove.tool API requires\
+    \ the following: <br/><br/> 1. **cove.tool account** - Make sure to have access to a valid (trial/licensed)\
+    \ cove.tool account.\n    - If you do not have a cove.tool account, you can register for one [here](https://app.covetool.com/register).\n\
+    <br/><br/> 2. **Projects created with cove.tool** - Once you login to your cove.tool account, make\
+    \ sure to create project(s) you wish to update the geometry and obtain an EUI breakdown for! As these\
+    \ are the projects that the API relies on to obtain and retrieve information. <br/><br/> 3. **Authentication\
+    \ token** - In order to start making calls to the API, each request will have to be authenticated.\
+    \ This is done by providing an authentication token on every request. It checks whether the user is\
+    \ authorized and has permission to perform the following actions. See more in the Authentication section\
+    \ below.\n\n# Prerequisite Knowledge\nIt is imperative to take note of the 3 basic objects (**project**,\
+    \ **runs**, **run values**); how they interact and relate with one another when trying to make updates\
+    \ to project geometry. _An individual project has many runs, and a run has many run values._\n<br/><br/>\n\
+    The run represents the data for a given building type/use type. We currently offer the following use\
+    \ types:\n  - Office\n  - Apartments\n  - Education\n  - Hospital\n  - Hotel\n  - Lab\n  - Retail\n\
+    \  - Single Family Home\n  \n\nA mixed use project with Office, Retail and Apartments would have 3\
+    \ runs. The _\"unique ID\"_ is the **url** which must be included when updating an object.\n# Authentication\n\
+    The following table contains more information on setting the Authentication token to each API request.\
+    \ <SecurityDefinitions /> <br/><br/> Attempting to make API requests without authentication will fail.\
+    \ API requests must be made\n  over HTTPS. Authentication tokens are used to help identify the user\n\
+    \  attempting to make the HTTP requests.\n  <br/><br/>\n\n  By providing an authentication token on\
+    \ every request, it checks whether\n  the user is authorized and has permission to update and retrieve\
+    \ data.\n  <br/><br/>\n  Be sure to include it in every request header once you start making API calls.\n\
+    \  <br/><br/>\nFor a concrete example, please see the [list all project details](v1#projects/get-project-info)\
+    \ section, particularly the **Header Parameters** section.\n# API Helper Functions\n\n  The following\
+    \ code snippet contains a Python utility class function that enables your application to start utilizing\
+    \ the data returned from the cove.tool API. Passing in valid cove.tool credentials to the an instance\
+    \ of the helper class function will allow you to start making HTTP calls.\n  <br/><br/>\n  See the\
+    \ Python request samples in the appropriate endpoints below to see how you can make calls with `ApiHelpers`\
+    \ function.\n\n  <SourceCodeSection sourceCode=\"#/components/schemas/CurlCodeSample\" lang=\"Python\"\
+    \ label=\"Python\" />\n\n# Testing\n  Utilizing standard API testing tools such as [HTTPie](https://httpie.io/)\
+    \ or [Postman](https://www.postman.com/) is a great way to start making calls to the cove.tool API.\n\
+    <br/><br/><br/>\n\n# Error Codes\n\n  The cove.tool API uses conventional HTTP status codes to indicate\
+    \ the success or failure of an API request. Listed below are the general status codes our API currently\
+    \ returns, and how to further troubleshoot the most common errors you will see when trying to make\
+    \ API calls.\n  <br/><br/>\n  Status codes in the `2xx` range usually indicate a successful request.\n\
+    \  <br/>\n  Status codes in the `4xx` range usually indicate an error in response to the information\
+    \ provided with the request.\n  <br/>\n  Status codes in the `5xx` range usually indicate an unexpected\
+    \ error.\n\n  | <center>HTTP Status Codes</center> |   <center>Category</center>       |         \
+    \                      <center>Description</center>                                              \
+    \               |\n  |:-----------------:|:---------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------:|\n\
+    \  |        200        |           Ok          |                                                 \
+    \           Everything worked as expected.                                                       \
+    \    |\n  |        201        |  Successfully Updated |                                          \
+    \              The resource was successfully created.                                            \
+    \           |\n  |        202        |        Accepted       |                                   \
+    \                  The request was accepted and is processing.                                   \
+    \                  |\n  |        400        |  Bad/Invalid Request  |                       The request\
+    \ was unacceptable, Check and re-verify contents of required parameters in the response body.    \
+    \                   |\n  |        401        |  Unauthorized Request | No valid API token was provided.\
+    \ Check whether your API token is valid or whether it has the required permissions to perform the\
+    \ requested action. |\n  |        403        |   Forbidden Request   |                           \
+    \               The API token doesn't have the permissions to perform the request.               \
+    \                          |\n  |        404        |   Resource Not Found  |                    \
+    \                     The requested resource doesn't exist. Verify if the URI is accurate.       \
+    \                                 |\n  |        5xx        | Internal Server Error |             \
+    \  An unexpected error occurred. Retry your request and if the problem persists, reach out for assistance\
+    \ using live chat.               |\n\n<br/><br/><br/> _Happy Developing!_"
+servers:
+- url: https://app.covetool.com/api
+tags:
+- name: Authentication Token
+  description: 'Attempting to make API requests without authentication will fail. API requests must be
+    made
+
+    over HTTPS. Authentication tokens are used to help identify the user
+
+    attempting to make the HTTP requests.
+
+    <br/><br/>
+
+
+    By providing an authentication token on every request, it checks whether
+
+    the user is authorized and has permission to update and retrieve data.
+
+    <br/><br/>
+
+    Be sure to include it in every request header once you start making API calls.'
+- name: Projects
+  description: Lists all the projects of current user and returns a list of objects with project name,
+    runs, and its url.
+- name: Project Geometry
+  description: Update project geometry and obtain an Energy Use Intensity (EUI) breakdown of a given model.
+x-tagGroups:
+- name: Authentication
+  tags:
+  - Authentication Header
+  - Authentication Token
+- name: Projects
+  tags:
+  - Projects
+  - Project Geometry
+paths:
+  /get-token:
+    post:
+      x-customPath:
+        name: /api-token
+      tags:
+      - Authentication Token
+      summary: Obtain an API token to authenticate requests
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthTokenRequests'
+        description: API auth token request
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokenResponses'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      x-codeSamples:
+      - lang: Python
+        label: Python
+        source: "import json, requests\n\nclass ApiHelpers:\n  # Same credentials you use to log in to\
+          \ cove.tool\n  def __init__(self, username, password):\n      self.token = self._get_api_token(username,\
+          \ password)\n\n  def post_request(self, path, data, use_token=True):\n      url = self._api_url(path)\n\
+          \      headers = self._headers(use_token)\n      response = requests.post(url, headers=headers,\
+          \ json=data)\n      return self._handle_response(response)\n\n  def get_request(self, path,\
+          \ use_token=True):\n      url = self._api_url(path)\n      headers = self._headers(use_token)\n\
+          \      response = requests.get(url, headers=headers)\n      return self._handle_response(response)\n\
+          \n  def _api_url(self, path):\n      return 'https://app.covetool.com/api/' + path + '/'\n\n\
+          \  def _get_api_token(self, username, password):\n      data = {\n          'username': username,\n\
+          \          'password': password,\n      }\n      response_data = self.post_request('get-token',\
+          \ data, False)\n      token = response_data['token']\n      return str(token)\n\n  def _headers(self,\
+          \ use_token):\n      headers = {}\n      if use_token:\n          headers['Authorization'] =\
+          \ 'Token ' + self.token\n      return headers\n\n  def _handle_response(self, response):\n \
+          \     if response.ok:\n          return response.json()\n      else:\n          return {'result':\
+          \ 'error'}\n\n# Set up helpers instance\nusername = 'username' # Replace with your cove.tool\
+          \ username\npassword = 'password' # Replace with your cove.tool password\nhelpers = ApiHelpers(username,\
+          \ password)\n\n# Print API token\nprint(helpers._get_api_token(username, password))\n"
+      description: Authentication tokens expire after 7 days and a new one must be fetched. When the token
+        will expire (in seconds) is included in the response. <br/><br/> Be sure to pass in valid cove.tool
+        associated credentials to obtain your authentication token.
+  /projects:
+    get:
+      x-customPath:
+        name: /get-project-info
+      tags:
+      - Projects
+      security:
+      - AuthToken: []
+      summary: List all projects and their associated information
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization token
+        schema:
+          type: string
+          format: string
+          $ref: '#/components/schemas/AuthorizationToken'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                  - $ref: '#/components/schemas/AllProjectsRequestsA'
+                  - $ref: '#/components/schemas/AllProjectsRequestsB'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-codeSamples:
+      - lang: Python
+        label: Python
+        source: "import json, requests\n\nclass ApiHelpers:\n  # Same credentials you use to log in to\
+          \ cove.tool\n  def __init__(self, username, password):\n      self.token = self._get_api_token(username,\
+          \ password)\n\n  def post_request(self, path, data, use_token=True):\n      url = self._api_url(path)\n\
+          \      headers = self._headers(use_token)\n      response = requests.post(url, headers=headers,\
+          \ json=data)\n      return self._handle_response(response)\n\n  def get_request(self, path,\
+          \ use_token=True):\n      url = self._api_url(path)\n      headers = self._headers(use_token)\n\
+          \      response = requests.get(url, headers=headers)\n      return self._handle_response(response)\n\
+          \n  def _api_url(self, path):\n      return 'https://app.covetool.com/api/' + path + '/'\n\n\
+          \  def _get_api_token(self, username, password):\n      data = {\n          'username': username,\n\
+          \          'password': password,\n      }\n      response_data = self.post_request('get-token',\
+          \ data, False)\n      token = response_data['token']\n      return str(token)\n\n  def _headers(self,\
+          \ use_token):\n      headers = {}\n      if use_token:\n          headers['Authorization'] =\
+          \ 'Token ' + self.token\n      return headers\n\n  def _handle_response(self, response):\n \
+          \     if response.ok:\n          return response.json()\n      else:\n          return {'result':\
+          \ 'error'}\n\n# Set up helpers instance\nusername = 'username' # Replace with your cove.tool\
+          \ username\npassword = 'password' # Replace with your cove.tool password\nhelpers = ApiHelpers(username,\
+          \ password)\n\n# Get a list of projects\nproject_list = helpers.get_request('projects')\nnames\
+          \ = []\nvalues = []\nfor project in project_list:\n    if project['run_set']:\n        name\
+          \ = str(project['name'])\n        value = str(project['run_set'][0])\n        names.append(name)\n\
+          \        values.append(value)\n"
+  /run-values:
+    post:
+      x-customPath:
+        name: /update-project-geometry
+      tags:
+      - Project Geometry
+      security:
+      - AuthToken: []
+      summary: Update geometry values for a given project/run
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/Update3DGeometryAreasRequests'
+              - $ref: '#/components/schemas/Update2DGeometryAreasRequests'
+      responses:
+        '201':
+          description: Successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateGeometryAreasResponses'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      description: "Update both 2D project geometry and 3D project geometry by passing in different request\
+        \ bodies. For more information on each of the required fields/categories, see the schemas in request\
+        \ body section of this endpoint. <br/><br/>\n2D and 3D project geometry both require at least\
+        \ one non-zero value in the **wall_area_X**, and **window_area_X** property (where **X** is the\
+        \ cardinal direction).\n<br/><br/>\n\n  List of available cardinal directions (replace **X** with\
+        \ the following acceptable cardinal direction): \n  - n\n  - s\n  - e\n  - w\n  - ne\n  - nw\n\
+        \  - se\n  - sw\n  \n**3D Geometry** <br/> Note that units should be in ft, so areas would be\
+        \ in ft<sup>2</sup> regardless of project units. The _si_units_ parameter only affects the 2D\
+        \ geometry inputs. <br/><br/> Each category requires an array of objects represented as vertex\
+        \ and triangle data. Note that you can send each category separately. Each mesh must have a list\
+        \ of Vertices along with Triangles which refer to Vertices by index. Normal and Center are required\
+        \ for each mesh so that the faces are rendered in the correct direction/position. LevelId and\
+        \ DerivingElementUniqueId are optional fields. <br/><br/>\n**2D Geometry and 3D Geometry** <br/>\
+        \ Note: All values will be converted to the project's units (in the web app interface) by default.\
+        \ This is controlled with the _si_units_ parameter - a value of true will save the values as SI\
+        \ while a value of false will convert them from imperial to SI before saving.  <br/><br/> The\
+        \ EUI data in the response will always be in SI units."
+      x-codeSamples:
+      - lang: Python
+        name: Python
+        source: "import json, requests\n\nclass ApiHelpers:\n  # Same credentials you use to log in to\
+          \ cove.tool\n  def __init__(self, username, password):\n      self.token = self._get_api_token(username,\
+          \ password)\n\n  def post_request(self, path, data, use_token=True):\n      url = self._api_url(path)\n\
+          \      headers = self._headers(use_token)\n      response = requests.post(url, headers=headers,\
+          \ json=data)\n      return self._handle_response(response)\n\n  def get_request(self, path,\
+          \ use_token=True):\n      url = self._api_url(path)\n      headers = self._headers(use_token)\n\
+          \      response = requests.get(url, headers=headers)\n      return self._handle_response(response)\n\
+          \n  def _api_url(self, path):\n      return 'https://app.covetool.com/api/' + path + '/'\n\n\
+          \  def _get_api_token(self, username, password):\n      data = {\n          'username': username,\n\
+          \          'password': password,\n      }\n      response_data = self.post_request('get-token',\
+          \ data, False)\n      token = response_data['token']\n      return str(token)\n\n  def _headers(self,\
+          \ use_token):\n      headers = {}\n      if use_token:\n          headers['Authorization'] =\
+          \ 'Token ' + self.token\n      return headers\n\n  def _handle_response(self, response):\n \
+          \     if response.ok:\n          return response.json()\n      else:\n          return {'result':\
+          \ 'error'}\n\n# Set up helpers instance\nusername = 'username' # Replace with your cove.tool\
+          \ username\npassword = 'password' # Replace with your cove.tool password\nhelpers = ApiHelpers(username,\
+          \ password)\n\n# Update a run\n# Replace \"1\" with a run ID that belongs to one of your projects\n\
+          run = 'https://app.covetool.com/api/runs/1/'\nsi_units = 'true'\nbuilding_height = 15\nroof_area\
+          \ = 900\nfloor_area = 900\nskylight_area = 150\nwall_area_e = 450\nwall_area_ne = 0\nwall_area_n\
+          \ = 450\nwall_area_nw = 0\nwall_area_w = 450\nwall_area_sw = 0\nwall_area_s = 450\nwall_area_se\
+          \ = 0\nwindow_area_e = 200\nwindow_area_ne = 0\nwindow_area_n = 200\nwindow_area_nw = 0\nwindow_area_w\
+          \ = 200\nwindow_area_sw = 0\nwindow_area_s = 200\nwindow_area_se = 0\n\ndata = {\n'run': run,\n\
+          'si_units': si_units,\n'building_height': building_height,\n'roof_area': roof_area,\n'floor_area':\
+          \ floor_area,\n'skylight_area': skylight_area,\n'wall_area_e': wall_area_e,\n'wall_area_ne':\
+          \ wall_area_ne,\n'wall_area_n': wall_area_n,\n'wall_area_nw': wall_area_nw,\n'wall_area_w':\
+          \ wall_area_w,\n'wall_area_sw': wall_area_sw,\n'wall_area_s': wall_area_s,\n'wall_area_se':\
+          \ wall_area_se,\n'window_area_e': window_area_e,\n'window_area_ne': window_area_ne,\n'window_area_n':\
+          \ window_area_n,\n'window_area_nw': window_area_nw,\n'window_area_w': window_area_w,\n'window_area_sw':\
+          \ window_area_sw,\n'window_area_s': window_area_s,\n'window_area_se': window_area_se,\n}\n\n\
+          result = helpers.post_request('run-values', data)\neui_total = result['data']['eui_total']\n\
+          print('EUI Total:', eui_total)\n\ncooling = 0\nheating = 0\nlighting = 0\nequipment = 0\nfans\
+          \ = 0\npumps = 0\nhot_water = 0\neui_breakdown = result['data']['eui_breakdown']\nheaders =\
+          \ eui_breakdown['headers']\nvalues = eui_breakdown['values']\nfor i, header in enumerate(headers):\n\
+          \  if header == 'Cooling':\n      cooling = float(values[i])\n      print('Cooling:', cooling)\n\
+          \  elif header == 'Heating':\n      heating = float(values[i])\n      print('Heating:', heating)\n\
+          \  elif header == 'Lighting':\n      lighting = float(values[i])\n      print('Lighting:', lighting)\n\
+          \  elif header == 'Equipment':\n      equipment = float(values[i])\n      print('Equipment:',\
+          \ equipment)\n  elif header == 'Fans':\n      fans = float(values[i])\n      print('Fans:',\
+          \ fans)\n  elif header == 'Pumps':\n      pumps = float(values[i])\n      print('Pumps:', pumps)\n\
+          \  elif header == 'Hot Water':\n      hot_water = float(values[i])\n      print('Hot Water:',\
+          \ hot_water)\n"
+components:
+  securitySchemes:
+    AuthToken:
+      type: apiKey
+      in: header
+      name: Authorization
+  responses:
+    BadRequest:
+      description: Bad/Invalid request
+    NotFound:
+      description: The specified resource was not found
+    Unauthorized:
+      description: Unauthorized request
+    InternalServerError:
+      description: Internal Server Error
+  schemas:
+    BasePathURL:
+      source: 'https://app.covetool.com/api
+
+        '
+    CurlCodeSample:
+      source: "import json, requests\n\nclass ApiHelpers:\n  # Same credentials you use to log in to cove.tool\n\
+        \  def __init__(self, username, password):\n      self.token = self._get_api_token(username, password)\n\
+        \n  def post_request(self, path, data, use_token=True):\n      url = self._api_url(path)\n   \
+        \   headers = self._headers(use_token)\n      response = requests.post(url, headers=headers, json=data)\n\
+        \      return self._handle_response(response)\n\n  def get_request(self, path, use_token=True):\n\
+        \      url = self._api_url(path)\n      headers = self._headers(use_token)\n      response = requests.get(url,\
+        \ headers=headers)\n      return self._handle_response(response)\n\n  def _api_url(self, path):\n\
+        \      return 'https://app.covetool.com/api/' + path + '/'\n\n  def _get_api_token(self, username,\
+        \ password):\n      data = {\n          'username': username,\n          'password': password,\n\
+        \      }\n      response_data = self.post_request('get-token', data, False)\n      token = response_data['token']\n\
+        \      return str(token)\n\n  def _headers(self, use_token):\n      headers = {}\n      if use_token:\n\
+        \          headers['Authorization'] = 'Token ' + self.token\n      return headers\n\n  def _handle_response(self,\
+        \ response):\n      if response.ok:\n          return response.json()\n      else:\n         \
+        \ return {'result': 'error'}\n"
+    AuthTokenRequests:
+      type: object
+      required:
+      - username
+      - password
+      properties:
+        username:
+          type: string
+          format: email
+          example: hello@covetool.com
+        password:
+          type: string
+          format: string
+          example: mysupersecurepassword
+    AuthTokenResponses:
+      type: object
+      required:
+      - expires_in
+      - token
+      properties:
+        expires_in:
+          type: boolean
+          format: string
+          example: '604799.998047'
+        token:
+          type: string
+          format: string
+          example: aaaa1111aaaa1111aaaa1111aaaa1111aaaa
+    AuthorizationToken:
+      type: string
+      format: string
+      example: 'Authorization: Token aaaa1111aaaa1111aaaa1111aaaa1111aaaa'
+    ProjectsRequests:
+      type: object
+      required:
+      - name
+      - run_set
+      - url
+      properties:
+        name:
+          type: string
+          format: string
+        run_set:
+          type: array
+          items:
+            type: string
+        url:
+          type: string
+          format: string
+    AllProjectsRequestsA:
+      oneOf:
+      - $ref: '#/components/schemas/ProjectsRequests'
+      example:
+        name: Project A
+        run_set:
+        - https://app.covetool.com/api/runs/1/
+        url: https://app.covetool.com/api/projects/1/
+    AllProjectsRequestsB:
+      oneOf:
+      - $ref: '#/components/schemas/ProjectsRequests'
+      example:
+        name: Project B
+        run_set:
+        - https://app.covetool.com/api/runs/2/
+        url: https://app.covetool.com/api/projects/2/
+    EuiBreakdownHeaders:
+      type: array
+      items:
+        type: string
+      example:
+      - Cooling
+      - Heating
+      - Lighting
+      - Equipment
+      - Fans
+      - Pumps
+      - Hot Water
+    UpdateGeometryAreasResponses:
+      type: object
+      required:
+      - data
+      - result
+      properties:
+        data:
+          type: object
+          required:
+          - eui_breakdown
+          - eui_total
+          properties:
+            eui_breakdown:
+              type: object
+              required:
+              - headers
+              - values
+              - total_gas
+              - total_electric
+              - total_electric_without_pv
+              - Primary Energy Heating
+              - Primary Energy Domestic Hot Water
+              properties:
+                headers:
+                  $ref: '#/components/schemas/EuiBreakdownHeaders'
+                values:
+                  type: array
+                  items:
+                    type: number
+                    format: double
+                  example:
+                  - 42.69810373890001
+                  - 215.9911661803
+                  - 35.150749997999995
+                  - 26.540714283
+                  - 83.00345598700001
+                  - 4.380000116000001
+                  - 5.9237200512
+                total_gas:
+                  type: number
+                  format: double
+                  example: 10.4080428009
+                total_electric:
+                  type: number
+                  format: double
+                  example: 174.19649714809515
+                Primary Energy Heating:
+                  type: string
+                  example: electric
+                Primary Energy Domestic Hot Water:
+                  type: string
+                  example: gas
+            eui_total:
+              type: number
+              format: double
+              example: 413.68791035439995
+        result:
+          type: string
+          format: string
+          example: success
+    Update2DGeometryAreasRequests:
+      type: object
+      required:
+      - run
+      - building_height
+      - roof_area
+      - floor_area
+      properties:
+        run:
+          type: string
+          format: url
+          example: https://app.covetool.com/api/runs/1
+        window_area_ne:
+          type: number
+          minimum: 0
+          example: 0
+        roof_area:
+          type: number
+          minimum: 0
+          example: 900
+        skylight_area:
+          type: number
+          minimum: 0
+          example: 150
+        building_height:
+          type: number
+          minimum: 0
+          example: 15
+        window_area_nw:
+          type: number
+          minimum: 0
+          example: 0
+        window_area_se:
+          type: number
+          minimum: 0
+          example: 0
+        window_area_sw:
+          type: number
+          minimum: 0
+          example: 0
+        si_units:
+          type: boolean
+          example: true
+        floor_area:
+          type: number
+          minimum: 0
+          example: 900
+        wall_area_sw:
+          type: number
+          minimum: 0
+          example: 0
+        wall_area_nw:
+          type: number
+          minimum: 0
+          example: 0
+        wall_area_ne:
+          type: number
+          minimum: 0
+          example: 0
+        wall_area_se:
+          type: number
+          minimum: 0
+          example: 0
+        window_area_e:
+          type: number
+          minimum: 0
+          example: 200
+        wall_area_w:
+          type: number
+          minimum: 0
+          example: 450
+        wall_area_s:
+          type: number
+          minimum: 0
+          example: 450
+        window_area_n:
+          type: number
+          minimum: 0
+          example: 200
+        wall_area_n:
+          type: number
+          minimum: 0
+          example: 450
+        window_area_s:
+          type: number
+          minimum: 0
+          example: 200
+        window_area_w:
+          type: number
+          minimum: 0
+          example: 200
+        wall_area_e:
+          type: number
+          minimum: 0
+          example: 450
+    Update3DGeometryAreasRequests:
+      type: object
+      required:
+      - source
+      - run
+      - walls
+      - windows
+      - roofs
+      - floors
+      - building_height
+      properties:
+        run:
+          type: string
+          example: https://app.covetool.com/api/runs/1
+        source:
+          description: Your app name and version identifier
+          type: string
+          example: revit-2.2.0
+        building_height:
+          type: number
+          example: 15
+        window_area_ne:
+          type: number
+          example: 200
+        wall_area_e:
+          type: number
+          example: 450
+        walls:
+          note: refers to exterior walls
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        windows:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        roofs:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        floors:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        rotation_angle:
+          description: The rotation angle in degrees from North in a clockwise direction
+          type: number
+          example: 45
+        interior_walls:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        skylights:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        shading_devices:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        spandrels:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        outdoor_floors:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        furniture:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        below_grade_walls:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+    VerticesObject:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/VerticesModel'
+      - type: object
+      example:
+      - X: 0.666022
+        Y: 226.752487
+        Z: 25.262917
+      - X: 0.66602
+        Y: 50.666023
+        Z: 25.262917
+      - X: 27.935207
+        Y: 50.666023
+        Z: 26.262917
+      - X: 27.935207
+        Y: 66.381523
+        Z: 25.262917
+      - X: 36.596779
+        Y: 66.281523
+        Z: 25.262917
+      - X: 36.596779
+        Y: 50.66023
+        Z: 25.262917
+      - X: 208.763153
+        Y: 50.666023
+        Z: 25.262917
+      - X: 208.763153
+        Y: 66.281523
+        Z: 25.262917
+      - X: 217.424728
+        Y: 66.381523
+        Z: 25.262917
+      - X: 217.424728
+        Y: 86.249985
+        Z: 25.262917
+      - X: 56.250347
+        Y: 86.249985
+        Z: 25.262917
+      - X: 56.250347
+        Y: 191.08519
+        Z: 25.262917
+      - X: 121.751503
+        Y: 191.08519
+        Z: 25.262917
+      - X: 121.751503
+        Y: 211.036987
+        Z: 25.262917
+      - X: 113.089935
+        Y: 211.036987
+        Z: 25.262917
+      - X: 113.089935
+        Y: 226.752487
+        Z: 25.262917
+      - X: 62.055077
+        Y: 70.138153
+        Z: 25.262917
+      - X: 62.055077
+        Y: 77.27903
+        Z: 25.262917
+      - X: 68.170013
+        Y: 77.27903
+        Z: 25.262917
+      - X: 68.170013
+        Y: 70.138153
+        Z: 25.262917
+      - X: 36.45314
+        Y: 112.458786
+        Z: 25.262917
+      - X: 45.705929
+        Y: 112.458786
+        Z: 25.262917
+      - X: 45.705929
+        Y: 86.458328
+        Z: 25.262917
+      - X: 36.45314
+        Y: 86.458328
+        Z: 25.262917
+      - X: 36.45314
+        Y: 148.459427
+        Z: 25.262917
+      - X: 45.705929
+        Y: 148.459427
+        Z: 25.262917
+      - X: 45.705929
+        Y: 122.458969
+        Z: 25.262917
+      - X: 36.45314
+        Y: 122.458969
+        Z: 25.262917
+      - X: 36.519417
+        Y: 184.460068
+        Z: 25.262917
+      - X: 45.673122
+        Y: 184.460068
+        Z: 25.262917
+      - X: 45.673122
+        Y: 158.45961
+        Z: 25.262917
+      - X: 36.519417
+        Y: 158.45961
+        Z: 25.262917
+    TrianglesArray:
+      allOf:
+      - type: array
+      example:
+      - - 1
+        - 2
+        - 3
+      - - 31
+        - 28
+        - 0
+      - - 31
+        - 0
+        - 24
+      - - 29
+        - 11
+        - 28
+      - - 27
+        - 24
+        - 1
+      - - 1
+        - 20
+        - 27
+      - - 24
+        - 25
+        - 31
+      - - 20
+        - 21
+        - 26
+      - - 0
+        - 1
+        - 24
+      - - 11
+        - 29
+        - 30
+      - - 12
+        - 13
+        - 14
+      - - 15
+        - 11
+        - 14
+      - - 12
+        - 14
+        - 11
+      - - 0
+        - 11
+        - 15
+      - - 26
+        - 21
+        - 10
+      - - 26
+        - 10
+        - 25
+      - - 11
+        - 30
+        - 25
+      - - 25
+        - 10
+        - 11
+      - - 4
+        - 22
+        - 23
+      - - 1
+        - 3
+        - 23
+      - - 18
+        - 9
+        - 10
+      - - 10
+        - 22
+        - 17
+      - - 3
+        - 4
+        - 23
+      - - 4
+        - 17
+        - 22
+      - - 1
+        - 2
+        - 3
+      - - 1
+        - 23
+        - 20
+      - - 5
+        - 16
+        - 4
+      - - 4
+        - 16
+        - 17
+      - - 18
+        - 7
+        - 9
+      - - 17
+        - 18
+        - 10
+      - - 7
+        - 19
+        - 6
+      - - 5
+        - 9
+        - 16
+      - - 7
+        - 8
+        - 9
+      - - 19
+        - 7
+        - 18
+      - - 19
+        - 5
+        - 6
+      - - 22
+        - 10
+        - 21
+      - - 25
+        - 30
+        - 31
+      - - 20
+        - 26
+        - 27
+    VerticesModel:
+      type: object
+      properties:
+        X:
+          type: number
+          format: double
+        Y:
+          type: number
+          format: double
+        Z:
+          type: number
+          format: double
+    MeshObject:
+      description: An array of objects represented as vertex and triangle data. Each mesh must have a
+        list of Vertices along with Triangles which refer to Vertices by index. Normal and Center are
+        required for each mesh so that the faces are rendered in the correct direction/position. LevelId
+        and DerivingElementUniqueId are optional fields
+      type: array
+      items:
+        type: object
+        required:
+        - Mesh
+        - Center
+        - Normal
+        properties:
+          Mesh:
+            type: object
+            required:
+            - Vertices
+            - Triangles
+            properties:
+              Vertices:
+                $ref: '#/components/schemas/VerticesObject'
+              Triangles:
+                $ref: '#/components/schemas/TrianglesArray'
+          Center:
+            $ref: '#/components/schemas/CenterObject'
+          Normal:
+            $ref: '#/components/schemas/NormalObject'
+    CenterObject:
+      allOf:
+      - $ref: '#/components/schemas/VerticesModel'
+      - type: object
+      example:
+        X: 72.45084
+        Y: 119.337007
+        Z: 25.262917
+    NormalObject:
+      allOf:
+      - $ref: '#/components/schemas/VerticesModel'
+      - type: object
+      example:
+        X: 0
+        Y: 0
+        Z: 1
