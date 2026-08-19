@@ -14,7 +14,7 @@ url: https://raw.githubusercontent.com/api-evangelist/cove.tool/refs/heads/main/
 x-type: company
 x-source: harvest:secondary-market
 x-harvest-listing: https://www.hiive.com/securities/cove.tool-stock
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 created: '2026-08-11'
 modified: '2026-08-11'
 tags:
