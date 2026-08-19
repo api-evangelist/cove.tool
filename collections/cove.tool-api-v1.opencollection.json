@@ -1,0 +1,93 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "cove.tool API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication Token",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Obtain an API token to authenticate requests",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.covetool.com/api/get-token",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Authentication tokens expire after 7 days and a new one must be fetched. When the token will expire (in seconds) is included in the response. <br/><br/> Be sure to pass in valid cove.tool associated credentials to obtain your authentication token."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Projects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all projects and their associated information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.covetool.com/api/projects",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List all projects and their associated information"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Project Geometry",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Update geometry values for a given project/run",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.covetool.com/api/run-values",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update both 2D project geometry and 3D project geometry by passing in different request bodies. For more information on each of the required fields/categories, see the schemas in request body section of this endpoint. <br/><br/>\n2D and 3D project geometry both require at least one non-zero value in the **wall_area_X**, and **window_area_X** property (where **X** is the cardinal direction).\n<br/><br/>\n\n  List of available cardinal directions (replace **X** with the following acceptable cardinal d"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

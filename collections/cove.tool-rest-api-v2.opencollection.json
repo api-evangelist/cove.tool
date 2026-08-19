@@ -1,0 +1,322 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "cove.tool REST API v2",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "User",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Enables the creation of a cove.tool user account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.covetool.com/api/v2/auth/signup",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "cove.tool accounts can now be created via an API call within your business/organization. This adds a potential new user account to your cove.tool license that are able to access cove.tool products and features."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Profiles",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Obtain user information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.covetool.com/api/v2/profiles/:profile_id",
+            "params": [
+              {
+                "name": "profile_id",
+                "value": "",
+                "type": "path",
+                "description": "Numeric ID of profile to obtain"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieves the details of a user account within your business/organiation if it exists. If the profile ID does not exist, this call returns an error."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Energy Codes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Enumerates list of energy codes supported by cove.tool or in specific projects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.covetool.com/api/v2/energy-codes",
+            "params": [
+              {
+                "name": "for_project",
+                "value": "1",
+                "type": "query",
+                "description": "Specific project number"
+              },
+              {
+                "name": "name",
+                "value": "California",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve a list of available energy codes supported by cove.tool's automated model generation or for a specific project and its compatible energy codes depending on the query parameters passed in."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Projects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves a project's detail and information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.covetool.com/api/v2/projects/",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns a given project ID's detail and information if it exists."
+        },
+        {
+          "info": {
+            "name": "Enables the creation of a new cove.tool project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.covetool.com/api/v2/projects/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Skip the 'Create Project' page and create"
+        },
+        {
+          "info": {
+            "name": "Updates a project's detail and information",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.covetool.com/api/v2/projects/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Updates a project's detail and information"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Project Geometry",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Updates a project's 3D geometry",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.covetool.com/api/v2/projects/:project_id/geometry",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Gives you the ability to update a project's 3D geometry that will be utilized to perform Daylight Analysis with analysis.tool.\nUpdating project geometry requires at least *one* non-zero value in the **wall_area_X**, and **window_area_X** property (where **X** is the cardinal direction)."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Daylight Analysis",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Kickstarts all analysis types for a given project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.covetool.com/api/v2/analysis",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Fires off the daylight analysis calculations to start running for a given project."
+        },
+        {
+          "info": {
+            "name": "Retrieves the results for daylight analysis for a given project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.covetool.com/api/v2/analysis/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieves the results for daylight analysis for a given project"
+        },
+        {
+          "info": {
+            "name": "Obtains the remaining number of jobs per analysis type for a given project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.covetool.com/api/v2/analysis/:project_id/status",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Obtains the remaining number of jobs per analysis type for a given project"
+        },
+        {
+          "info": {
+            "name": "Halts all analyses calculations for a given project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.covetool.com/api/v2/analysis/:project_id/stop",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Halts all analyses calculations for a given project"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

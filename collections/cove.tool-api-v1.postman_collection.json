@@ -1,0 +1,486 @@
+{
+  "item": [
+    {
+      "id": "e1fb7d52-2c71-4785-a360-befcca23dbd6",
+      "name": "Authentication Token",
+      "description": {
+        "content": "Attempting to make API requests without authentication will fail. API requests must be made\nover HTTPS. Authentication tokens are used to help identify the user\nattempting to make the HTTP requests.\n<br/><br/>\n\nBy providing an authentication token on every request, it checks whether\nthe user is authorized and has permission to update and retrieve data.\n<br/><br/>\nBe sure to include it in every request header once you start making API calls.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "37bf2fd4-96aa-4304-b566-9449c7046fcf",
+          "name": "Obtain an API token to authenticate requests",
+          "request": {
+            "name": "Obtain an API token to authenticate requests",
+            "description": {
+              "content": "Authentication tokens expire after 7 days and a new one must be fetched. When the token will expire (in seconds) is included in the response. <br/><br/> Be sure to pass in valid cove.tool associated credentials to obtain your authentication token.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "get-token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"<email>\",\n  \"password\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fb0e866e-d6ed-462f-9e20-8cdc1784291d",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "get-token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"hello@covetool.com\",\n  \"password\": \"mysupersecurepassword\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"expires_in\": false,\n  \"token\": \"aaaa1111aaaa1111aaaa1111aaaa1111aaaa\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "13381dff-2aff-46d4-afbb-e37ef2c7d20e",
+              "name": "Bad/Invalid request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "get-token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"hello@covetool.com\",\n  \"password\": \"mysupersecurepassword\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "5bbbb449-196c-47d5-afe8-ad5028fb0110",
+      "name": "Projects",
+      "description": {
+        "content": "Lists all the projects of current user and returns a list of objects with project name, runs, and its url.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2ca009da-70ad-4eb0-ba1c-afc7fa7c0772",
+          "name": "List all projects and their associated information",
+          "request": {
+            "name": "List all projects and their associated information",
+            "description": {},
+            "url": {
+              "path": [
+                "projects"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ae5215f7-6649-482e-b9c9-d0b9d2b84af4",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Authorization token",
+                    "key": "Authorization",
+                    "value": "Authorization: Token aaaa1111aaaa1111aaaa1111aaaa1111aaaa"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"name\": \"string\",\n    \"run_set\": [\n      \"string\",\n      \"string\"\n    ],\n    \"url\": \"string\"\n  },\n  {\n    \"name\": \"string\",\n    \"run_set\": [\n      \"string\",\n      \"string\"\n    ],\n    \"url\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b09e426b-9e58-49c1-8e5d-d0ccd9dbabee",
+              "name": "Unauthorized request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Authorization token",
+                    "key": "Authorization",
+                    "value": "Authorization: Token aaaa1111aaaa1111aaaa1111aaaa1111aaaa"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "cc36313f-bb2b-489c-a6e4-146230a42648",
+      "name": "Project Geometry",
+      "description": {
+        "content": "Update project geometry and obtain an Energy Use Intensity (EUI) breakdown of a given model.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ed06d574-1ee7-43e0-9fb4-37cebaeef068",
+          "name": "Update geometry values for a given project/run",
+          "request": {
+            "name": "Update geometry values for a given project/run",
+            "description": {
+              "content": "Update both 2D project geometry and 3D project geometry by passing in different request bodies. For more information on each of the required fields/categories, see the schemas in request body section of this endpoint. <br/><br/>\n2D and 3D project geometry both require at least one non-zero value in the **wall_area_X**, and **window_area_X** property (where **X** is the cardinal direction).\n<br/><br/>\n\n  List of available cardinal directions (replace **X** with the following acceptable cardinal direction): \n  - n\n  - s\n  - e\n  - w\n  - ne\n  - nw\n  - se\n  - sw\n  \n**3D Geometry** <br/> Note that units should be in ft, so areas would be in ft<sup>2</sup> regardless of project units. The _si_units_ parameter only affects the 2D geometry inputs. <br/><br/> Each category requires an array of objects represented as vertex and triangle data. Note that you can send each category separately. Each mesh must have a list of Vertices along with Triangles which refer to Vertices by index. Normal and Center are required for each mesh so that the faces are rendered in the correct direction/position. LevelId and DerivingElementUniqueId are optional fields. <br/><br/>\n**2D Geometry and 3D Geometry** <br/> Note: All values will be converted to the project's units (in the web app interface) by default. This is controlled with the _si_units_ parameter - a value of true will save the values as SI while a value of false will convert them from imperial to SI before saving.  <br/><br/> The EUI data in the response will always be in SI units.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "run-values"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source\": \"<string>\",\n  \"run\": \"<string>\",\n  \"walls\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    }\n  ],\n  \"windows\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    }\n  ],\n  \"roofs\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    }\n  ],\n  \"floors\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    }\n  ],\n  \"building_height\": \"<number>\",\n  \"window_area_ne\": \"<number>\",\n  \"wall_area_e\": \"<number>\",\n  \"rotation_angle\": \"<number>\",\n  \"interior_walls\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    }\n  ],\n  \"skylights\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    }\n  ],\n  \"shading_devices\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    }\n  ],\n  \"spandrels\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    }\n  ],\n  \"outdoor_floors\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    }\n  ],\n  \"furniture\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    }\n  ],\n  \"below_grade_walls\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "21ed267e-8c8f-4ca5-8718-270751b2c984",
+              "name": "Successfully updated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "run-values"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"source\": \"revit-2.2.0\",\n  \"run\": \"https://app.covetool.com/api/runs/1\",\n  \"walls\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"windows\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"roofs\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"floors\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"building_height\": 15,\n  \"window_area_ne\": 200,\n  \"wall_area_e\": 450,\n  \"rotation_angle\": 45,\n  \"interior_walls\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"skylights\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"shading_devices\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"spandrels\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"outdoor_floors\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"furniture\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"below_grade_walls\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"eui_breakdown\": {\n      \"headers\": [\n        \"Cooling\",\n        \"Heating\",\n        \"Lighting\",\n        \"Equipment\",\n        \"Fans\",\n        \"Pumps\",\n        \"Hot Water\"\n      ],\n      \"values\": [\n        42.69810373890001,\n        215.9911661803,\n        35.150749997999995,\n        26.540714283,\n        83.00345598700001,\n        4.380000116000001,\n        5.9237200512\n      ],\n      \"total_gas\": 10.4080428009,\n      \"total_electric\": 174.19649714809515,\n      \"Primary Energy Heating\": \"electric\",\n      \"Primary Energy Domestic Hot Water\": \"gas\",\n      \"total_electric_without_pv\": true\n    },\n    \"eui_total\": 413.68791035439995\n  },\n  \"result\": \"success\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5aa73caa-e12a-4548-8085-f915c2d24c7e",
+              "name": "Bad/Invalid request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "run-values"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"source\": \"revit-2.2.0\",\n  \"run\": \"https://app.covetool.com/api/runs/1\",\n  \"walls\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"windows\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"roofs\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"floors\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"building_height\": 15,\n  \"window_area_ne\": 200,\n  \"wall_area_e\": 450,\n  \"rotation_angle\": 45,\n  \"interior_walls\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"skylights\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"shading_devices\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"spandrels\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"outdoor_floors\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"furniture\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"below_grade_walls\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Triangles\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.covetool.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6765b808-7d2e-40fd-9e2a-e016daf72c6e",
+    "name": "cove.tool API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\n\n  The cove.tool API contain the following HTTP endpoints to upload your project's geometry and obtain an Energy Usage Intensity (EUI) breakdown. The cove.tool API is developed around the RESTful architecture which offers resource-based URLs, and uses standard HTTP methods and status codes.\n  <br/><br/>\n  We recently released the [cove.tool API v2](v2) as of February 2022! The cove.tool API v2 features a completely full-fledged way to start analyzing building performance metrics into your projects such as creating users, projects, obtaining user information and geometry values such as meshes and more! \n  \n  <SourceCodeSection sourceCode=\"#/components/schemas/BasePathURL\" lang=\"cURL\" label=\"Base Url\" />\n\n# Getting Started\nEvery call made to the cove.tool API requires the following: <br/><br/> 1. **cove.tool account** - Make sure to have access to a valid (trial/licensed) cove.tool account.\n    - If you do not have a cove.tool account, you can register for one [here](https://app.covetool.com/register).\n<br/><br/> 2. **Projects created with cove.tool** - Once you login to your cove.tool account, make sure to create project(s) you wish to update the geometry and obtain an EUI breakdown for! As these are the projects that the API relies on to obtain and retrieve information. <br/><br/> 3. **Authentication token** - In order to start making calls to the API, each request will have to be authenticated. This is done by providing an authentication token on every request. It checks whether the user is authorized and has permission to perform the following actions. See more in the Authentication section below.\n\n# Prerequisite Knowledge\nIt is imperative to take note of the 3 basic objects (**project**, **runs**, **run values**); how they interact and relate with one another when trying to make updates to project geometry. _An individual project has many runs, and a run has many run values._\n<br/><br/>\nThe run represents the data for a given building type/use type. We currently offer the following use types:\n  - Office\n  - Apartments\n  - Education\n  - Hospital\n  - Hotel\n  - Lab\n  - Retail\n  - Single Family Home\n  \n\nA mixed use project with Office, Retail and Apartments would have 3 runs. The _\"unique ID\"_ is the **url** which must be included when updating an object.\n# Authentication\nThe following table contains more information on setting the Authentication token to each API request. <SecurityDefinitions /> <br/><br/> Attempting to make API requests without authentication will fail. API requests must be made\n  over HTTPS. Authentication tokens are used to help identify the user\n  attempting to make the HTTP requests.\n  <br/><br/>\n\n  By providing an authentication token on every request, it checks whether\n  the user is authorized and has permission to update and retrieve data.\n  <br/><br/>\n  Be sure to include it in every request header once you start making API calls.\n  <br/><br/>\nFor a concrete example, please see the [list all project details](v1#projects/get-project-info) section, particularly the **Header Parameters** section.\n# API Helper Functions\n\n  The following code snippet contains a Python utility class function that enables your application to start utilizing the data returned from the cove.tool API. Passing in valid cove.tool credentials to the an instance of the helper class function will allow you to start making HTTP calls.\n  <br/><br/>\n  See the Python request samples in the appropriate endpoints below to see how you can make calls with `ApiHelpers` function.\n\n  <SourceCodeSection sourceCode=\"#/components/schemas/CurlCodeSample\" lang=\"Python\" label=\"Python\" />\n\n# Testing\n  Utilizing standard API testing tools such as [HTTPie](https://httpie.io/) or [Postman](https://www.postman.com/) is a great way to start making calls to the cove.tool API.\n<br/><br/><br/>\n\n# Error Codes\n\n  The cove.tool API uses conventional HTTP status codes to indicate the success or failure of an API request. Listed below are the general status codes our API currently returns, and how to further troubleshoot the most common errors you will see when trying to make API calls.\n  <br/><br/>\n  Status codes in the `2xx` range usually indicate a successful request.\n  <br/>\n  Status codes in the `4xx` range usually indicate an error in response to the information provided with the request.\n  <br/>\n  Status codes in the `5xx` range usually indicate an unexpected error.\n\n  | <center>HTTP Status Codes</center> |   <center>Category</center>       |                               <center>Description</center>                                                             |\n  |:-----------------:|:---------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------:|\n  |        200        |           Ok          |                                                            Everything worked as expected.                                                           |\n  |        201        |  Successfully Updated |                                                        The resource was successfully created.                                                       |\n  |        202        |        Accepted       |                                                     The request was accepted and is processing.                                                     |\n  |        400        |  Bad/Invalid Request  |                       The request was unacceptable, Check and re-verify contents of required parameters in the response body.                       |\n  |        401        |  Unauthorized Request | No valid API token was provided. Check whether your API token is valid or whether it has the required permissions to perform the requested action. |\n  |        403        |   Forbidden Request   |                                          The API token doesn't have the permissions to perform the request.                                         |\n  |        404        |   Resource Not Found  |                                         The requested resource doesn't exist. Verify if the URI is accurate.                                        |\n  |        5xx        | Internal Server Error |               An unexpected error occurred. Retry your request and if the problem persists, reach out for assistance using live chat.               |\n\n<br/><br/><br/> _Happy Developing!_\n\nContact Support:\n Name: API Support\n Email: developers@covetool.com",
+      "type": "text/plain"
+    }
+  }
+}

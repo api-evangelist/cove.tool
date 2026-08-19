@@ -1,0 +1,2124 @@
+{
+  "item": [
+    {
+      "id": "f390e284-8baa-4f84-89a9-2fbd13b75a83",
+      "name": "User",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ec00f198-9eae-488f-b4c7-0fd63c649540",
+          "name": "Enables the creation of a cove.tool user account",
+          "request": {
+            "name": "Enables the creation of a cove.tool user account",
+            "description": {
+              "content": "cove.tool accounts can now be created via an API call within your business/organization. This adds a potential new user account to your cove.tool license that are able to access cove.tool products and features.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "auth",
+                "signup"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"<email>\",\n  \"password\": \"<password>\",\n  \"first_name\": \"<string>\",\n  \"last_name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "da8b9695-32ab-48d6-aee9-fdac51561ee2",
+              "name": "Successfully Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "signup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"hello@covetool.com\",\n  \"password\": \"mysupersecurepassword\",\n  \"first_name\": \"John\",\n  \"last_name\": \"Smith\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"is_owner\": true,\n    \"is_admin\": false,\n    \"created_at\": \"2009-09-13T19:42:01.086Z\",\n    \"email\": \"NA10bKhuf68Xhx8@CfyyT.wl\",\n    \"first_name\": \"string\",\n    \"last_name\": \"string\",\n    \"business\": {\n      \"name\": \"string\",\n      \"telephone\": 980.2633164497654,\n      \"user_limit\": 759.9512308414802,\n      \"domain\": \"string\",\n      \"size\": 8607.920126883355\n    }\n  },\n  \"msg\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8989d7d2-bab8-4eee-8bdc-8c3de4298bb8",
+              "name": "Invalid request. Check contents of your response body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "signup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"hello@covetool.com\",\n  \"password\": \"mysupersecurepassword\",\n  \"first_name\": \"John\",\n  \"last_name\": \"Smith\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "0a76d6f3-81f1-4fc6-a485-f8a4eed60eef",
+      "name": "Profiles",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "69d586ce-0641-4fa0-b9b4-056f182e565a",
+          "name": "Obtain user information",
+          "request": {
+            "name": "Obtain user information",
+            "description": {
+              "content": "Retrieves the details of a user account within your business/organiation if it exists. If the profile ID does not exist, this call returns an error.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "profiles",
+                ":profile_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "profile_id",
+                  "description": "(Required) Numeric ID of profile to obtain"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "554985e2-4954-4895-bfc3-eeda50400a0f",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "profiles",
+                    ":profile_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "profile_id",
+                      "description": "(Required) Numeric ID of profile to obtain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"is_owner\": true,\n    \"is_admin\": false,\n    \"created_at\": \"2011-02-19T02:15:01.609Z\",\n    \"email\": \"UD8r-NcJ@VVEjXFtIQRlkzzXAGLrT.iim\",\n    \"first_name\": \"string\",\n    \"last_name\": \"string\",\n    \"business\": {\n      \"name\": \"string\",\n      \"telephone\": 1859.576680255417,\n      \"user_limit\": 8637.466100101245,\n      \"domain\": \"string\",\n      \"size\": 2566.012545468559\n    }\n  },\n  \"msg\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "250e3e2f-613c-4f3a-aede-6c1e9e105d6e",
+              "name": "You do not have permission",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "profiles",
+                    ":profile_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "profile_id",
+                      "description": "(Required) Numeric ID of profile to obtain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "141b11ca-c41c-47dc-a945-1cbd9f3a214e",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "profiles",
+                    ":profile_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "profile_id",
+                      "description": "(Required) Numeric ID of profile to obtain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "1a0aa399-c24c-4549-87ec-767ff526df93",
+      "name": "Energy Codes",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6c5d3b0c-926d-4016-b0f9-58c014566cfc",
+          "name": "Enumerates list of energy codes supported by cove.tool or in specific projects",
+          "request": {
+            "name": "Enumerates list of energy codes supported by cove.tool or in specific projects",
+            "description": {
+              "content": "Retrieve a list of available energy codes supported by cove.tool's automated model generation or for a specific project and its compatible energy codes depending on the query parameters passed in.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "energy-codes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "for_project",
+                  "value": "<integer>",
+                  "description": "Specific project number"
+                },
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0c70dd12-93f3-40b1-b7ec-2d91ea143ad6",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "energy-codes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "for_project",
+                      "value": "1"
+                    },
+                    {
+                      "key": "name",
+                      "value": "California"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": 9306.217789650786,\n    \"name\": \"string\",\n    \"selected\": false\n  },\n  \"msg\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e8476116-3a35-4daa-93a8-9c21f0d682d4",
+              "name": "Unauthorized request. Check your API token if it is valid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "energy-codes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "for_project",
+                      "value": "1"
+                    },
+                    {
+                      "key": "name",
+                      "value": "California"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "0962586b-6d7b-464e-9449-bf23d96228b8",
+      "name": "Projects",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "49291baa-2c99-4598-b5fa-cab060e83215",
+          "name": "Enables the creation of a new cove.tool project",
+          "request": {
+            "name": "Enables the creation of a new cove.tool project",
+            "description": {
+              "content": "Skip the 'Create Project' page and create",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "projects",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"location\": \"<string>\",\n  \"building_types\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"energy_code_id\": \"<number>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4d80d3c5-27d0-4fae-aa14-8bf7fa5201e8",
+              "name": "Successfully Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Marietta Office Retail Space\",\n  \"location\": \"34.177114, -86.830390\",\n  \"building_types\": [\n    \"Office\",\n    \"Retail\"\n  ],\n  \"energy_code_id\": 12\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": 1667.7033546190112,\n    \"name\": \"string\",\n    \"number\": 2048.2588270568635,\n    \"si_units\": false,\n    \"created_by\": {\n      \"id\": 2867.557384731073,\n      \"email\": \"IQQrXvMgEd@woCVkfCkbjhsimhmsHDIeAhyJ.iki\",\n      \"first_name\": \"string\",\n      \"last_name\": \"string\"\n    },\n    \"business_id\": 584.1256208327694,\n    \"eui\": 1214.539305427309,\n    \"energy_code\": {\n      \"id\": 9149.077612313045,\n      \"name\": \"string\"\n    },\n    \"climate_zone\": {},\n    \"editing\": false,\n    \"read_only\": false,\n    \"created_at\": \"1993-11-28T20:40:15.853Z\",\n    \"updated_at\": \"1950-10-30T15:01:29.585Z\",\n    \"cebcs_eui\": 4069.5469579022324\n  },\n  \"msg\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1457aaf4-7311-483a-a3f2-5be076000b95",
+              "name": "Invalid request. Check contents of your response body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Marietta Office Retail Space\",\n  \"location\": \"34.177114, -86.830390\",\n  \"building_types\": [\n    \"Office\",\n    \"Retail\"\n  ],\n  \"energy_code_id\": 12\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6e3a26e2-3c58-4efa-98f5-1eeb8edf0cf8",
+              "name": "Unauthorized request. Check your API token if it is valid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Marietta Office Retail Space\",\n  \"location\": \"34.177114, -86.830390\",\n  \"building_types\": [\n    \"Office\",\n    \"Retail\"\n  ],\n  \"energy_code_id\": 12\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "36e2aeb4-4370-4b56-adb9-62234e34af07",
+          "name": "Retrieves a project's detail and information",
+          "request": {
+            "name": "Retrieves a project's detail and information",
+            "description": {
+              "content": "Returns a given project ID's detail and information if it exists.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "projects",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "project_id",
+                  "value": "<number>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "f9eb1a18-e120-46be-b425-a7ec8104c86a",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project_id",
+                      "value": "<number>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": 3695.408321600284,\n    \"name\": \"string\",\n    \"number\": 9.058953548842785,\n    \"si_units\": true,\n    \"created_by\": {\n      \"id\": 1827.6914290257807,\n      \"email\": \"AImEAFHdK@MmLglmqMVMRdLrlJpEgBfZijsbAUcpr.qsh\",\n      \"first_name\": \"string\",\n      \"last_name\": \"string\"\n    },\n    \"business_id\": 6355.774780129774,\n    \"eui\": 986.9184747742577,\n    \"energy_code\": {\n      \"id\": 9622.593077441197,\n      \"name\": \"string\"\n    },\n    \"climate_zone\": {},\n    \"editing\": true,\n    \"read_only\": true,\n    \"created_at\": \"1984-08-08T14:31:48.392Z\",\n    \"updated_at\": \"2022-02-21T18:02:08.770Z\",\n    \"cebcs_eui\": 4088.2299683560896\n  },\n  \"msg\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a95121ea-d6ad-4167-929b-e15a3c21732a",
+              "name": "The specified resource was not found. Verify if the URI is accurate.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project_id",
+                      "value": "<number>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3176da2e-3754-4d7b-832d-8010b22621f1",
+          "name": "Updates a project's detail and information",
+          "request": {
+            "name": "Updates a project's detail and information",
+            "description": {},
+            "url": {
+              "path": [
+                "projects",
+                ":project_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"location\": \"<string>\",\n  \"building_types\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"energy_code_id\": \"<number>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "94d7e33a-034b-4b2a-82a4-c86da395aaf0",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Marietta Office Retail Space\",\n  \"location\": \"34.177114, -86.830390\",\n  \"building_types\": [\n    \"Office\",\n    \"Retail\"\n  ],\n  \"energy_code_id\": 12\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": 1667.7033546190112,\n    \"name\": \"string\",\n    \"number\": 2048.2588270568635,\n    \"si_units\": false,\n    \"created_by\": {\n      \"id\": 2867.557384731073,\n      \"email\": \"IQQrXvMgEd@woCVkfCkbjhsimhmsHDIeAhyJ.iki\",\n      \"first_name\": \"string\",\n      \"last_name\": \"string\"\n    },\n    \"business_id\": 584.1256208327694,\n    \"eui\": 1214.539305427309,\n    \"energy_code\": {\n      \"id\": 9149.077612313045,\n      \"name\": \"string\"\n    },\n    \"climate_zone\": {},\n    \"editing\": false,\n    \"read_only\": false,\n    \"created_at\": \"1993-11-28T20:40:15.853Z\",\n    \"updated_at\": \"1950-10-30T15:01:29.585Z\",\n    \"cebcs_eui\": 4069.5469579022324\n  },\n  \"msg\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5ce86844-fda6-4f2c-b74c-a09584d4cbf4",
+              "name": "Invalid request. Check contents of your response body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Marietta Office Retail Space\",\n  \"location\": \"34.177114, -86.830390\",\n  \"building_types\": [\n    \"Office\",\n    \"Retail\"\n  ],\n  \"energy_code_id\": 12\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fcff64c5-f0ab-4907-af86-a352e79f9333",
+              "name": "Unauthorized request. Check your API token if it is valid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Marietta Office Retail Space\",\n  \"location\": \"34.177114, -86.830390\",\n  \"building_types\": [\n    \"Office\",\n    \"Retail\"\n  ],\n  \"energy_code_id\": 12\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "2e4e9476-fab2-4fb4-b65e-b8d7a4bc4795",
+      "name": "Project Geometry",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "64381b99-2e07-4050-83c4-ff63820ce4b8",
+          "name": "Updates a project's 3D geometry",
+          "request": {
+            "name": "Updates a project's 3D geometry",
+            "description": {
+              "content": "Gives you the ability to update a project's 3D geometry that will be utilized to perform Daylight Analysis with analysis.tool.\nUpdating project geometry requires at least *one* non-zero value in the **wall_area_X**, and **window_area_X** property (where **X** is the cardinal direction).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "projects",
+                ":project_id",
+                "geometry"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"floors\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": \"<array>\"\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": \"<array>\"\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    }\n  ],\n  \"walls\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": \"<array>\"\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": \"<array>\"\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    }\n  ],\n  \"windows\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": \"<array>\"\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": \"<array>\"\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    }\n  ],\n  \"roofs\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": \"<array>\"\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": \"<array>\"\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    }\n  ],\n  \"floor_area\": \"<double>\",\n  \"roof_area\": \"<double>\",\n  \"ground_floor_area\": \"<double>\",\n  \"building_height\": \"<number>\",\n  \"si_units\": \"<boolean>\",\n  \"below_grade_walls\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": \"<array>\"\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": \"<array>\"\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    }\n  ],\n  \"outdoor_floors\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": \"<array>\"\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": \"<array>\"\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    }\n  ],\n  \"interior_walls\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": \"<array>\"\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": \"<array>\"\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    }\n  ],\n  \"spandrels\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": \"<array>\"\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": \"<array>\"\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    }\n  ],\n  \"skylights\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": \"<array>\"\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": \"<array>\"\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    }\n  ],\n  \"shading_devices\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": \"<array>\"\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": \"<array>\"\n      },\n      \"Center\": \"<object>\",\n      \"Normal\": \"<object>\"\n    }\n  ],\n  \"skylight_area\": \"<double>\",\n  \"underground_area\": \"<double>\",\n  \"rooms\": {\n    \"rooms\": [\n      {\n        \"Faces\": [\n          {\n            \"Mesh\": {\n              \"Vertices\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"Triangles\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"areaIDs\": [\n              \"<uuid>\",\n              \"<uuid>\"\n            ],\n            \"area\": \"<double>\",\n            \"Center\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"Normal\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": \"<string>\",\n            \"roofId\": \"<uuid>\",\n            \"roofArea\": \"<double>\",\n            \"floorId\": \"<uuid>\",\n            \"obc\": \"<string>\"\n          },\n          {\n            \"Mesh\": {\n              \"Vertices\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"Triangles\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"areaIDs\": [\n              \"<uuid>\",\n              \"<uuid>\"\n            ],\n            \"area\": \"<double>\",\n            \"Center\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"Normal\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": \"<string>\",\n            \"roofId\": \"<uuid>\",\n            \"roofArea\": \"<double>\",\n            \"floorId\": \"<uuid>\",\n            \"obc\": \"<string>\"\n          }\n        ],\n        \"area\": \"<double>\",\n        \"volume\": \"<double>\",\n        \"roomId\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"number\": \"<number>\",\n        \"levelName\": \"<string>\",\n        \"levelId\": \"<uuid>\"\n      },\n      {\n        \"Faces\": [\n          {\n            \"Mesh\": {\n              \"Vertices\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"Triangles\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"areaIDs\": [\n              \"<uuid>\",\n              \"<uuid>\"\n            ],\n            \"area\": \"<double>\",\n            \"Center\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"Normal\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": \"<string>\",\n            \"roofId\": \"<uuid>\",\n            \"roofArea\": \"<double>\",\n            \"floorId\": \"<uuid>\",\n            \"obc\": \"<string>\"\n          },\n          {\n            \"Mesh\": {\n              \"Vertices\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"Triangles\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"areaIDs\": [\n              \"<uuid>\",\n              \"<uuid>\"\n            ],\n            \"area\": \"<double>\",\n            \"Center\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"Normal\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": \"<string>\",\n            \"roofId\": \"<uuid>\",\n            \"roofArea\": \"<double>\",\n            \"floorId\": \"<uuid>\",\n            \"obc\": \"<string>\"\n          }\n        ],\n        \"area\": \"<double>\",\n        \"volume\": \"<double>\",\n        \"roomId\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"number\": \"<number>\",\n        \"levelName\": \"<string>\",\n        \"levelId\": \"<uuid>\"\n      }\n    ],\n    \"Windows\": [\n      {\n        \"Center\": \"<object>\",\n        \"Normal\": \"<object>\",\n        \"Mesh\": {\n          \"Vertices\": [\n            \"<object>\",\n            \"<object>\"\n          ],\n          \"Triangles\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"wallId\": \"<uuid>\"\n        },\n        \"area\": \"<double>\",\n        \"holeId\": \"<uuid>\"\n      },\n      {\n        \"Center\": \"<object>\",\n        \"Normal\": \"<object>\",\n        \"Mesh\": {\n          \"Vertices\": [\n            \"<object>\",\n            \"<object>\"\n          ],\n          \"Triangles\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"wallId\": \"<uuid>\"\n        },\n        \"area\": \"<double>\",\n        \"holeId\": \"<uuid>\"\n      }\n    ]\n  },\n  \"wall_area_n\": \"<double>\",\n  \"wall_area_ne\": \"<double>\",\n  \"wall_area_e\": \"<double>\",\n  \"wall_area_se\": \"<double>\",\n  \"wall_area_s\": \"<double>\",\n  \"wall_area_sw\": \"<double>\",\n  \"wall_area_w\": \"<double>\",\n  \"wall_area_nw\": \"<double>\",\n  \"window_area_n\": \"<double>\",\n  \"window_area_ne\": \"<double>\",\n  \"window_area_e\": \"<double>\",\n  \"window_area_se\": \"<double>\",\n  \"window_area_s\": \"<double>\",\n  \"window_area_sw\": \"<double>\",\n  \"window_area_w\": \"<double>\",\n  \"window_area_nw\": \"<double>\",\n  \"roof_u_value\": \"<double>\",\n  \"ground_floor_u_value\": \"<double>\",\n  \"skylight_u_value\": \"<double>\",\n  \"skylight_shgc\": \"<double>\",\n  \"window_u_value_n\": \"<double>\",\n  \"wall_u_value_n\": \"<double>\",\n  \"basement_depth\": \"<number>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8351c46f-5a9e-4e56-bf6e-f848ebf2cb1d",
+              "name": "Successfully Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "geometry"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"floors\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"walls\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"windows\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"roofs\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"floor_area\": 37.21,\n  \"roof_area\": 37.21,\n  \"ground_floor_area\": 37.21,\n  \"building_height\": 4.115,\n  \"si_units\": true,\n  \"below_grade_walls\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"outdoor_floors\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"interior_walls\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"spandrels\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"skylights\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"shading_devices\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"skylight_area\": 0,\n  \"underground_area\": 0,\n  \"rooms\": {\n    \"rooms\": [\n      {\n        \"Faces\": [\n          {\n            \"Mesh\": {\n              \"Vertices\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"Triangles\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"areaIDs\": [\n              \"<uuid>\",\n              \"<uuid>\"\n            ],\n            \"area\": 37.21,\n            \"Center\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"Normal\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": \"Floor\",\n            \"roofId\": \"84c72356-bc7b-4c95-a9bc-b6a676206957\",\n            \"roofArea\": 37.21,\n            \"floorId\": \"69f0a2a8-2160-4294-a909-a9977d9d67b3\",\n            \"obc\": \"Ground\"\n          },\n          {\n            \"Mesh\": {\n              \"Vertices\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"Triangles\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"areaIDs\": [\n              \"<uuid>\",\n              \"<uuid>\"\n            ],\n            \"area\": 37.21,\n            \"Center\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"Normal\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": \"Floor\",\n            \"roofId\": \"84c72356-bc7b-4c95-a9bc-b6a676206957\",\n            \"roofArea\": 37.21,\n            \"floorId\": \"69f0a2a8-2160-4294-a909-a9977d9d67b3\",\n            \"obc\": \"Ground\"\n          }\n        ],\n        \"area\": 37.21,\n        \"volume\": 15311.170800000002,\n        \"roomId\": \"db20906a-731d-4dfd-9103-29593575b05c\",\n        \"name\": \"Room\",\n        \"number\": 1,\n        \"levelName\": \"Floor 1\",\n        \"levelId\": \"78c93975-070c-4219-bcae-3be319b3cfce\"\n      },\n      {\n        \"Faces\": [\n          {\n            \"Mesh\": {\n              \"Vertices\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"Triangles\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"areaIDs\": [\n              \"<uuid>\",\n              \"<uuid>\"\n            ],\n            \"area\": 37.21,\n            \"Center\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"Normal\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": \"Floor\",\n            \"roofId\": \"84c72356-bc7b-4c95-a9bc-b6a676206957\",\n            \"roofArea\": 37.21,\n            \"floorId\": \"69f0a2a8-2160-4294-a909-a9977d9d67b3\",\n            \"obc\": \"Ground\"\n          },\n          {\n            \"Mesh\": {\n              \"Vertices\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"Triangles\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"areaIDs\": [\n              \"<uuid>\",\n              \"<uuid>\"\n            ],\n            \"area\": 37.21,\n            \"Center\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"Normal\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": \"Floor\",\n            \"roofId\": \"84c72356-bc7b-4c95-a9bc-b6a676206957\",\n            \"roofArea\": 37.21,\n            \"floorId\": \"69f0a2a8-2160-4294-a909-a9977d9d67b3\",\n            \"obc\": \"Ground\"\n          }\n        ],\n        \"area\": 37.21,\n        \"volume\": 15311.170800000002,\n        \"roomId\": \"db20906a-731d-4dfd-9103-29593575b05c\",\n        \"name\": \"Room\",\n        \"number\": 1,\n        \"levelName\": \"Floor 1\",\n        \"levelId\": \"78c93975-070c-4219-bcae-3be319b3cfce\"\n      }\n    ],\n    \"Windows\": [\n      {\n        \"Center\": {\n          \"X\": 72.45084,\n          \"Y\": 119.337007,\n          \"Z\": 25.262917\n        },\n        \"Normal\": {\n          \"X\": 0,\n          \"Y\": 0,\n          \"Z\": 1\n        },\n        \"Mesh\": {\n          \"Triangles\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"wallId\": \"097c40f5-b020-4017-8888-f252e1ce4e0b\"\n        },\n        \"area\": \"<double>\",\n        \"holeId\": \"<uuid>\"\n      },\n      {\n        \"Center\": {\n          \"X\": 72.45084,\n          \"Y\": 119.337007,\n          \"Z\": 25.262917\n        },\n        \"Normal\": {\n          \"X\": 0,\n          \"Y\": 0,\n          \"Z\": 1\n        },\n        \"Mesh\": {\n          \"Triangles\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"wallId\": \"097c40f5-b020-4017-8888-f252e1ce4e0b\"\n        },\n        \"area\": \"<double>\",\n        \"holeId\": \"<uuid>\"\n      }\n    ]\n  },\n  \"wall_area_n\": 23.707,\n  \"wall_area_ne\": 0,\n  \"wall_area_e\": 25.1,\n  \"wall_area_se\": 0,\n  \"wall_area_s\": 23.707,\n  \"wall_area_sw\": 0,\n  \"wall_area_w\": 23.158,\n  \"wall_area_nw\": 0,\n  \"window_area_n\": 1.394,\n  \"window_area_ne\": 0,\n  \"window_area_e\": 0,\n  \"window_area_se\": 0,\n  \"window_area_s\": 1.394,\n  \"window_area_sw\": 0,\n  \"window_area_w\": 0,\n  \"window_area_nw\": 0,\n  \"roof_u_value\": 0.183,\n  \"ground_floor_u_value\": 0.17600000000000002,\n  \"skylight_u_value\": 2.84,\n  \"skylight_shgc\": 0.4,\n  \"window_u_value_n\": 0.38,\n  \"wall_u_value_n\": 0.3132,\n  \"basement_depth\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"eui_breakdown\": {\n      \"headers\": [\n        \"Cooling\",\n        \"Heating\",\n        \"Lighting\",\n        \"Equipment\",\n        \"Fans\",\n        \"Pumps\",\n        \"Hot Water\"\n      ],\n      \"values\": [\n        42.69810373890001,\n        215.9911661803,\n        35.150749997999995,\n        26.540714283,\n        83.00345598700001,\n        4.380000116000001,\n        5.9237200512\n      ],\n      \"total_gas\": 10.4080428009,\n      \"total_electric\": 174.19649714809515,\n      \"total_electric_without_pv\": 3602.852278444,\n      \"Primary Energy Heating\": \"electric\",\n      \"Primary Energy Domestic Hot Water\": \"gas\"\n    },\n    \"floors_count\": 5,\n    \"triangles_count\": 34,\n    \"eui\": true\n  },\n  \"msg\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a2f68998-0f6e-4481-aab5-044fe343296f",
+              "name": "Invalid request. Check contents of your response body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "geometry"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"floors\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"walls\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"windows\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"roofs\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"floor_area\": 37.21,\n  \"roof_area\": 37.21,\n  \"ground_floor_area\": 37.21,\n  \"building_height\": 4.115,\n  \"si_units\": true,\n  \"below_grade_walls\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"outdoor_floors\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"interior_walls\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"spandrels\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"skylights\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"shading_devices\": [\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    },\n    {\n      \"Mesh\": {\n        \"Vertices\": \"<object>\",\n        \"Triangles\": [\n          [\n            1,\n            2,\n            3\n          ],\n          [\n            31,\n            28,\n            0\n          ]\n        ]\n      },\n      \"Center\": {\n        \"X\": 72.45084,\n        \"Y\": 119.337007,\n        \"Z\": 25.262917\n      },\n      \"Normal\": {\n        \"X\": 0,\n        \"Y\": 0,\n        \"Z\": 1\n      }\n    }\n  ],\n  \"skylight_area\": 0,\n  \"underground_area\": 0,\n  \"rooms\": {\n    \"rooms\": [\n      {\n        \"Faces\": [\n          {\n            \"Mesh\": {\n              \"Vertices\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"Triangles\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"areaIDs\": [\n              \"<uuid>\",\n              \"<uuid>\"\n            ],\n            \"area\": 37.21,\n            \"Center\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"Normal\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": \"Floor\",\n            \"roofId\": \"84c72356-bc7b-4c95-a9bc-b6a676206957\",\n            \"roofArea\": 37.21,\n            \"floorId\": \"69f0a2a8-2160-4294-a909-a9977d9d67b3\",\n            \"obc\": \"Ground\"\n          },\n          {\n            \"Mesh\": {\n              \"Vertices\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"Triangles\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"areaIDs\": [\n              \"<uuid>\",\n              \"<uuid>\"\n            ],\n            \"area\": 37.21,\n            \"Center\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"Normal\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": \"Floor\",\n            \"roofId\": \"84c72356-bc7b-4c95-a9bc-b6a676206957\",\n            \"roofArea\": 37.21,\n            \"floorId\": \"69f0a2a8-2160-4294-a909-a9977d9d67b3\",\n            \"obc\": \"Ground\"\n          }\n        ],\n        \"area\": 37.21,\n        \"volume\": 15311.170800000002,\n        \"roomId\": \"db20906a-731d-4dfd-9103-29593575b05c\",\n        \"name\": \"Room\",\n        \"number\": 1,\n        \"levelName\": \"Floor 1\",\n        \"levelId\": \"78c93975-070c-4219-bcae-3be319b3cfce\"\n      },\n      {\n        \"Faces\": [\n          {\n            \"Mesh\": {\n              \"Vertices\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"Triangles\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"areaIDs\": [\n              \"<uuid>\",\n              \"<uuid>\"\n            ],\n            \"area\": 37.21,\n            \"Center\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"Normal\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": \"Floor\",\n            \"roofId\": \"84c72356-bc7b-4c95-a9bc-b6a676206957\",\n            \"roofArea\": 37.21,\n            \"floorId\": \"69f0a2a8-2160-4294-a909-a9977d9d67b3\",\n            \"obc\": \"Ground\"\n          },\n          {\n            \"Mesh\": {\n              \"Vertices\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"Triangles\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"areaIDs\": [\n              \"<uuid>\",\n              \"<uuid>\"\n            ],\n            \"area\": 37.21,\n            \"Center\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"Normal\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": \"Floor\",\n            \"roofId\": \"84c72356-bc7b-4c95-a9bc-b6a676206957\",\n            \"roofArea\": 37.21,\n            \"floorId\": \"69f0a2a8-2160-4294-a909-a9977d9d67b3\",\n            \"obc\": \"Ground\"\n          }\n        ],\n        \"area\": 37.21,\n        \"volume\": 15311.170800000002,\n        \"roomId\": \"db20906a-731d-4dfd-9103-29593575b05c\",\n        \"name\": \"Room\",\n        \"number\": 1,\n        \"levelName\": \"Floor 1\",\n        \"levelId\": \"78c93975-070c-4219-bcae-3be319b3cfce\"\n      }\n    ],\n    \"Windows\": [\n      {\n        \"Center\": {\n          \"X\": 72.45084,\n          \"Y\": 119.337007,\n          \"Z\": 25.262917\n        },\n        \"Normal\": {\n          \"X\": 0,\n          \"Y\": 0,\n          \"Z\": 1\n        },\n        \"Mesh\": {\n          \"Triangles\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"wallId\": \"097c40f5-b020-4017-8888-f252e1ce4e0b\"\n        },\n        \"area\": \"<double>\",\n        \"holeId\": \"<uuid>\"\n      },\n      {\n        \"Center\": {\n          \"X\": 72.45084,\n          \"Y\": 119.337007,\n          \"Z\": 25.262917\n        },\n        \"Normal\": {\n          \"X\": 0,\n          \"Y\": 0,\n          \"Z\": 1\n        },\n        \"Mesh\": {\n          \"Triangles\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"wallId\": \"097c40f5-b020-4017-8888-f252e1ce4e0b\"\n        },\n        \"area\": \"<double>\",\n        \"holeId\": \"<uuid>\"\n      }\n    ]\n  },\n  \"wall_area_n\": 23.707,\n  \"wall_area_ne\": 0,\n  \"wall_area_e\": 25.1,\n  \"wall_area_se\": 0,\n  \"wall_area_s\": 23.707,\n  \"wall_area_sw\": 0,\n  \"wall_area_w\": 23.158,\n  \"wall_area_nw\": 0,\n  \"window_area_n\": 1.394,\n  \"window_area_ne\": 0,\n  \"window_area_e\": 0,\n  \"window_area_se\": 0,\n  \"window_area_s\": 1.394,\n  \"window_area_sw\": 0,\n  \"window_area_w\": 0,\n  \"window_area_nw\": 0,\n  \"roof_u_value\": 0.183,\n  \"ground_floor_u_value\": 0.17600000000000002,\n  \"skylight_u_value\": 2.84,\n  \"skylight_shgc\": 0.4,\n  \"window_u_value_n\": 0.38,\n  \"wall_u_value_n\": 0.3132,\n  \"basement_depth\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "a7b223ff-0d7c-4440-b00e-44c24903a2a5",
+      "name": "Daylight Analysis",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0d3f0550-b033-4a8a-93cd-0b256520e76d",
+          "name": "Kickstarts all analysis types for a given project",
+          "request": {
+            "name": "Kickstarts all analysis types for a given project",
+            "description": {
+              "content": "Fires off the daylight analysis calculations to start running for a given project.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "analysis"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"project_id\": \"<number>\",\n  \"analysis_types\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "70819aea-1e57-4529-84ee-79ee45f108fa",
+              "name": "Accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analysis"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"project_id\": 33,\n  \"analysis_types\": [\n    \"daylight\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"msg\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9fab8e20-38f9-4d57-80f7-14e84b01b90e",
+              "name": "Invalid request. Check contents of your response body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analysis"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"project_id\": 33,\n  \"analysis_types\": [\n    \"daylight\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f53e23e7-c662-43be-a529-b81cf5a4d6e0",
+          "name": "Retrieves the results for daylight analysis for a given project",
+          "request": {
+            "name": "Retrieves the results for daylight analysis for a given project",
+            "description": {},
+            "url": {
+              "path": [
+                "analysis",
+                ":project_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "658317ba-8e27-485a-8ce9-8a30cd2089ea",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analysis",
+                    ":project_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"value\": \"<Error: Could not resolve allOf schema\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "628e2983-3096-43cd-b3cd-b16570956ec5",
+              "name": "Invalid request. Check contents of your response body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analysis",
+                    ":project_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "00f007d8-426a-40f8-b590-8c9525db3418",
+              "name": "The specified resource was not found. Verify if the URI is accurate.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analysis",
+                    ":project_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "944e3bf0-019d-461c-bdd5-b5913ad7a58f",
+          "name": "Obtains the remaining number of jobs per analysis type for a given project",
+          "request": {
+            "name": "Obtains the remaining number of jobs per analysis type for a given project",
+            "description": {},
+            "url": {
+              "path": [
+                "analysis",
+                ":project_id",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "2a474054-4e4c-4f97-9b6a-96517b9f25ce",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analysis",
+                    ":project_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"value\": \"<Error: Could not resolve allOf schema\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0962ffd1-eb02-4b73-8882-c34e331b5081",
+              "name": "Invalid request. Check contents of your response body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analysis",
+                    ":project_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8d2bafde-d4d6-4dff-b47f-babe2dc5130c",
+              "name": "The specified resource was not found. Verify if the URI is accurate.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analysis",
+                    ":project_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1bdc1e92-23dc-46f3-a4ef-f3240046f828",
+          "name": "Halts all analyses calculations for a given project",
+          "request": {
+            "name": "Halts all analyses calculations for a given project",
+            "description": {},
+            "url": {
+              "path": [
+                "analysis",
+                ":project_id",
+                "stop"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0a879d88-ddbd-4ed3-95f9-0996e8e3e279",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analysis",
+                    ":project_id",
+                    "stop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"msg\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b0146501-2f4c-484f-8a2a-8dae31a285ff",
+              "name": "The specified resource was not found. Verify if the URI is accurate.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analysis",
+                    ":project_id",
+                    "stop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.covetool.com/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "45591f9b-a1ab-41a2-93ca-2a5d940f0757",
+    "name": "cove.tool REST API v2",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\nThe cove.tool API is a set of HTTP endpoints that help your app integrate with cove.tool. The cove.tool API is developed around the RESTful architecture\n\nRecently, we released the cove.tool API v2. The cove.tool API v2 includes a modern foundation, new and advanced features to how cove.tool can integrate seamlessly into your app.\n\n# Getting Started\nIn order to start making calls to the API, each request will have to be authenticated. This is done by providing an authentication token on every request. It checks whether the user is authorized and has permission to perform the following actions.  See more in Authentication section.\n1. **Cove.tool account** - Make sure to have access to a valid (trial/licensed) cove.tool account.\n2. **Projects created with cove.tool** - Once you login to your cove.tool account, make sure to create project(s) you wish to start making API requests with! As these are the projects that the API relies on to obtain, update and retrieve information.\n\n# Authentication\nBy providing an authentication token on every request, it checks whether the user is authorized and has permission to update and retrieve data.\n  ## Generating an API Token\n  | URL | https://app.covetool.com/api/get-token |\n  |-----|----------------------------------------|\n\n\n# Testing\nIn order to understand how the cove.tool API can work for you, the easiest way is to start making requests! We recommend using standard API testing tools such as HTTPie or Postman to start interacting with the API over HTTP.\n\n# Error Codes\n| HTTP Status Code |        Category       |\n|:----------------:|:---------------------:|\n|        200       |           OK          |\n|        201       |        Updated        |\n|        202       |        Accepted       |\n|        400       |      Bad Request      |\n|        401       |  Unauthorized Request |\n|        404       |   Resource Not Found  |\n|        5xx       | Internal Server Error |\n\n_Happy Developing!_\n",
+      "type": "text/plain"
+    }
+  }
+}
