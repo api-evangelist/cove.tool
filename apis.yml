@@ -29,54 +29,107 @@ tags:
 - Embodied Carbon
 - Building Design
 apis:
-- aid: cove.tool:rest-api-v2
-  name: cove.tool REST API v2
-  description: 'The current cove.tool REST API. Thirteen operations across six tags — User,
-    Profiles, Energy Codes, Projects, Project Geometry and Daylight Analysis — covering account
-    creation, project create/read/update, 3D geometry upload, energy-code lookup, and starting,
-    polling, retrieving and stopping daylight/energy analysis runs. Token authentication is sent
-    in the Authorization header; tokens are minted at https://app.covetool.com/api/get-token.'
+- aid: cove.tool:cove.tool-authentication-token-api
+  name: Cove.Tool Authentication Token API
+  description: >-
+    Attempting to make API requests without authentication will fail. API requests must be made
+
+    over HTTPS. Authentication tokens are used to help identify the user
+
+    attempting to make the HTTP requests.
+
+    <br/><br/>
+
+
+    By providing an authentication token on every request, it checks whether
+
+    the user is authorized and has permission to update and retrieve data.
+
+    <br/><br/>
+
+    Be sure to include it in every request header once you start making API calls.
   humanURL: https://developers.covetool.com/
   baseURL: https://app.covetool.com/api/v2
   tags:
-  - Building Performance
-  - Daylight Analysis
-  - Energy Modeling
-  - Project
-  - Simulation
-  tags_raw:
-  - Building Performance
-  - Daylight Analysis
-  - Energy Modeling
-  - Projects
-  - Simulation
+  - Authentication Token
   properties:
   - type: OpenAPI
-    url: openapi/cove.tool-rest-api-v2-openapi.yml
-  - type: Overlay
-    url: overlays/cove.tool-rest-api-v2-overlay.yaml
+    url: openapi/cove.tool-authentication-token-api-openapi.yml
   - type: Documentation
     url: https://developers.covetool.com/
-- aid: cove.tool:api-v1
-  name: cove.tool API v1
-  description: 'The original cove.tool API, still served from the developer portal alongside v2.
-    Three operations: obtain an API token, list projects and their associated information, and
-    update run values (geometry) for a given project and run.'
+- aid: cove.tool:cove.tool-daylight-analysis-api
+  name: Cove.Tool Daylight Analysis API
+  description: The Daylight Analysis API from Cove.Tool — 4 operation(s) for daylight analysis.
   humanURL: https://developers.covetool.com/
-  baseURL: https://app.covetool.com/api
+  baseURL: https://app.covetool.com/api/v2
   tags:
-  - Authentication
-  - Project
-  - Building Performance
-  tags_raw:
-  - Authentication
-  - Projects
-  - Building Performance
+  - Daylight Analysis
   properties:
   - type: OpenAPI
-    url: openapi/cove.tool-api-v1-openapi.yml
-  - type: Overlay
-    url: overlays/cove.tool-api-v1-overlay.yaml
+    url: openapi/cove.tool-daylight-analysis-api-openapi.yml
+  - type: Documentation
+    url: https://developers.covetool.com/
+- aid: cove.tool:cove.tool-energy-codes-api
+  name: Cove.Tool Energy Codes API
+  description: The Energy Codes API from Cove.Tool — 1 operation(s) for energy codes.
+  humanURL: https://developers.covetool.com/
+  baseURL: https://app.covetool.com/api/v2
+  tags:
+  - Energy Codes
+  properties:
+  - type: OpenAPI
+    url: openapi/cove.tool-energy-codes-api-openapi.yml
+  - type: Documentation
+    url: https://developers.covetool.com/
+- aid: cove.tool:cove.tool-profiles-api
+  name: Cove.Tool Profiles API
+  description: The Profiles API from Cove.Tool — 1 operation(s) for profiles.
+  humanURL: https://developers.covetool.com/
+  baseURL: https://app.covetool.com/api/v2
+  tags:
+  - Profiles
+  properties:
+  - type: OpenAPI
+    url: openapi/cove.tool-profiles-api-openapi.yml
+  - type: Documentation
+    url: https://developers.covetool.com/
+- aid: cove.tool:cove.tool-project-geometry-api
+  name: Cove.Tool Project Geometry API
+  description: >-
+    Update project geometry and obtain an Energy Use Intensity (EUI) breakdown of a given model.
+  humanURL: https://developers.covetool.com/
+  baseURL: https://app.covetool.com/api/v2
+  tags:
+  - Project Geometry
+  properties:
+  - type: OpenAPI
+    url: openapi/cove.tool-project-geometry-api-openapi.yml
+  - type: Documentation
+    url: https://developers.covetool.com/
+- aid: cove.tool:cove.tool-projects-api
+  name: Cove.Tool Projects API
+  description: >-
+    Lists all the projects of current user and returns a list of objects with project name, runs, and
+    its url.
+  humanURL: https://developers.covetool.com/
+  baseURL: https://app.covetool.com/api/v2
+  tags:
+  - Projects
+  properties:
+  - type: OpenAPI
+    url: openapi/cove.tool-projects-api-openapi.yml
+  - type: Documentation
+    url: https://developers.covetool.com/
+- aid: cove.tool:cove.tool-user-api
+  name: Cove.Tool User API
+  description: The User API from Cove.Tool — 1 operation(s) for user.
+  humanURL: https://developers.covetool.com/
+  baseURL: https://app.covetool.com/api/v2
+  tags:
+  - User
+  properties:
+  - type: OpenAPI
+    url: openapi/cove.tool-user-api-openapi.yml
   - type: Documentation
     url: https://developers.covetool.com/
 x-enrichment:
@@ -107,6 +160,10 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/cove.tool-rest-api-v2-overlay.yaml
+- type: Overlay
+  url: overlays/cove.tool-api-v1-overlay.yaml
 - type: DomainSecurity
   url: security/cove.tool-domain-security.yml
 - type: Authentication
