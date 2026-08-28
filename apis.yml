@@ -9,6 +9,18 @@ description: 'cove.tool (rebranded to "cove" in 2025) is an Atlanta, Georgia bui
   code, kick off daylight and energy simulation, poll job status and retrieve EUI, sDA and ASE
   results without using the web application. Two OpenAPI 3.0 definitions are served from the
   developer portal: a three-operation v1 and a thirteen-operation v2.'
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://developers.covetool.com/covetool_logo.png
 url: https://raw.githubusercontent.com/api-evangelist/cove.tool/refs/heads/main/apis.yml
 x-type: company
