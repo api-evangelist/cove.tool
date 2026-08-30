@@ -126,6 +126,8 @@ apis:
   humanURL: https://developers.covetool.com/
   baseURL: https://app.covetool.com/api/v2
   tags:
+  - Project
+  tags_raw:
   - Projects
   properties:
   - type: OpenAPI
