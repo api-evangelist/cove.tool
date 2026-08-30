@@ -1,0 +1,264 @@
+openapi: 3.2.0
+info:
+  version: 2.0.0
+  title: cove.tool REST API v2 Daylight Analysis API
+  termsOfService: https://www.cove.tools/terms-of-use
+  x-logo:
+    url: ./covetool_logo.png
+    altText: cove.tool logo
+  description: "# Introduction\nThe cove.tool API is a set of HTTP endpoints that help your app integrate with cove.tool. The cove.tool API is developed around the RESTful architecture\n\nRecently, we released the cove.tool API v2. The cove.tool API v2 includes a modern foundation, new and advanced features to how cove.tool can integrate seamlessly into your app.\n\n# Getting Started\nIn order to start making calls to the API, each request will have to be authenticated. This is done by providing an authentication token on every request. It checks whether the user is authorized and has permission to perform the following actions.  See more in Authentication section.\n1. **Cove.tool account** - Make sure to have access to a valid (trial/licensed) cove.tool account.\n2. **Projects created with cove.tool** - Once you login to your cove.tool account, make sure to create project(s) you wish to start making API requests with! As these are the projects that the API relies on to obtain, update and retrieve information.\n\n# Authentication\nBy providing an authentication token on every request, it checks whether the user is authorized and has permission to update and retrieve data.\n  ## Generating an API Token\n  | URL | https://app.covetool.com/api/get-token |\n  |-----|----------------------------------------|\n\n\n# Testing\nIn order to understand how the cove.tool API can work for you, the easiest way is to start making requests! We recommend using standard API testing tools such as HTTPie or Postman to start interacting with the API over HTTP.\n\n# Error Codes\n| HTTP Status Code |        Category       |\n|:----------------:|:---------------------:|\n|        200       |           OK          |\n|        201       |        Updated        |\n|        202       |        Accepted       |\n|        400       |      Bad Request      |\n|        401       |  Unauthorized Request |\n|        404       |   Resource Not Found  |\n|        5xx       | Internal Server Error |\n\n_Happy Developing!_\n"
+servers:
+- url: https://app.covetool.com/api/v2
+tags:
+- name: Daylight Analysis
+paths:
+  /analysis:
+    post:
+      tags:
+      - Daylight Analysis
+      security:
+      - apiKeyAuth: []
+      summary: Kickstarts all analysis types for a given project
+      description: Fires off the daylight analysis calculations to start running for a given project.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RunDaylightAnalysisRequestBody'
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunDaylightAnalysisResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /analysis/{project_id}:
+    get:
+      tags:
+      - Daylight Analysis
+      security:
+      - apiKeyAuth: []
+      summary: Retrieves the results for daylight analysis for a given project
+      parameters:
+      - in: path
+        required: true
+        name: project_id
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DaylightAnalysisResultsResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /analysis/{project_id}/status:
+    get:
+      tags:
+      - Daylight Analysis
+      security:
+      - apiKeyAuth: []
+      summary: Obtains the remaining number of jobs per analysis type for a given project
+      parameters:
+      - in: path
+        required: true
+        name: project_id
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DaylightAnalysisStatusResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /analysis/{project_id}/stop:
+    get:
+      tags:
+      - Daylight Analysis
+      security:
+      - apiKeyAuth: []
+      summary: Halts all analyses calculations for a given project
+      parameters:
+      - in: path
+        required: true
+        name: project_id
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StopDaylightAnalysisResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    GeneralEndpointResponses:
+      type: object
+      required:
+      - data
+      - msg
+      - errors
+      properties:
+        data:
+          type: object
+        msg:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    DaylightAnalysisStatusResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DaylightAnalysisStatusResponseData'
+      example:
+        data:
+        - analysis: daylight
+          jobs_total: 5
+          jobs_remaining: 0
+        - analysis: covid
+          jobs_total: 5
+          jobs_remaining: 0
+        - analysis: lvc
+          jobs_total: 5
+          jobs_remaining: 0
+        - analysis: radiation
+          jobs_total: 6
+          jobs_remaining: 0
+        msg: Successfully retrieved resource.
+        errors: {}
+    StopDaylightAnalysisResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      example:
+        data: null
+        msg: All analyses were successfully halted.
+        errors: {}
+    DaylightAnalysisResultsResponseData:
+      type: array
+      items:
+        type: object
+        required:
+        - run_id
+        - building_type
+        - floors
+        - ase
+        - sda
+        properties:
+          run_id:
+            type: number
+          building_type:
+            type: string
+          floors:
+            type: array
+            items:
+              type: object
+              required:
+              - id
+              - ase
+              - sda
+              properties:
+                id:
+                  type: number
+                ase:
+                  type: number
+                  format: double
+                sda:
+                  type: number
+                  format: double
+          ase:
+            type: number
+            format: double
+          sda:
+            type: number
+            format: double
+    RunDaylightAnalysisResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      example:
+        data: null
+        msg: The analysis job was accepted.
+        errors: {}
+    RunDaylightAnalysisRequestBody:
+      type: object
+      required:
+      - project_id
+      - analysis_types
+      properties:
+        project_id:
+          type: number
+          example: 33
+        analysis_types:
+          type: array
+          items:
+            type: string
+          example:
+          - daylight
+    DaylightAnalysisResultsResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DaylightAnalysisResultsResponseData'
+      example:
+        data:
+        - run_id: 3
+          building_type: Education
+          floors:
+          - id: 430
+            ase: 10.891089108910892
+            sda: 26.732673267326735
+          ase: 10.891089108910892
+          sda: 26.732673267326735
+        msg: Successfully found results.
+        errors: {}
+    DaylightAnalysisStatusResponseData:
+      type: array
+      items:
+        type: object
+        required:
+        - analysis
+        - jobs_total
+        - jobs_remaining
+        properties:
+          analysis:
+            type: string
+          jobs_total:
+            type: number
+          jobs_remaining:
+            type: number
+  responses:
+    NotFound:
+      description: The specified resource was not found. Verify if the URI is accurate.
+    BadRequest:
+      description: Invalid request. Check contents of your response body.
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization

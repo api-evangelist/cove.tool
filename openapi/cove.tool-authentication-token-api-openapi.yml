@@ -1,0 +1,117 @@
+openapi: 3.2.0
+info:
+  version: 1.0.0
+  title: cove.tool Authentication Token API
+  termsOfService: https://www.cove.tools/terms-of-use
+  contact:
+    name: API Support
+    email: developers@covetool.com
+  x-logo:
+    url: ./covetool_logo.png
+    altText: cove.tool logo
+    href: https://cove.tools
+  x-apiVersions:
+    versions:
+    - v1
+    - v2
+    versionSpecs:
+    - openapi-v1.yaml
+    - openapi-v2.yaml
+    defaultVersionSpec: v1
+  description: "# Introduction\n\n  The cove.tool API contain the following HTTP endpoints to upload your project's geometry and obtain an Energy Usage Intensity (EUI) breakdown. The cove.tool API is developed around the RESTful architecture which offers resource-based URLs, and uses standard HTTP methods and status codes.\n  <br/><br/>\n  We recently released the [cove.tool API v2](v2) as of February 2022! The cove.tool API v2 features a completely full-fledged way to start analyzing building performance metrics into your projects such as creating users, projects, obtaining user information and geometry values such as meshes and more! \n  \n  <SourceCodeSection sourceCode=\"#/components/schemas/BasePathURL\" lang=\"cURL\" label=\"Base Url\" />\n\n# Getting Started\nEvery call made to the cove.tool API requires the following: <br/><br/> 1. **cove.tool account** - Make sure to have access to a valid (trial/licensed) cove.tool account.\n    - If you do not have a cove.tool account, you can register for one [here](https://app.covetool.com/register).\n<br/><br/> 2. **Projects created with cove.tool** - Once you login to your cove.tool account, make sure to create project(s) you wish to update the geometry and obtain an EUI breakdown for! As these are the projects that the API relies on to obtain and retrieve information. <br/><br/> 3. **Authentication token** - In order to start making calls to the API, each request will have to be authenticated. This is done by providing an authentication token on every request. It checks whether the user is authorized and has permission to perform the following actions. See more in the Authentication section below.\n\n# Prerequisite Knowledge\nIt is imperative to take note of the 3 basic objects (**project**, **runs**, **run values**); how they interact and relate with one another when trying to make updates to project geometry. _An individual project has many runs, and a run has many run values._\n<br/><br/>\nThe run represents the data for a given building type/use type. We currently offer the following use types:\n  - Office\n  - Apartments\n  - Education\n  - Hospital\n  - Hotel\n  - Lab\n  - Retail\n  - Single Family Home\n  \n\nA mixed use project with Office, Retail and Apartments would have 3 runs. The _\"unique ID\"_ is the **url** which must be included when updating an object.\n# Authentication\nThe following table contains more information on setting the Authentication token to each API request. <SecurityDefinitions /> <br/><br/> Attempting to make API requests without authentication will fail. API requests must be made\n  over HTTPS. Authentication tokens are used to help identify the user\n  attempting to make the HTTP requests.\n  <br/><br/>\n\n  By providing an authentication token on every request, it checks whether\n  the user is authorized and has permission to update and retrieve data.\n  <br/><br/>\n  Be sure to include it in every request header once you start making API calls.\n  <br/><br/>\nFor a concrete example, please see the [list all project details](v1#projects/get-project-info) section, particularly the **Header Parameters** section.\n# API Helper Functions\n\n  The following code snippet contains a Python utility class function that enables your application to start utilizing the data returned from the cove.tool API. Passing in valid cove.tool credentials to the an instance of the helper class function will allow you to start making HTTP calls.\n  <br/><br/>\n  See the Python request samples in the appropriate endpoints below to see how you can make calls with `ApiHelpers` function.\n\n  <SourceCodeSection sourceCode=\"#/components/schemas/CurlCodeSample\" lang=\"Python\" label=\"Python\" />\n\n# Testing\n  Utilizing standard API testing tools such as [HTTPie](https://httpie.io/) or [Postman](https://www.postman.com/) is a great way to start making calls to the cove.tool API.\n<br/><br/><br/>\n\n# Error Codes\n\n  The cove.tool API uses conventional HTTP status codes to indicate the success or failure of an API request. Listed below are the general status codes our API currently returns, and how to further troubleshoot the most common errors you will see when trying to make API calls.\n  <br/><br/>\n  Status codes in the `2xx` range usually indicate a successful request.\n  <br/>\n  Status codes in the `4xx` range usually indicate an error in response to the information provided with the request.\n  <br/>\n  Status codes in the `5xx` range usually indicate an unexpected error.\n\n  | <center>HTTP Status Codes</center> |   <center>Category</center>       |                               <center>Description</center>                                                             |\n  |:-----------------:|:---------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------:|\n  |        200        |           Ok          |                                                            Everything worked as expected.                                                           |\n  |        201        |  Successfully Updated |                                                        The resource was successfully created.                                                       |\n  |        202        |        Accepted       |                                                     The request was accepted and is processing.                                                     |\n  |        400        |  Bad/Invalid Request  |                       The request was unacceptable, Check and re-verify contents of required parameters in the response body.                       |\n  |        401        |  Unauthorized Request | No valid API token was provided. Check whether your API token is valid or whether it has the required permissions to perform the requested action. |\n  |        403        |   Forbidden Request   |                                          The API token doesn't have the permissions to perform the request.                                         |\n  |        404        |   Resource Not Found  |                                         The requested resource doesn't exist. Verify if the URI is accurate.                                        |\n  |        5xx        | Internal Server Error |               An unexpected error occurred. Retry your request and if the problem persists, reach out for assistance using live chat.               |\n\n<br/><br/><br/> _Happy Developing!_"
+servers:
+- url: https://app.covetool.com/api
+tags:
+- name: Authentication Token
+  description: 'Attempting to make API requests without authentication will fail. API requests must be made
+
+    over HTTPS. Authentication tokens are used to help identify the user
+
+    attempting to make the HTTP requests.
+
+    <br/><br/>
+
+
+    By providing an authentication token on every request, it checks whether
+
+    the user is authorized and has permission to update and retrieve data.
+
+    <br/><br/>
+
+    Be sure to include it in every request header once you start making API calls.'
+paths:
+  /get-token:
+    post:
+      x-customPath:
+        name: /api-token
+      tags:
+      - Authentication Token
+      summary: Obtain an API token to authenticate requests
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthTokenRequests'
+        description: API auth token request
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokenResponses'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      x-codeSamples:
+      - lang: Python
+        label: Python
+        source: "import json, requests\n\nclass ApiHelpers:\n  # Same credentials you use to log in to cove.tool\n  def __init__(self, username, password):\n      self.token = self._get_api_token(username, password)\n\n  def post_request(self, path, data, use_token=True):\n      url = self._api_url(path)\n      headers = self._headers(use_token)\n      response = requests.post(url, headers=headers, json=data)\n      return self._handle_response(response)\n\n  def get_request(self, path, use_token=True):\n      url = self._api_url(path)\n      headers = self._headers(use_token)\n      response = requests.get(url, headers=headers)\n      return self._handle_response(response)\n\n  def _api_url(self, path):\n      return 'https://app.covetool.com/api/' + path + '/'\n\n  def _get_api_token(self, username, password):\n      data = {\n          'username': username,\n          'password': password,\n      }\n      response_data = self.post_request('get-token', data, False)\n      token = response_data['token']\n      return str(token)\n\n  def _headers(self, use_token):\n      headers = {}\n      if use_token:\n          headers['Authorization'] = 'Token ' + self.token\n      return headers\n\n  def _handle_response(self, response):\n      if response.ok:\n          return response.json()\n      else:\n          return {'result': 'error'}\n\n# Set up helpers instance\nusername = 'username' # Replace with your cove.tool username\npassword = 'password' # Replace with your cove.tool password\nhelpers = ApiHelpers(username, password)\n\n# Print API token\nprint(helpers._get_api_token(username, password))\n"
+      description: Authentication tokens expire after 7 days and a new one must be fetched. When the token will expire (in seconds) is included in the response. <br/><br/> Be sure to pass in valid cove.tool associated credentials to obtain your authentication token.
+components:
+  schemas:
+    AuthTokenRequests:
+      type: object
+      required:
+      - username
+      - password
+      properties:
+        username:
+          type: string
+          format: email
+          example: hello@covetool.com
+        password:
+          type: string
+          format: string
+          example: mysupersecurepassword
+    AuthTokenResponses:
+      type: object
+      required:
+      - expires_in
+      - token
+      properties:
+        expires_in:
+          type: boolean
+          format: string
+          example: '604799.998047'
+        token:
+          type: string
+          format: string
+          example: aaaa1111aaaa1111aaaa1111aaaa1111aaaa
+  responses:
+    BadRequest:
+      description: Bad/Invalid request
+  securitySchemes:
+    AuthToken:
+      type: apiKey
+      in: header
+      name: Authorization
+x-tagGroups:
+- name: Authentication
+  tags:
+  - Authentication Header
+  - Authentication Token
+- name: Projects
+  tags:
+  - Projects
+  - Project Geometry

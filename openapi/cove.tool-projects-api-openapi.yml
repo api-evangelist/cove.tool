@@ -1,0 +1,384 @@
+openapi: 3.2.0
+info:
+  title: Cove.tool Projects API
+  termsOfService: https://www.cove.tools/terms-of-use
+  x-refined-note:
+  - x-apiVersions differs across the merged source definitions and was not carried
+  - x-logo differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged Projects across 2 of this provider''s published API definitions: cove.tool-api-v1-openapi.yml, cove.tool-rest-api-v2-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://app.covetool.com/api
+- url: https://app.covetool.com/api/v2
+tags:
+- name: Projects
+  description: Lists all the projects of current user and returns a list of objects with project name, runs, and its url.
+paths:
+  /projects:
+    get:
+      x-customPath:
+        name: /get-project-info
+      tags:
+      - Projects
+      security:
+      - AuthToken: []
+      summary: List all projects and their associated information
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization token
+        schema:
+          type: string
+          format: string
+          $ref: '#/components/schemas/AuthorizationToken'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                  - $ref: '#/components/schemas/AllProjectsRequestsA'
+                  - $ref: '#/components/schemas/AllProjectsRequestsB'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-codeSamples:
+      - lang: Python
+        label: Python
+        source: "import json, requests\n\nclass ApiHelpers:\n  # Same credentials you use to log in to cove.tool\n  def __init__(self, username, password):\n      self.token = self._get_api_token(username, password)\n\n  def post_request(self, path, data, use_token=True):\n      url = self._api_url(path)\n      headers = self._headers(use_token)\n      response = requests.post(url, headers=headers, json=data)\n      return self._handle_response(response)\n\n  def get_request(self, path, use_token=True):\n      url = self._api_url(path)\n      headers = self._headers(use_token)\n      response = requests.get(url, headers=headers)\n      return self._handle_response(response)\n\n  def _api_url(self, path):\n      return 'https://app.covetool.com/api/' + path + '/'\n\n  def _get_api_token(self, username, password):\n      data = {\n          'username': username,\n          'password': password,\n      }\n      response_data = self.post_request('get-token', data, False)\n      token = response_data['token']\n      return str(token)\n\n  def _headers(self, use_token):\n      headers = {}\n      if use_token:\n          headers['Authorization'] = 'Token ' + self.token\n      return headers\n\n  def _handle_response(self, response):\n      if response.ok:\n          return response.json()\n      else:\n          return {'result': 'error'}\n\n# Set up helpers instance\nusername = 'username' # Replace with your cove.tool username\npassword = 'password' # Replace with your cove.tool password\nhelpers = ApiHelpers(username, password)\n\n# Get a list of projects\nproject_list = helpers.get_request('projects')\nnames = []\nvalues = []\nfor project in project_list:\n    if project['run_set']:\n        name = str(project['name'])\n        value = str(project['run_set'][0])\n        names.append(name)\n        values.append(value)\n"
+    servers:
+    - url: https://app.covetool.com/api
+  /projects/:
+    post:
+      tags:
+      - Projects
+      security:
+      - apiKeyAuth: []
+      summary: Enables the creation of a new cove.tool project
+      description: Skip the 'Create Project' page and create
+      requestBody:
+        description: 'Note: `location` should be in latitude, longitude coordinates'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProjectRequestBody'
+      responses:
+        '201':
+          description: Successfully Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateProjectResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized_2'
+    get:
+      tags:
+      - Projects
+      security:
+      - apiKeyAuth: []
+      summary: Retrieves a project's detail and information
+      description: Returns a given project ID's detail and information if it exists.
+      parameters:
+      - in: query
+        name: project_id
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProjectInfoResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    servers:
+    - url: https://app.covetool.com/api/v2
+  /projects/{project_id}:
+    put:
+      tags:
+      - Projects
+      security:
+      - apiKeyAuth: []
+      summary: Updates a project's detail and information
+      parameters:
+      - in: path
+        required: true
+        name: project_id
+        schema:
+          type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProjectRequestBody'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateProjectResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized_2'
+    servers:
+    - url: https://app.covetool.com/api/v2
+components:
+  schemas:
+    AllProjectsRequestsA:
+      oneOf:
+      - $ref: '#/components/schemas/ProjectsRequests'
+      example:
+        name: Project A
+        run_set:
+        - https://app.covetool.com/api/runs/1/
+        url: https://app.covetool.com/api/projects/1/
+    AllProjectsRequestsB:
+      oneOf:
+      - $ref: '#/components/schemas/ProjectsRequests'
+      example:
+        name: Project B
+        run_set:
+        - https://app.covetool.com/api/runs/2/
+        url: https://app.covetool.com/api/projects/2/
+    ProjectsRequests:
+      type: object
+      required:
+      - name
+      - run_set
+      - url
+      properties:
+        name:
+          type: string
+          format: string
+        run_set:
+          type: array
+          items:
+            type: string
+        url:
+          type: string
+          format: string
+    AuthorizationToken:
+      type: string
+      format: string
+      example: 'Authorization: Token aaaa1111aaaa1111aaaa1111aaaa1111aaaa'
+    GeneralEndpointResponses:
+      type: object
+      required:
+      - data
+      - msg
+      - errors
+      properties:
+        data:
+          type: object
+        msg:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    CreatedByResponseData:
+      type: object
+      required:
+      - id
+      - email
+      - first_name
+      - last_name
+      properties:
+        id:
+          type: number
+        email:
+          type: string
+          format: email
+        first_name:
+          type: string
+        last_name:
+          type: string
+    CreateProjectRequestBody:
+      type: object
+      required:
+      - name
+      - location
+      - building_types
+      - energy_code_id
+      properties:
+        name:
+          type: string
+          example: Marietta Office Retail Space
+        location:
+          type: string
+          example: 34.177114, -86.830390
+        building_types:
+          type: array
+          items:
+            type: string
+          example:
+          - Office
+          - Retail
+        energy_code_id:
+          type: number
+          example: 12
+    CreateProjectResponseData:
+      type: object
+      required:
+      - id
+      - name
+      - number
+      - si_units
+      - created_by
+      - business_id
+      - eui
+      - cbecs_eui
+      - energy_code
+      - climate_zone
+      - editing
+      - read_only
+      - created_at
+      - updated_at
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        number:
+          type: number
+        si_units:
+          type: boolean
+        created_by:
+          $ref: '#/components/schemas/CreatedByResponseData'
+        business_id:
+          type: number
+        eui:
+          type: number
+          format: double
+        cebcs_eui:
+          type: number
+          format: double
+        energy_code:
+          $ref: '#/components/schemas/EnergyCodeResponseData'
+        climate_zone:
+          type: object
+        editing:
+          type: boolean
+        read_only:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    GetProjectInfoResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CreateProjectResponseData'
+      example:
+        data:
+          id: 1
+          name: Education building
+          number: null
+          si_units: false
+          created_by:
+            id: 3
+            email: anotherUser@company.com
+            first_name: Mary
+            last_name: Lambert
+          business_id: 1046
+          eui: 180.658486364008
+          cbecs_eui: 341.870031592839
+          energy_code:
+            id: 3
+            name: ASHRAE 2013
+          climate_zone:
+            id: 9
+            name: Climate Zone 3A
+          editing: false
+          read_only: false
+          created_at: '2022-01-28T12:00:47.649935-05:00'
+          updated_at: '2022-01-28T12:00:47.649935-05:00'
+        msg: Successfully retrieved resource.
+        errors: {}
+    CreateProjectResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CreateProjectResponseData'
+      example:
+        data:
+          id: 28
+          name: Marietta Office Retail Space
+          number: null
+          si_units: false
+          created_by:
+            id: 2
+            email: janewalker@company.com
+            first_name: Jane
+            last_name: Walker
+          business_id: 1045
+          eui: null
+          cbecs_eui: null
+          energy_code:
+            id: 12
+            name: ASHRAE 2019
+          climate_zone: null
+          editing: false
+          read_only: false
+          created_at: '2022-01-28T12:00:47.649935-05:00'
+          updated_at: '2022-01-28T12:00:47.649935-05:00'
+        msg: A new project was created.
+        errors: {}
+    EnergyCodeResponseData:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+  responses:
+    Unauthorized:
+      description: Unauthorized request
+    NotFound:
+      description: The specified resource was not found. Verify if the URI is accurate.
+    Unauthorized_2:
+      description: Unauthorized request. Check your API token if it is valid.
+    BadRequest:
+      description: Invalid request. Check contents of your response body.
+  securitySchemes:
+    AuthToken:
+      type: apiKey
+      in: header
+      name: Authorization
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+x-refined-from:
+- cove.tool-api-v1-openapi.yml
+- cove.tool-rest-api-v2-openapi.yml
+x-tagGroups:
+- name: Authentication
+  tags:
+  - Authentication Header
+  - Authentication Token
+- name: Projects
+  tags:
+  - Projects
+  - Project Geometry

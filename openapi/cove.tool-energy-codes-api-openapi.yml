@@ -1,0 +1,173 @@
+openapi: 3.2.0
+info:
+  version: 2.0.0
+  title: cove.tool REST API v2 Energy Codes API
+  termsOfService: https://www.cove.tools/terms-of-use
+  x-logo:
+    url: ./covetool_logo.png
+    altText: cove.tool logo
+  description: "# Introduction\nThe cove.tool API is a set of HTTP endpoints that help your app integrate with cove.tool. The cove.tool API is developed around the RESTful architecture\n\nRecently, we released the cove.tool API v2. The cove.tool API v2 includes a modern foundation, new and advanced features to how cove.tool can integrate seamlessly into your app.\n\n# Getting Started\nIn order to start making calls to the API, each request will have to be authenticated. This is done by providing an authentication token on every request. It checks whether the user is authorized and has permission to perform the following actions.  See more in Authentication section.\n1. **Cove.tool account** - Make sure to have access to a valid (trial/licensed) cove.tool account.\n2. **Projects created with cove.tool** - Once you login to your cove.tool account, make sure to create project(s) you wish to start making API requests with! As these are the projects that the API relies on to obtain, update and retrieve information.\n\n# Authentication\nBy providing an authentication token on every request, it checks whether the user is authorized and has permission to update and retrieve data.\n  ## Generating an API Token\n  | URL | https://app.covetool.com/api/get-token |\n  |-----|----------------------------------------|\n\n\n# Testing\nIn order to understand how the cove.tool API can work for you, the easiest way is to start making requests! We recommend using standard API testing tools such as HTTPie or Postman to start interacting with the API over HTTP.\n\n# Error Codes\n| HTTP Status Code |        Category       |\n|:----------------:|:---------------------:|\n|        200       |           OK          |\n|        201       |        Updated        |\n|        202       |        Accepted       |\n|        400       |      Bad Request      |\n|        401       |  Unauthorized Request |\n|        404       |   Resource Not Found  |\n|        5xx       | Internal Server Error |\n\n_Happy Developing!_\n"
+servers:
+- url: https://app.covetool.com/api/v2
+tags:
+- name: Energy Codes
+paths:
+  /energy-codes:
+    get:
+      tags:
+      - Energy Codes
+      security:
+      - apiKeyAuth: []
+      summary: Enumerates list of energy codes supported by cove.tool or in specific projects
+      description: Retrieve a list of available energy codes supported by cove.tool's automated model generation or for a specific project and its compatible energy codes depending on the query parameters passed in.
+      parameters:
+      - in: query
+        name: for_project
+        description: Specific project number
+        example: 1
+        schema:
+          type: integer
+      - in: query
+        name: name
+        schema:
+          $ref: '#/components/schemas/EnergyCodesEnum'
+        example: California
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - $ref: '#/components/schemas/EnergyCodeForProjectsResponses'
+                - $ref: '#/components/schemas/EnergyCodeResponses'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    EnergyCodeForProjectsResponses:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/EnergyCodeForProjectResponseData'
+      example:
+        data:
+        - id: 1
+          name: ASHRAE 2007
+          selected: false
+        - id: 2
+          name: ASHRAE 2010
+          selected: false
+        - id: 3
+          name: ASHRAE 2013
+          selected: true
+        - id: 7
+          name: ASHRAE 2016
+          selected: false
+        - id: 12
+          name: ASHRAE Residential 2018
+          selected: false
+        msg: Successfully found results.
+        errors: {}
+    EnergyCodesEnum:
+      type:
+      - string
+      - 'null'
+      description: Energy code names
+      enum:
+      - ASHRAE
+      - California
+      - Japan
+      - UK
+    EnergyCodeForProjectResponseData:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/EnergyCodeResponseData'
+      - type: object
+      required:
+      - selected
+      properties:
+        selected:
+          type: boolean
+    GeneralEndpointResponses:
+      type: object
+      required:
+      - data
+      - msg
+      - errors
+      properties:
+        data:
+          type: object
+        msg:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    EnergyCodeResponses:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/EnergyCodeResponseData'
+      example:
+        data:
+        - id: 1
+          name: ASHRAE 2007
+        - id: 2
+          name: ASHRAE 2010
+        - id: 3
+          name: ASHRAE 2013
+        - id: 7
+          name: ASHRAE 2016
+        - id: 12
+          name: ASHRAE 2019
+        - id: 9
+          name: ASHRAE Residential 2018
+        - id: 4
+          name: Commercial - California Title 24 2016
+        - id: 10
+          name: Commercial - California Title 24 2019
+        - id: 16
+          name: Japan Commericla Energy Code
+        - id: 17
+          name: Japan Residential Energy Code
+        - id: 5
+          name: NECB 2011
+        - id: 6
+          name: NECB 2015
+        - id: 15
+          name: NECB 2017
+        - id: 14
+          name: National Construction Code (NCC) 2019
+        - id: 8
+          name: Single Family Home - California Title 24 2016
+        - id: 11
+          name: Single Family Home - California Title 24 2019
+        - id: 13
+          name: UK NM
+        msg: Successfully found results.
+        errors: {}
+    EnergyCodeResponseData:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+  responses:
+    Unauthorized:
+      description: Unauthorized request. Check your API token if it is valid.
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
