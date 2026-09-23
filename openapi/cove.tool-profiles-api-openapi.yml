@@ -6,7 +6,9 @@ info:
   x-logo:
     url: ./covetool_logo.png
     altText: cove.tool logo
-  description: "# Introduction\nThe cove.tool API is a set of HTTP endpoints that help your app integrate with cove.tool. The cove.tool API is developed around the RESTful architecture\n\nRecently, we released the cove.tool API v2. The cove.tool API v2 includes a modern foundation, new and advanced features to how cove.tool can integrate seamlessly into your app.\n\n# Getting Started\nIn order to start making calls to the API, each request will have to be authenticated. This is done by providing an authentication token on every request. It checks whether the user is authorized and has permission to perform the following actions.  See more in Authentication section.\n1. **Cove.tool account** - Make sure to have access to a valid (trial/licensed) cove.tool account.\n2. **Projects created with cove.tool** - Once you login to your cove.tool account, make sure to create project(s) you wish to start making API requests with! As these are the projects that the API relies on to obtain, update and retrieve information.\n\n# Authentication\nBy providing an authentication token on every request, it checks whether the user is authorized and has permission to update and retrieve data.\n  ## Generating an API Token\n  | URL | https://app.covetool.com/api/get-token |\n  |-----|----------------------------------------|\n\n\n# Testing\nIn order to understand how the cove.tool API can work for you, the easiest way is to start making requests! We recommend using standard API testing tools such as HTTPie or Postman to start interacting with the API over HTTP.\n\n# Error Codes\n| HTTP Status Code |        Category       |\n|:----------------:|:---------------------:|\n|        200       |           OK          |\n|        201       |        Updated        |\n|        202       |        Accepted       |\n|        400       |      Bad Request      |\n|        401       |  Unauthorized Request |\n|        404       |   Resource Not Found  |\n|        5xx       | Internal Server Error |\n\n_Happy Developing!_\n"
+  description: '# Introduction
+
+    The cove.tool API is a set of HTTP endpoints that help your app integrate with cove.tool.'
 servers:
 - url: https://app.covetool.com/api/v2
 tags:
@@ -38,31 +40,10 @@ paths:
           description: You do not have permission
         '404':
           description: Resource not found
+      operationId: getProfilesByProfileId
+      x-operation-id-source: derived
 components:
   schemas:
-    UserProfileResponse:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/GeneralEndpointResponses'
-      properties:
-        data:
-          $ref: '#/components/schemas/UserInformationResponseData'
-      example:
-        data:
-          is_owner: true
-          is_admin: false
-          created_at: '2022-01-28T12:00:47.649935-05:00'
-          email: user@covetool.com
-          first_name: John
-          last_name: Smith
-          business:
-            name: Cove Tool
-            telephone: 770-777-7777
-            user_limit: 10
-            domain: covetool.com
-            size: null
-        msg: Successfully retrieved resource
-        errors: {}
     GeneralEndpointResponses:
       type: object
       required:
@@ -117,6 +98,29 @@ components:
               format: url
             size:
               type: number
+    UserProfileResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      properties:
+        data:
+          $ref: '#/components/schemas/UserInformationResponseData'
+      example:
+        data:
+          is_owner: true
+          is_admin: false
+          created_at: '2022-01-28T12:00:47.649935-05:00'
+          email: user@covetool.com
+          first_name: John
+          last_name: Smith
+          business:
+            name: Cove Tool
+            telephone: 770-777-7777
+            user_limit: 10
+            domain: covetool.com
+            size: null
+        msg: Successfully retrieved resource
+        errors: {}
   securitySchemes:
     apiKeyAuth:
       type: apiKey

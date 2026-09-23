@@ -6,7 +6,9 @@ info:
   x-logo:
     url: ./covetool_logo.png
     altText: cove.tool logo
-  description: "# Introduction\nThe cove.tool API is a set of HTTP endpoints that help your app integrate with cove.tool. The cove.tool API is developed around the RESTful architecture\n\nRecently, we released the cove.tool API v2. The cove.tool API v2 includes a modern foundation, new and advanced features to how cove.tool can integrate seamlessly into your app.\n\n# Getting Started\nIn order to start making calls to the API, each request will have to be authenticated. This is done by providing an authentication token on every request. It checks whether the user is authorized and has permission to perform the following actions.  See more in Authentication section.\n1. **Cove.tool account** - Make sure to have access to a valid (trial/licensed) cove.tool account.\n2. **Projects created with cove.tool** - Once you login to your cove.tool account, make sure to create project(s) you wish to start making API requests with! As these are the projects that the API relies on to obtain, update and retrieve information.\n\n# Authentication\nBy providing an authentication token on every request, it checks whether the user is authorized and has permission to update and retrieve data.\n  ## Generating an API Token\n  | URL | https://app.covetool.com/api/get-token |\n  |-----|----------------------------------------|\n\n\n# Testing\nIn order to understand how the cove.tool API can work for you, the easiest way is to start making requests! We recommend using standard API testing tools such as HTTPie or Postman to start interacting with the API over HTTP.\n\n# Error Codes\n| HTTP Status Code |        Category       |\n|:----------------:|:---------------------:|\n|        200       |           OK          |\n|        201       |        Updated        |\n|        202       |        Accepted       |\n|        400       |      Bad Request      |\n|        401       |  Unauthorized Request |\n|        404       |   Resource Not Found  |\n|        5xx       | Internal Server Error |\n\n_Happy Developing!_\n"
+  description: '# Introduction
+
+    The cove.tool API is a set of HTTP endpoints that help your app integrate with cove.tool.'
 servers:
 - url: https://app.covetool.com/api/v2
 tags:
@@ -35,6 +37,8 @@ paths:
                 $ref: '#/components/schemas/RunDaylightAnalysisResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
+      operationId: postAnalysis
+      x-operation-id-source: derived
   /analysis/{project_id}:
     get:
       tags:
@@ -59,6 +63,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '400':
           $ref: '#/components/responses/BadRequest'
+      operationId: getAnalysisByProjectId
+      x-operation-id-source: derived
   /analysis/{project_id}/status:
     get:
       tags:
@@ -83,6 +89,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '400':
           $ref: '#/components/responses/BadRequest'
+      operationId: getAnalysisByProjectIdStatus
+      x-operation-id-source: derived
   /analysis/{project_id}/stop:
     get:
       tags:
@@ -105,56 +113,25 @@ paths:
                 $ref: '#/components/schemas/StopDaylightAnalysisResponse'
         '404':
           $ref: '#/components/responses/NotFound'
+      operationId: getAnalysisByProjectIdStop
+      x-operation-id-source: derived
 components:
   schemas:
-    GeneralEndpointResponses:
-      type: object
-      required:
-      - data
-      - msg
-      - errors
-      properties:
-        data:
-          type: object
-        msg:
-          type: string
-        errors:
-          type: array
-          items:
+    DaylightAnalysisStatusResponseData:
+      type: array
+      items:
+        type: object
+        required:
+        - analysis
+        - jobs_total
+        - jobs_remaining
+        properties:
+          analysis:
             type: string
-    DaylightAnalysisStatusResponse:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/GeneralEndpointResponses'
-      - type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/DaylightAnalysisStatusResponseData'
-      example:
-        data:
-        - analysis: daylight
-          jobs_total: 5
-          jobs_remaining: 0
-        - analysis: covid
-          jobs_total: 5
-          jobs_remaining: 0
-        - analysis: lvc
-          jobs_total: 5
-          jobs_remaining: 0
-        - analysis: radiation
-          jobs_total: 6
-          jobs_remaining: 0
-        msg: Successfully retrieved resource.
-        errors: {}
-    StopDaylightAnalysisResponse:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/GeneralEndpointResponses'
-      - type: object
-      example:
-        data: null
-        msg: All analyses were successfully halted.
-        errors: {}
+          jobs_total:
+            type: number
+          jobs_remaining:
+            type: number
     DaylightAnalysisResultsResponseData:
       type: array
       items:
@@ -193,14 +170,38 @@ components:
           sda:
             type: number
             format: double
-    RunDaylightAnalysisResponse:
+    StopDaylightAnalysisResponse:
       type: object
       allOf:
       - $ref: '#/components/schemas/GeneralEndpointResponses'
       - type: object
       example:
         data: null
-        msg: The analysis job was accepted.
+        msg: All analyses were successfully halted.
+        errors: {}
+    DaylightAnalysisStatusResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DaylightAnalysisStatusResponseData'
+      example:
+        data:
+        - analysis: daylight
+          jobs_total: 5
+          jobs_remaining: 0
+        - analysis: covid
+          jobs_total: 5
+          jobs_remaining: 0
+        - analysis: lvc
+          jobs_total: 5
+          jobs_remaining: 0
+        - analysis: radiation
+          jobs_total: 6
+          jobs_remaining: 0
+        msg: Successfully retrieved resource.
         errors: {}
     RunDaylightAnalysisRequestBody:
       type: object
@@ -217,6 +218,15 @@ components:
             type: string
           example:
           - daylight
+    RunDaylightAnalysisResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      example:
+        data: null
+        msg: The analysis job was accepted.
+        errors: {}
     DaylightAnalysisResultsResponse:
       type: object
       allOf:
@@ -237,26 +247,26 @@ components:
           sda: 26.732673267326735
         msg: Successfully found results.
         errors: {}
-    DaylightAnalysisStatusResponseData:
-      type: array
-      items:
-        type: object
-        required:
-        - analysis
-        - jobs_total
-        - jobs_remaining
-        properties:
-          analysis:
+    GeneralEndpointResponses:
+      type: object
+      required:
+      - data
+      - msg
+      - errors
+      properties:
+        data:
+          type: object
+        msg:
+          type: string
+        errors:
+          type: array
+          items:
             type: string
-          jobs_total:
-            type: number
-          jobs_remaining:
-            type: number
   responses:
-    NotFound:
-      description: The specified resource was not found. Verify if the URI is accurate.
     BadRequest:
       description: Invalid request. Check contents of your response body.
+    NotFound:
+      description: The specified resource was not found. Verify if the URI is accurate.
   securitySchemes:
     apiKeyAuth:
       type: apiKey

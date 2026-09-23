@@ -1,0 +1,39 @@
+{
+  "provider": "cove.tool",
+  "sources": [
+    "_original/cove.tool-api-v1-openapi.yaml",
+    "_original/cove.tool-rest-api-v2-openapi.yaml"
+  ],
+  "outputs": [
+    "cove.tool-authentication-token-api-openapi.yml",
+    "cove.tool-project-geometry-api-openapi.yml",
+    "cove.tool-projects-api-openapi.yml",
+    "cove.tool-daylight-analysis-api-openapi.yml",
+    "cove.tool-energy-codes-api-openapi.yml",
+    "cove.tool-profiles-api-openapi.yml",
+    "cove.tool-user-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "2 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "cove.tool-api-v1-openapi.yaml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "cove.tool-rest-api-v2-openapi.yaml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "tag 'Project Geometry' spans 2 source specs (cove.tool-api-v1-openapi.yaml, cove.tool-rest-api-v2-openapi.yaml): per-path servers applied",
+    "tag 'Projects' spans 2 source specs (cove.tool-api-v1-openapi.yaml, cove.tool-rest-api-v2-openapi.yaml): per-path servers applied",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "_original/cove.tool-rest-api-v2-openapi.yml: archived document superseded by a larger archived document",
+    "_original/cove.tool-api-v1-openapi.yml: archived document superseded by a larger archived document",
+    "cove.tool-authentication-token-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cove.tool-daylight-analysis-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cove.tool-energy-codes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cove.tool-profiles-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cove.tool-project-geometry-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cove.tool-projects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cove.tool-user-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}
