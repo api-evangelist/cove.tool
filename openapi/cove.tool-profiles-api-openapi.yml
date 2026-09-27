@@ -44,21 +44,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    GeneralEndpointResponses:
-      type: object
-      required:
-      - data
-      - msg
-      - errors
-      properties:
-        data:
-          type: object
-        msg:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
     UserInformationResponseData:
       type: object
       required:
@@ -121,6 +106,21 @@ components:
             size: null
         msg: Successfully retrieved resource
         errors: {}
+    GeneralEndpointResponses:
+      type: object
+      required:
+      - data
+      - msg
+      - errors
+      properties:
+        data:
+          type: object
+        msg:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

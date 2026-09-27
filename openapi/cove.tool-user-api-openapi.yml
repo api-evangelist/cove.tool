@@ -39,32 +39,22 @@ paths:
       operationId: postAuthSignup
       x-operation-id-source: derived
 components:
-  responses:
-    BadRequest:
-      description: Invalid request. Check contents of your response body.
   schemas:
-    UserSignupRequests:
+    GeneralEndpointResponses:
       type: object
       required:
-      - email
-      - password
-      - first_name
-      - last_name
+      - data
+      - msg
+      - errors
       properties:
-        email:
+        data:
+          type: object
+        msg:
           type: string
-          format: email
-          example: hello@covetool.com
-        password:
-          type: string
-          format: password
-          example: mysupersecurepassword
-        first_name:
-          type: string
-          example: John
-        last_name:
-          type: string
-          example: Smith
+        errors:
+          type: array
+          items:
+            type: string
     UserInformationResponseData:
       type: object
       required:
@@ -128,21 +118,31 @@ components:
             size: null
         msg: A new user-profile was created. Activate via email.
         error: []
-    GeneralEndpointResponses:
+    UserSignupRequests:
       type: object
       required:
-      - data
-      - msg
-      - errors
+      - email
+      - password
+      - first_name
+      - last_name
       properties:
-        data:
-          type: object
-        msg:
+        email:
           type: string
-        errors:
-          type: array
-          items:
-            type: string
+          format: email
+          example: hello@covetool.com
+        password:
+          type: string
+          format: password
+          example: mysupersecurepassword
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Smith
+  responses:
+    BadRequest:
+      description: Invalid request. Check contents of your response body.
   securitySchemes:
     apiKeyAuth:
       type: apiKey

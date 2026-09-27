@@ -74,9 +74,6 @@ paths:
       operationId: postGetToken
       x-operation-id-source: derived
 components:
-  responses:
-    BadRequest:
-      description: Bad/Invalid request
   schemas:
     AuthTokenResponses:
       type: object
@@ -106,6 +103,9 @@ components:
           type: string
           format: string
           example: mysupersecurepassword
+  responses:
+    BadRequest:
+      description: Bad/Invalid request
   securitySchemes:
     AuthToken:
       type: apiKey

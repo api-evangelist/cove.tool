@@ -141,10 +141,6 @@ paths:
     - url: https://app.covetool.com/api/v2
 components:
   schemas:
-    AuthorizationToken:
-      type: string
-      format: string
-      example: 'Authorization: Token aaaa1111aaaa1111aaaa1111aaaa1111aaaa'
     ProjectsRequests:
       type: object
       required:
@@ -170,6 +166,10 @@ components:
         run_set:
         - https://app.covetool.com/api/runs/1/
         url: https://app.covetool.com/api/projects/1/
+    AuthorizationToken:
+      type: string
+      format: string
+      example: 'Authorization: Token aaaa1111aaaa1111aaaa1111aaaa1111aaaa'
     AllProjectsRequestsB:
       oneOf:
       - $ref: '#/components/schemas/ProjectsRequests'
@@ -178,6 +178,64 @@ components:
         run_set:
         - https://app.covetool.com/api/runs/2/
         url: https://app.covetool.com/api/projects/2/
+    CreateProjectRequestBody:
+      type: object
+      required:
+      - name
+      - location
+      - building_types
+      - energy_code_id
+      properties:
+        name:
+          type: string
+          example: Marietta Office Retail Space
+        location:
+          type: string
+          example: 34.177114, -86.830390
+        building_types:
+          type: array
+          items:
+            type: string
+          example:
+          - Office
+          - Retail
+        energy_code_id:
+          type: number
+          example: 12
+    GetProjectInfoResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CreateProjectResponseData'
+      example:
+        data:
+          id: 1
+          name: Education building
+          number: null
+          si_units: false
+          created_by:
+            id: 3
+            email: anotherUser@company.com
+            first_name: Mary
+            last_name: Lambert
+          business_id: 1046
+          eui: 180.658486364008
+          cbecs_eui: 341.870031592839
+          energy_code:
+            id: 3
+            name: ASHRAE 2013
+          climate_zone:
+            id: 9
+            name: Climate Zone 3A
+          editing: false
+          read_only: false
+          created_at: '2022-01-28T12:00:47.649935-05:00'
+          updated_at: '2022-01-28T12:00:47.649935-05:00'
+        msg: Successfully retrieved resource.
+        errors: {}
     CreatedByResponseData:
       type: object
       required:
@@ -194,6 +252,31 @@ components:
         first_name:
           type: string
         last_name:
+          type: string
+    GeneralEndpointResponses:
+      type: object
+      required:
+      - data
+      - msg
+      - errors
+      properties:
+        data:
+          type: object
+        msg:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    EnergyCodeResponseData:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: number
+        name:
           type: string
     CreateProjectResponseData:
       type: object
@@ -277,98 +360,15 @@ components:
           updated_at: '2022-01-28T12:00:47.649935-05:00'
         msg: A new project was created.
         errors: {}
-    CreateProjectRequestBody:
-      type: object
-      required:
-      - name
-      - location
-      - building_types
-      - energy_code_id
-      properties:
-        name:
-          type: string
-          example: Marietta Office Retail Space
-        location:
-          type: string
-          example: 34.177114, -86.830390
-        building_types:
-          type: array
-          items:
-            type: string
-          example:
-          - Office
-          - Retail
-        energy_code_id:
-          type: number
-          example: 12
-    GetProjectInfoResponse:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/GeneralEndpointResponses'
-      - type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/CreateProjectResponseData'
-      example:
-        data:
-          id: 1
-          name: Education building
-          number: null
-          si_units: false
-          created_by:
-            id: 3
-            email: anotherUser@company.com
-            first_name: Mary
-            last_name: Lambert
-          business_id: 1046
-          eui: 180.658486364008
-          cbecs_eui: 341.870031592839
-          energy_code:
-            id: 3
-            name: ASHRAE 2013
-          climate_zone:
-            id: 9
-            name: Climate Zone 3A
-          editing: false
-          read_only: false
-          created_at: '2022-01-28T12:00:47.649935-05:00'
-          updated_at: '2022-01-28T12:00:47.649935-05:00'
-        msg: Successfully retrieved resource.
-        errors: {}
-    EnergyCodeResponseData:
-      type: object
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: number
-        name:
-          type: string
-    GeneralEndpointResponses:
-      type: object
-      required:
-      - data
-      - msg
-      - errors
-      properties:
-        data:
-          type: object
-        msg:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
   responses:
     Unauthorized:
       description: Unauthorized request
-    BadRequest:
-      description: Invalid request. Check contents of your response body.
     NotFound:
       description: The specified resource was not found. Verify if the URI is accurate.
     Unauthorized_2:
       description: Unauthorized request. Check your API token if it is valid.
+    BadRequest:
+      description: Invalid request. Check contents of your response body.
   securitySchemes:
     AuthToken:
       type: apiKey

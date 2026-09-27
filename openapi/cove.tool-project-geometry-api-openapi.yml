@@ -156,132 +156,6 @@ components:
         X: 0
         Y: 0
         Z: 1
-    VerticesObject:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/VerticesModel'
-      - type: object
-      example:
-      - X: 0.666022
-        Y: 226.752487
-        Z: 25.262917
-      - X: 0.66602
-        Y: 50.666023
-        Z: 25.262917
-      - X: 27.935207
-        Y: 50.666023
-        Z: 26.262917
-      - X: 27.935207
-        Y: 66.381523
-        Z: 25.262917
-      - X: 36.596779
-        Y: 66.281523
-        Z: 25.262917
-      - X: 36.596779
-        Y: 50.66023
-        Z: 25.262917
-      - X: 208.763153
-        Y: 50.666023
-        Z: 25.262917
-      - X: 208.763153
-        Y: 66.281523
-        Z: 25.262917
-      - X: 217.424728
-        Y: 66.381523
-        Z: 25.262917
-      - X: 217.424728
-        Y: 86.249985
-        Z: 25.262917
-      - X: 56.250347
-        Y: 86.249985
-        Z: 25.262917
-      - X: 56.250347
-        Y: 191.08519
-        Z: 25.262917
-      - X: 121.751503
-        Y: 191.08519
-        Z: 25.262917
-      - X: 121.751503
-        Y: 211.036987
-        Z: 25.262917
-      - X: 113.089935
-        Y: 211.036987
-        Z: 25.262917
-      - X: 113.089935
-        Y: 226.752487
-        Z: 25.262917
-      - X: 62.055077
-        Y: 70.138153
-        Z: 25.262917
-      - X: 62.055077
-        Y: 77.27903
-        Z: 25.262917
-      - X: 68.170013
-        Y: 77.27903
-        Z: 25.262917
-      - X: 68.170013
-        Y: 70.138153
-        Z: 25.262917
-      - X: 36.45314
-        Y: 112.458786
-        Z: 25.262917
-      - X: 45.705929
-        Y: 112.458786
-        Z: 25.262917
-      - X: 45.705929
-        Y: 86.458328
-        Z: 25.262917
-      - X: 36.45314
-        Y: 86.458328
-        Z: 25.262917
-      - X: 36.45314
-        Y: 148.459427
-        Z: 25.262917
-      - X: 45.705929
-        Y: 148.459427
-        Z: 25.262917
-      - X: 45.705929
-        Y: 122.458969
-        Z: 25.262917
-      - X: 36.45314
-        Y: 122.458969
-        Z: 25.262917
-      - X: 36.519417
-        Y: 184.460068
-        Z: 25.262917
-      - X: 45.673122
-        Y: 184.460068
-        Z: 25.262917
-      - X: 45.673122
-        Y: 158.45961
-        Z: 25.262917
-      - X: 36.519417
-        Y: 158.45961
-        Z: 25.262917
-    EuiBreakdownHeaders:
-      type: array
-      items:
-        type: string
-      example:
-      - Cooling
-      - Heating
-      - Lighting
-      - Equipment
-      - Fans
-      - Pumps
-      - Hot Water
-    VerticesModel:
-      type: object
-      properties:
-        X:
-          type: number
-          format: double
-        Y:
-          type: number
-          format: double
-        Z:
-          type: number
-          format: double
     TrianglesArray:
       allOf:
       - type: array
@@ -465,6 +339,66 @@ components:
         below_grade_walls:
           allOf:
           - $ref: '#/components/schemas/MeshObject'
+    UpdateGeometryAreasResponses:
+      type: object
+      required:
+      - data
+      - result
+      properties:
+        data:
+          type: object
+          required:
+          - eui_breakdown
+          - eui_total
+          properties:
+            eui_breakdown:
+              type: object
+              required:
+              - headers
+              - values
+              - total_gas
+              - total_electric
+              - total_electric_without_pv
+              - Primary Energy Heating
+              - Primary Energy Domestic Hot Water
+              properties:
+                headers:
+                  $ref: '#/components/schemas/EuiBreakdownHeaders'
+                values:
+                  type: array
+                  items:
+                    type: number
+                    format: double
+                  example:
+                  - 42.69810373890001
+                  - 215.9911661803
+                  - 35.150749997999995
+                  - 26.540714283
+                  - 83.00345598700001
+                  - 4.380000116000001
+                  - 5.9237200512
+                total_gas:
+                  type: number
+                  format: double
+                  example: 10.4080428009
+                total_electric:
+                  type: number
+                  format: double
+                  example: 174.19649714809515
+                Primary Energy Heating:
+                  type: string
+                  example: electric
+                Primary Energy Domestic Hot Water:
+                  type: string
+                  example: gas
+            eui_total:
+              type: number
+              format: double
+              example: 413.68791035439995
+        result:
+          type: string
+          format: string
+          example: success
     Update2DGeometryAreasRequests:
       type: object
       required:
@@ -560,17 +494,222 @@ components:
           type: number
           minimum: 0
           example: 450
-    UpdateGeometryAreasResponses:
+    EuiBreakdownHeaders:
+      type: array
+      items:
+        type: string
+      example:
+      - Cooling
+      - Heating
+      - Lighting
+      - Equipment
+      - Fans
+      - Pumps
+      - Hot Water
+    VerticesModel:
+      type: object
+      properties:
+        X:
+          type: number
+          format: double
+        Y:
+          type: number
+          format: double
+        Z:
+          type: number
+          format: double
+    VerticesObject:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/VerticesModel'
+      - type: object
+      example:
+      - X: 0.666022
+        Y: 226.752487
+        Z: 25.262917
+      - X: 0.66602
+        Y: 50.666023
+        Z: 25.262917
+      - X: 27.935207
+        Y: 50.666023
+        Z: 26.262917
+      - X: 27.935207
+        Y: 66.381523
+        Z: 25.262917
+      - X: 36.596779
+        Y: 66.281523
+        Z: 25.262917
+      - X: 36.596779
+        Y: 50.66023
+        Z: 25.262917
+      - X: 208.763153
+        Y: 50.666023
+        Z: 25.262917
+      - X: 208.763153
+        Y: 66.281523
+        Z: 25.262917
+      - X: 217.424728
+        Y: 66.381523
+        Z: 25.262917
+      - X: 217.424728
+        Y: 86.249985
+        Z: 25.262917
+      - X: 56.250347
+        Y: 86.249985
+        Z: 25.262917
+      - X: 56.250347
+        Y: 191.08519
+        Z: 25.262917
+      - X: 121.751503
+        Y: 191.08519
+        Z: 25.262917
+      - X: 121.751503
+        Y: 211.036987
+        Z: 25.262917
+      - X: 113.089935
+        Y: 211.036987
+        Z: 25.262917
+      - X: 113.089935
+        Y: 226.752487
+        Z: 25.262917
+      - X: 62.055077
+        Y: 70.138153
+        Z: 25.262917
+      - X: 62.055077
+        Y: 77.27903
+        Z: 25.262917
+      - X: 68.170013
+        Y: 77.27903
+        Z: 25.262917
+      - X: 68.170013
+        Y: 70.138153
+        Z: 25.262917
+      - X: 36.45314
+        Y: 112.458786
+        Z: 25.262917
+      - X: 45.705929
+        Y: 112.458786
+        Z: 25.262917
+      - X: 45.705929
+        Y: 86.458328
+        Z: 25.262917
+      - X: 36.45314
+        Y: 86.458328
+        Z: 25.262917
+      - X: 36.45314
+        Y: 148.459427
+        Z: 25.262917
+      - X: 45.705929
+        Y: 148.459427
+        Z: 25.262917
+      - X: 45.705929
+        Y: 122.458969
+        Z: 25.262917
+      - X: 36.45314
+        Y: 122.458969
+        Z: 25.262917
+      - X: 36.519417
+        Y: 184.460068
+        Z: 25.262917
+      - X: 45.673122
+        Y: 184.460068
+        Z: 25.262917
+      - X: 45.673122
+        Y: 158.45961
+        Z: 25.262917
+      - X: 36.519417
+        Y: 158.45961
+        Z: 25.262917
+    CenterObject:
+      allOf:
+      - $ref: '#/components/schemas/VerticesModel'
+      - type: object
+      example:
+        X: 72.45084
+        Y: 119.337007
+        Z: 25.262917
+    MeshObject_2:
+      type: array
+      items:
+        type: object
+        required:
+        - Mesh
+        - Center
+        - Normal
+        properties:
+          Mesh:
+            type: object
+            required:
+            - Vertices
+            - Triangles
+            properties:
+              Vertices:
+                $ref: '#/components/schemas/VerticesObject_2'
+              Triangles:
+                $ref: '#/components/schemas/TrianglesArray_2'
+          Center:
+            $ref: '#/components/schemas/CenterObject'
+          Normal:
+            $ref: '#/components/schemas/NormalObject'
+    TrianglesArray_2:
+      allOf:
+      - type: array
+      example:
+      - - 1
+        - 2
+        - 3
+      - - 31
+        - 28
+        - 0
+    MeshObjectV2:
+      type: object
+      required:
+      - Vertices
+      - Triangles
+      properties:
+        Vertices:
+          $ref: '#/components/schemas/VerticesObject_2'
+        Triangles:
+          $ref: '#/components/schemas/TrianglesArray_2'
+    GeneralEndpointResponses:
       type: object
       required:
       - data
-      - result
+      - msg
+      - errors
+      properties:
+        data:
+          type: object
+        msg:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    VerticesObject_2:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/VerticesModel'
+      - type: object
+      example:
+      - X: 0.666022
+        Y: 226.752487
+        Z: 25.262917
+      - X: 0.66602
+        Y: 50.666023
+        Z: 25.262917
+    UpdateGeometryAreasResponses_2:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
       properties:
         data:
           type: object
           required:
+          - eui
           - eui_breakdown
-          - eui_total
+          - floors_count
+          - triangles_count
           properties:
             eui_breakdown:
               type: object
@@ -606,78 +745,49 @@ components:
                   type: number
                   format: double
                   example: 174.19649714809515
+                total_electric_without_pv:
+                  type: number
+                  format: double
+                  example: 3602.852278444
                 Primary Energy Heating:
                   type: string
                   example: electric
                 Primary Energy Domestic Hot Water:
                   type: string
                   example: gas
-            eui_total:
+            floors_count:
               type: number
-              format: double
-              example: 413.68791035439995
-        result:
-          type: string
-          format: string
-          example: success
-    CenterObject:
-      allOf:
-      - $ref: '#/components/schemas/VerticesModel'
-      - type: object
+              example: 5
+            triangles_count:
+              type: number
+              example: 34
       example:
-        X: 72.45084
-        Y: 119.337007
-        Z: 25.262917
-    GeneralEndpointResponses:
-      type: object
-      required:
-      - data
-      - msg
-      - errors
-      properties:
         data:
-          type: object
-        msg:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-    MeshObject_2:
-      type: array
-      items:
-        type: object
-        required:
-        - Mesh
-        - Center
-        - Normal
-        properties:
-          Mesh:
-            type: object
-            required:
-            - Vertices
-            - Triangles
-            properties:
-              Vertices:
-                $ref: '#/components/schemas/VerticesObject_2'
-              Triangles:
-                $ref: '#/components/schemas/TrianglesArray_2'
-          Center:
-            $ref: '#/components/schemas/CenterObject'
-          Normal:
-            $ref: '#/components/schemas/NormalObject'
-    VerticesObject_2:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/VerticesModel'
-      - type: object
-      example:
-      - X: 0.666022
-        Y: 226.752487
-        Z: 25.262917
-      - X: 0.66602
-        Y: 50.666023
-        Z: 25.262917
+          eui: 3707.0816073715214
+          eui_breakdown:
+            values:
+            - 42.69810373890001
+            - 215.9911661803
+            - 35.150749997999995
+            - 26.540714283
+            - 83.00345598700001
+            - 4.380000116000001
+            - 5.9237200512
+            headers:
+            - Cooling
+            - Heating
+            - Lighting
+            - Equipment
+            - Fans
+            - Pumps
+            - Hot Water
+            total_gas: 104.22932892752092
+            total_electric: 3602.852278444
+            total_electric_without_pv: 3602.852278444
+            Primary Energy Heating: 0
+            Primary Energy Domestic Hot Water: 0
+          floors_count: 5
+          triangles_count: 34
     Update3DGeometryRequestBody:
       type: object
       required:
@@ -971,116 +1081,6 @@ components:
               holeId:
                 type: string
                 format: uuid
-    MeshObjectV2:
-      type: object
-      required:
-      - Vertices
-      - Triangles
-      properties:
-        Vertices:
-          $ref: '#/components/schemas/VerticesObject_2'
-        Triangles:
-          $ref: '#/components/schemas/TrianglesArray_2'
-    TrianglesArray_2:
-      allOf:
-      - type: array
-      example:
-      - - 1
-        - 2
-        - 3
-      - - 31
-        - 28
-        - 0
-    UpdateGeometryAreasResponses_2:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/GeneralEndpointResponses'
-      properties:
-        data:
-          type: object
-          required:
-          - eui
-          - eui_breakdown
-          - floors_count
-          - triangles_count
-          properties:
-            eui_breakdown:
-              type: object
-              required:
-              - headers
-              - values
-              - total_gas
-              - total_electric
-              - total_electric_without_pv
-              - Primary Energy Heating
-              - Primary Energy Domestic Hot Water
-              properties:
-                headers:
-                  $ref: '#/components/schemas/EuiBreakdownHeaders'
-                values:
-                  type: array
-                  items:
-                    type: number
-                    format: double
-                  example:
-                  - 42.69810373890001
-                  - 215.9911661803
-                  - 35.150749997999995
-                  - 26.540714283
-                  - 83.00345598700001
-                  - 4.380000116000001
-                  - 5.9237200512
-                total_gas:
-                  type: number
-                  format: double
-                  example: 10.4080428009
-                total_electric:
-                  type: number
-                  format: double
-                  example: 174.19649714809515
-                total_electric_without_pv:
-                  type: number
-                  format: double
-                  example: 3602.852278444
-                Primary Energy Heating:
-                  type: string
-                  example: electric
-                Primary Energy Domestic Hot Water:
-                  type: string
-                  example: gas
-            floors_count:
-              type: number
-              example: 5
-            triangles_count:
-              type: number
-              example: 34
-      example:
-        data:
-          eui: 3707.0816073715214
-          eui_breakdown:
-            values:
-            - 42.69810373890001
-            - 215.9911661803
-            - 35.150749997999995
-            - 26.540714283
-            - 83.00345598700001
-            - 4.380000116000001
-            - 5.9237200512
-            headers:
-            - Cooling
-            - Heating
-            - Lighting
-            - Equipment
-            - Fans
-            - Pumps
-            - Hot Water
-            total_gas: 104.22932892752092
-            total_electric: 3602.852278444
-            total_electric_without_pv: 3602.852278444
-            Primary Energy Heating: 0
-            Primary Energy Domestic Hot Water: 0
-          floors_count: 5
-          triangles_count: 34
   responses:
     BadRequest:
       description: Bad/Invalid request

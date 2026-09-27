@@ -44,6 +44,9 @@ x-harvest-listing: https://www.hiive.com/securities/cove.tool-stock
 specificationVersion: '0.23'
 created: '2026-08-11'
 modified: '2026-08-11'
+x-docs-platform: redoc
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-09-24
 tags:
 - Company
 - Building Performance
