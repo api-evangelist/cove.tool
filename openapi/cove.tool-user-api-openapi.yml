@@ -40,21 +40,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    GeneralEndpointResponses:
-      type: object
-      required:
-      - data
-      - msg
-      - errors
-      properties:
-        data:
-          type: object
-        msg:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
     UserInformationResponseData:
       type: object
       required:
@@ -94,6 +79,43 @@ components:
               format: url
             size:
               type: number
+    GeneralEndpointResponses:
+      type: object
+      required:
+      - data
+      - msg
+      - errors
+      properties:
+        data:
+          type: object
+        msg:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    UserSignupRequests:
+      type: object
+      required:
+      - email
+      - password
+      - first_name
+      - last_name
+      properties:
+        email:
+          type: string
+          format: email
+          example: hello@covetool.com
+        password:
+          type: string
+          format: password
+          example: mysupersecurepassword
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Smith
     UserSignupOKResponses:
       type: object
       allOf:
@@ -118,28 +140,6 @@ components:
             size: null
         msg: A new user-profile was created. Activate via email.
         error: []
-    UserSignupRequests:
-      type: object
-      required:
-      - email
-      - password
-      - first_name
-      - last_name
-      properties:
-        email:
-          type: string
-          format: email
-          example: hello@covetool.com
-        password:
-          type: string
-          format: password
-          example: mysupersecurepassword
-        first_name:
-          type: string
-          example: John
-        last_name:
-          type: string
-          example: Smith
   responses:
     BadRequest:
       description: Invalid request. Check contents of your response body.

@@ -49,6 +49,21 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    GeneralEndpointResponses:
+      type: object
+      required:
+      - data
+      - msg
+      - errors
+      properties:
+        data:
+          type: object
+        msg:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
     EnergyCodeForProjectsResponses:
       type: object
       allOf:
@@ -76,16 +91,6 @@ components:
           selected: false
         msg: Successfully found results.
         errors: {}
-    EnergyCodesEnum:
-      type:
-      - string
-      - 'null'
-      description: Energy code names
-      enum:
-      - ASHRAE
-      - California
-      - Japan
-      - UK
     EnergyCodeResponses:
       type: object
       allOf:
@@ -132,21 +137,6 @@ components:
           name: UK NM
         msg: Successfully found results.
         errors: {}
-    GeneralEndpointResponses:
-      type: object
-      required:
-      - data
-      - msg
-      - errors
-      properties:
-        data:
-          type: object
-        msg:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
     EnergyCodeForProjectResponseData:
       type: object
       allOf:
@@ -167,6 +157,16 @@ components:
           type: number
         name:
           type: string
+    EnergyCodesEnum:
+      type:
+      - string
+      - 'null'
+      description: Energy code names
+      enum:
+      - ASHRAE
+      - California
+      - Japan
+      - UK
   responses:
     Unauthorized:
       description: Unauthorized request. Check your API token if it is valid.

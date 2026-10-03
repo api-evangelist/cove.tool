@@ -141,6 +141,14 @@ paths:
     - url: https://app.covetool.com/api/v2
 components:
   schemas:
+    AllProjectsRequestsA:
+      oneOf:
+      - $ref: '#/components/schemas/ProjectsRequests'
+      example:
+        name: Project A
+        run_set:
+        - https://app.covetool.com/api/runs/1/
+        url: https://app.covetool.com/api/projects/1/
     ProjectsRequests:
       type: object
       required:
@@ -158,14 +166,6 @@ components:
         url:
           type: string
           format: string
-    AllProjectsRequestsA:
-      oneOf:
-      - $ref: '#/components/schemas/ProjectsRequests'
-      example:
-        name: Project A
-        run_set:
-        - https://app.covetool.com/api/runs/1/
-        url: https://app.covetool.com/api/projects/1/
     AuthorizationToken:
       type: string
       format: string
@@ -202,6 +202,21 @@ components:
         energy_code_id:
           type: number
           example: 12
+    GeneralEndpointResponses:
+      type: object
+      required:
+      - data
+      - msg
+      - errors
+      properties:
+        data:
+          type: object
+        msg:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
     GetProjectInfoResponse:
       type: object
       allOf:
@@ -236,48 +251,6 @@ components:
           updated_at: '2022-01-28T12:00:47.649935-05:00'
         msg: Successfully retrieved resource.
         errors: {}
-    CreatedByResponseData:
-      type: object
-      required:
-      - id
-      - email
-      - first_name
-      - last_name
-      properties:
-        id:
-          type: number
-        email:
-          type: string
-          format: email
-        first_name:
-          type: string
-        last_name:
-          type: string
-    GeneralEndpointResponses:
-      type: object
-      required:
-      - data
-      - msg
-      - errors
-      properties:
-        data:
-          type: object
-        msg:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-    EnergyCodeResponseData:
-      type: object
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: number
-        name:
-          type: string
     CreateProjectResponseData:
       type: object
       required:
@@ -328,6 +301,16 @@ components:
         updated_at:
           type: string
           format: date-time
+    EnergyCodeResponseData:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: number
+        name:
+          type: string
     CreateProjectResponse:
       type: object
       allOf:
@@ -360,13 +343,30 @@ components:
           updated_at: '2022-01-28T12:00:47.649935-05:00'
         msg: A new project was created.
         errors: {}
+    CreatedByResponseData:
+      type: object
+      required:
+      - id
+      - email
+      - first_name
+      - last_name
+      properties:
+        id:
+          type: number
+        email:
+          type: string
+          format: email
+        first_name:
+          type: string
+        last_name:
+          type: string
   responses:
     Unauthorized:
       description: Unauthorized request
-    NotFound:
-      description: The specified resource was not found. Verify if the URI is accurate.
     Unauthorized_2:
       description: Unauthorized request. Check your API token if it is valid.
+    NotFound:
+      description: The specified resource was not found. Verify if the URI is accurate.
     BadRequest:
       description: Invalid request. Check contents of your response body.
   securitySchemes:
