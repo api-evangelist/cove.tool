@@ -124,151 +124,18 @@ paths:
     - url: https://app.covetool.com/api/v2
 components:
   schemas:
-    UpdateGeometryAreasResponses:
+    VerticesModel:
       type: object
-      required:
-      - data
-      - result
       properties:
-        data:
-          type: object
-          required:
-          - eui_breakdown
-          - eui_total
-          properties:
-            eui_breakdown:
-              type: object
-              required:
-              - headers
-              - values
-              - total_gas
-              - total_electric
-              - total_electric_without_pv
-              - Primary Energy Heating
-              - Primary Energy Domestic Hot Water
-              properties:
-                headers:
-                  $ref: '#/components/schemas/EuiBreakdownHeaders'
-                values:
-                  type: array
-                  items:
-                    type: number
-                    format: double
-                  example:
-                  - 42.69810373890001
-                  - 215.9911661803
-                  - 35.150749997999995
-                  - 26.540714283
-                  - 83.00345598700001
-                  - 4.380000116000001
-                  - 5.9237200512
-                total_gas:
-                  type: number
-                  format: double
-                  example: 10.4080428009
-                total_electric:
-                  type: number
-                  format: double
-                  example: 174.19649714809515
-                Primary Energy Heating:
-                  type: string
-                  example: electric
-                Primary Energy Domestic Hot Water:
-                  type: string
-                  example: gas
-            eui_total:
-              type: number
-              format: double
-              example: 413.68791035439995
-        result:
-          type: string
-          format: string
-          example: success
-    EuiBreakdownHeaders:
-      type: array
-      items:
-        type: string
-      example:
-      - Cooling
-      - Heating
-      - Lighting
-      - Equipment
-      - Fans
-      - Pumps
-      - Hot Water
-    NormalObject:
-      allOf:
-      - $ref: '#/components/schemas/VerticesModel'
-      - type: object
-      example:
-        X: 0
-        Y: 0
-        Z: 1
-    Update3DGeometryAreasRequests:
-      type: object
-      required:
-      - source
-      - run
-      - walls
-      - windows
-      - roofs
-      - floors
-      - building_height
-      properties:
-        run:
-          type: string
-          example: https://app.covetool.com/api/runs/1
-        source:
-          description: Your app name and version identifier
-          type: string
-          example: revit-2.2.0
-        building_height:
+        X:
           type: number
-          example: 15
-        window_area_ne:
+          format: double
+        Y:
           type: number
-          example: 200
-        wall_area_e:
+          format: double
+        Z:
           type: number
-          example: 450
-        walls:
-          note: refers to exterior walls
-          allOf:
-          - $ref: '#/components/schemas/MeshObject'
-        windows:
-          allOf:
-          - $ref: '#/components/schemas/MeshObject'
-        roofs:
-          allOf:
-          - $ref: '#/components/schemas/MeshObject'
-        floors:
-          allOf:
-          - $ref: '#/components/schemas/MeshObject'
-        rotation_angle:
-          description: The rotation angle in degrees from North in a clockwise direction
-          type: number
-          example: 45
-        interior_walls:
-          allOf:
-          - $ref: '#/components/schemas/MeshObject'
-        skylights:
-          allOf:
-          - $ref: '#/components/schemas/MeshObject'
-        shading_devices:
-          allOf:
-          - $ref: '#/components/schemas/MeshObject'
-        spandrels:
-          allOf:
-          - $ref: '#/components/schemas/MeshObject'
-        outdoor_floors:
-          allOf:
-          - $ref: '#/components/schemas/MeshObject'
-        furniture:
-          allOf:
-          - $ref: '#/components/schemas/MeshObject'
-        below_grade_walls:
-          allOf:
-          - $ref: '#/components/schemas/MeshObject'
+          format: double
     TrianglesArray:
       allOf:
       - type: array
@@ -387,6 +254,242 @@ components:
       - - 20
         - 26
         - 27
+    Update3DGeometryAreasRequests:
+      type: object
+      required:
+      - source
+      - run
+      - walls
+      - windows
+      - roofs
+      - floors
+      - building_height
+      properties:
+        run:
+          type: string
+          example: https://app.covetool.com/api/runs/1
+        source:
+          description: Your app name and version identifier
+          type: string
+          example: revit-2.2.0
+        building_height:
+          type: number
+          example: 15
+        window_area_ne:
+          type: number
+          example: 200
+        wall_area_e:
+          type: number
+          example: 450
+        walls:
+          note: refers to exterior walls
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        windows:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        roofs:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        floors:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        rotation_angle:
+          description: The rotation angle in degrees from North in a clockwise direction
+          type: number
+          example: 45
+        interior_walls:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        skylights:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        shading_devices:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        spandrels:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        outdoor_floors:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        furniture:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+        below_grade_walls:
+          allOf:
+          - $ref: '#/components/schemas/MeshObject'
+    NormalObject:
+      allOf:
+      - $ref: '#/components/schemas/VerticesModel'
+      - type: object
+      example:
+        X: 0
+        Y: 0
+        Z: 1
+    CenterObject:
+      allOf:
+      - $ref: '#/components/schemas/VerticesModel'
+      - type: object
+      example:
+        X: 72.45084
+        Y: 119.337007
+        Z: 25.262917
+    UpdateGeometryAreasResponses:
+      type: object
+      required:
+      - data
+      - result
+      properties:
+        data:
+          type: object
+          required:
+          - eui_breakdown
+          - eui_total
+          properties:
+            eui_breakdown:
+              type: object
+              required:
+              - headers
+              - values
+              - total_gas
+              - total_electric
+              - total_electric_without_pv
+              - Primary Energy Heating
+              - Primary Energy Domestic Hot Water
+              properties:
+                headers:
+                  $ref: '#/components/schemas/EuiBreakdownHeaders'
+                values:
+                  type: array
+                  items:
+                    type: number
+                    format: double
+                  example:
+                  - 42.69810373890001
+                  - 215.9911661803
+                  - 35.150749997999995
+                  - 26.540714283
+                  - 83.00345598700001
+                  - 4.380000116000001
+                  - 5.9237200512
+                total_gas:
+                  type: number
+                  format: double
+                  example: 10.4080428009
+                total_electric:
+                  type: number
+                  format: double
+                  example: 174.19649714809515
+                Primary Energy Heating:
+                  type: string
+                  example: electric
+                Primary Energy Domestic Hot Water:
+                  type: string
+                  example: gas
+            eui_total:
+              type: number
+              format: double
+              example: 413.68791035439995
+        result:
+          type: string
+          format: string
+          example: success
+    Update2DGeometryAreasRequests:
+      type: object
+      required:
+      - run
+      - building_height
+      - roof_area
+      - floor_area
+      properties:
+        run:
+          type: string
+          format: url
+          example: https://app.covetool.com/api/runs/1
+        window_area_ne:
+          type: number
+          minimum: 0
+          example: 0
+        roof_area:
+          type: number
+          minimum: 0
+          example: 900
+        skylight_area:
+          type: number
+          minimum: 0
+          example: 150
+        building_height:
+          type: number
+          minimum: 0
+          example: 15
+        window_area_nw:
+          type: number
+          minimum: 0
+          example: 0
+        window_area_se:
+          type: number
+          minimum: 0
+          example: 0
+        window_area_sw:
+          type: number
+          minimum: 0
+          example: 0
+        si_units:
+          type: boolean
+          example: true
+        floor_area:
+          type: number
+          minimum: 0
+          example: 900
+        wall_area_sw:
+          type: number
+          minimum: 0
+          example: 0
+        wall_area_nw:
+          type: number
+          minimum: 0
+          example: 0
+        wall_area_ne:
+          type: number
+          minimum: 0
+          example: 0
+        wall_area_se:
+          type: number
+          minimum: 0
+          example: 0
+        window_area_e:
+          type: number
+          minimum: 0
+          example: 200
+        wall_area_w:
+          type: number
+          minimum: 0
+          example: 450
+        wall_area_s:
+          type: number
+          minimum: 0
+          example: 450
+        window_area_n:
+          type: number
+          minimum: 0
+          example: 200
+        wall_area_n:
+          type: number
+          minimum: 0
+          example: 450
+        window_area_s:
+          type: number
+          minimum: 0
+          example: 200
+        window_area_w:
+          type: number
+          minimum: 0
+          example: 200
+        wall_area_e:
+          type: number
+          minimum: 0
+          example: 450
     MeshObject:
       description: An array of objects represented as vertex and triangle data. Each mesh must have a list of Vertices along with Triangles which refer to Vertices by index. Normal and Center are required for each mesh so that the faces are rendered in the correct direction/position. LevelId and DerivingElementUniqueId are optional fields
       type: array
@@ -411,6 +514,18 @@ components:
             $ref: '#/components/schemas/CenterObject'
           Normal:
             $ref: '#/components/schemas/NormalObject'
+    EuiBreakdownHeaders:
+      type: array
+      items:
+        type: string
+      example:
+      - Cooling
+      - Heating
+      - Lighting
+      - Equipment
+      - Fans
+      - Pumps
+      - Hot Water
     VerticesObject:
       type: object
       allOf:
@@ -513,121 +628,137 @@ components:
       - X: 36.519417
         Y: 158.45961
         Z: 25.262917
-    CenterObject:
-      allOf:
-      - $ref: '#/components/schemas/VerticesModel'
-      - type: object
-      example:
-        X: 72.45084
-        Y: 119.337007
-        Z: 25.262917
-    Update2DGeometryAreasRequests:
+    RoomsMeshObject:
       type: object
       required:
-      - run
-      - building_height
-      - roof_area
-      - floor_area
+      - rooms
+      - Windows
       properties:
-        run:
-          type: string
-          format: url
-          example: https://app.covetool.com/api/runs/1
-        window_area_ne:
-          type: number
-          minimum: 0
-          example: 0
-        roof_area:
-          type: number
-          minimum: 0
-          example: 900
-        skylight_area:
-          type: number
-          minimum: 0
-          example: 150
-        building_height:
-          type: number
-          minimum: 0
-          example: 15
-        window_area_nw:
-          type: number
-          minimum: 0
-          example: 0
-        window_area_se:
-          type: number
-          minimum: 0
-          example: 0
-        window_area_sw:
-          type: number
-          minimum: 0
-          example: 0
-        si_units:
-          type: boolean
-          example: true
-        floor_area:
-          type: number
-          minimum: 0
-          example: 900
-        wall_area_sw:
-          type: number
-          minimum: 0
-          example: 0
-        wall_area_nw:
-          type: number
-          minimum: 0
-          example: 0
-        wall_area_ne:
-          type: number
-          minimum: 0
-          example: 0
-        wall_area_se:
-          type: number
-          minimum: 0
-          example: 0
-        window_area_e:
-          type: number
-          minimum: 0
-          example: 200
-        wall_area_w:
-          type: number
-          minimum: 0
-          example: 450
-        wall_area_s:
-          type: number
-          minimum: 0
-          example: 450
-        window_area_n:
-          type: number
-          minimum: 0
-          example: 200
-        wall_area_n:
-          type: number
-          minimum: 0
-          example: 450
-        window_area_s:
-          type: number
-          minimum: 0
-          example: 200
-        window_area_w:
-          type: number
-          minimum: 0
-          example: 200
-        wall_area_e:
-          type: number
-          minimum: 0
-          example: 450
-    VerticesModel:
-      type: object
-      properties:
-        X:
-          type: number
-          format: double
-        Y:
-          type: number
-          format: double
-        Z:
-          type: number
-          format: double
+        rooms:
+          type: array
+          items:
+            type: object
+            required:
+            - Faces
+            - area
+            - volume
+            - roomId
+            - name
+            - number
+            - levelName
+            - levelId
+            properties:
+              Faces:
+                type: array
+                items:
+                  type: object
+                  required:
+                  - Mesh
+                  properties:
+                    Mesh:
+                      $ref: '#/components/schemas/MeshObjectV2'
+                    areaIDs:
+                      type: array
+                      items:
+                        type: string
+                        format: uuid
+                    area:
+                      type: number
+                      format: double
+                      example: 37.21
+                    Center:
+                      allOf:
+                      - $ref: '#/components/schemas/CenterObject'
+                    Normal:
+                      allOf:
+                      - $ref: '#/components/schemas/NormalObject'
+                    type:
+                      type: string
+                      example: Floor
+                    roofId:
+                      type: string
+                      format: uuid
+                      example: 84c72356-bc7b-4c95-a9bc-b6a676206957
+                    roofArea:
+                      type: number
+                      format: double
+                      example: 37.21
+                    floorId:
+                      type: string
+                      format: uuid
+                      example: 69f0a2a8-2160-4294-a909-a9977d9d67b3
+                    obc:
+                      type: string
+                      example: Ground
+              area:
+                type: number
+                format: double
+                example: 37.21
+              volume:
+                type: number
+                format: double
+                example: 15311.170800000002
+              roomId:
+                type: string
+                format: uuid
+                example: db20906a-731d-4dfd-9103-29593575b05c
+              name:
+                type: string
+                example: Room
+              number:
+                type: number
+                example: 1
+              levelName:
+                type: string
+                example: Floor 1
+              levelId:
+                type: string
+                format: uuid
+                example: 78c93975-070c-4219-bcae-3be319b3cfce
+        Windows:
+          type: array
+          items:
+            type: object
+            required:
+            - Center
+            - Normal
+            - Mesh
+            - area
+            - holeId
+            properties:
+              Center:
+                allOf:
+                - $ref: '#/components/schemas/CenterObject'
+              Normal:
+                allOf:
+                - $ref: '#/components/schemas/NormalObject'
+              Mesh:
+                required:
+                - Vertices
+                - Triangles
+                - wallId
+                properties:
+                  Vertices:
+                    type: array
+                    items:
+                      type: object
+                      allOf:
+                      - $ref: '#/components/schemas/VerticesObject_2'
+                  Triangles:
+                    type: array
+                    items:
+                      allOf:
+                      - $ref: '#/components/schemas/TrianglesArray_2'
+                  wallId:
+                    type: string
+                    format: uuid
+                    example: 097c40f5-b020-4017-8888-f252e1ce4e0b
+              area:
+                type: number
+                format: double
+              holeId:
+                type: string
+                format: uuid
     Update3DGeometryRequestBody:
       type: object
       required:
@@ -790,6 +921,41 @@ components:
         basement_depth:
           type: number
           example: 0
+    MeshObjectV2:
+      type: object
+      required:
+      - Vertices
+      - Triangles
+      properties:
+        Vertices:
+          $ref: '#/components/schemas/VerticesObject_2'
+        Triangles:
+          $ref: '#/components/schemas/TrianglesArray_2'
+    TrianglesArray_2:
+      allOf:
+      - type: array
+      example:
+      - - 1
+        - 2
+        - 3
+      - - 31
+        - 28
+        - 0
+    GeneralEndpointResponses:
+      type: object
+      required:
+      - data
+      - msg
+      - errors
+      properties:
+        data:
+          type: object
+        msg:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
     UpdateGeometryAreasResponses_2:
       type: object
       allOf:
@@ -880,172 +1046,6 @@ components:
             Primary Energy Domestic Hot Water: 0
           floors_count: 5
           triangles_count: 34
-    GeneralEndpointResponses:
-      type: object
-      required:
-      - data
-      - msg
-      - errors
-      properties:
-        data:
-          type: object
-        msg:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-    MeshObjectV2:
-      type: object
-      required:
-      - Vertices
-      - Triangles
-      properties:
-        Vertices:
-          $ref: '#/components/schemas/VerticesObject_2'
-        Triangles:
-          $ref: '#/components/schemas/TrianglesArray_2'
-    TrianglesArray_2:
-      allOf:
-      - type: array
-      example:
-      - - 1
-        - 2
-        - 3
-      - - 31
-        - 28
-        - 0
-    RoomsMeshObject:
-      type: object
-      required:
-      - rooms
-      - Windows
-      properties:
-        rooms:
-          type: array
-          items:
-            type: object
-            required:
-            - Faces
-            - area
-            - volume
-            - roomId
-            - name
-            - number
-            - levelName
-            - levelId
-            properties:
-              Faces:
-                type: array
-                items:
-                  type: object
-                  required:
-                  - Mesh
-                  properties:
-                    Mesh:
-                      $ref: '#/components/schemas/MeshObjectV2'
-                    areaIDs:
-                      type: array
-                      items:
-                        type: string
-                        format: uuid
-                    area:
-                      type: number
-                      format: double
-                      example: 37.21
-                    Center:
-                      allOf:
-                      - $ref: '#/components/schemas/CenterObject'
-                    Normal:
-                      allOf:
-                      - $ref: '#/components/schemas/NormalObject'
-                    type:
-                      type: string
-                      example: Floor
-                    roofId:
-                      type: string
-                      format: uuid
-                      example: 84c72356-bc7b-4c95-a9bc-b6a676206957
-                    roofArea:
-                      type: number
-                      format: double
-                      example: 37.21
-                    floorId:
-                      type: string
-                      format: uuid
-                      example: 69f0a2a8-2160-4294-a909-a9977d9d67b3
-                    obc:
-                      type: string
-                      example: Ground
-              area:
-                type: number
-                format: double
-                example: 37.21
-              volume:
-                type: number
-                format: double
-                example: 15311.170800000002
-              roomId:
-                type: string
-                format: uuid
-                example: db20906a-731d-4dfd-9103-29593575b05c
-              name:
-                type: string
-                example: Room
-              number:
-                type: number
-                example: 1
-              levelName:
-                type: string
-                example: Floor 1
-              levelId:
-                type: string
-                format: uuid
-                example: 78c93975-070c-4219-bcae-3be319b3cfce
-        Windows:
-          type: array
-          items:
-            type: object
-            required:
-            - Center
-            - Normal
-            - Mesh
-            - area
-            - holeId
-            properties:
-              Center:
-                allOf:
-                - $ref: '#/components/schemas/CenterObject'
-              Normal:
-                allOf:
-                - $ref: '#/components/schemas/NormalObject'
-              Mesh:
-                required:
-                - Vertices
-                - Triangles
-                - wallId
-                properties:
-                  Vertices:
-                    type: array
-                    items:
-                      type: object
-                      allOf:
-                      - $ref: '#/components/schemas/VerticesObject_2'
-                  Triangles:
-                    type: array
-                    items:
-                      allOf:
-                      - $ref: '#/components/schemas/TrianglesArray_2'
-                  wallId:
-                    type: string
-                    format: uuid
-                    example: 097c40f5-b020-4017-8888-f252e1ce4e0b
-              area:
-                type: number
-                format: double
-              holeId:
-                type: string
-                format: uuid
     MeshObject_2:
       type: array
       items:

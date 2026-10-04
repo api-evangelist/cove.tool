@@ -39,7 +39,32 @@ paths:
       operationId: postAuthSignup
       x-operation-id-source: derived
 components:
+  responses:
+    BadRequest:
+      description: Invalid request. Check contents of your response body.
   schemas:
+    UserSignupRequests:
+      type: object
+      required:
+      - email
+      - password
+      - first_name
+      - last_name
+      properties:
+        email:
+          type: string
+          format: email
+          example: hello@covetool.com
+        password:
+          type: string
+          format: password
+          example: mysupersecurepassword
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Smith
     UserInformationResponseData:
       type: object
       required:
@@ -94,28 +119,6 @@ components:
           type: array
           items:
             type: string
-    UserSignupRequests:
-      type: object
-      required:
-      - email
-      - password
-      - first_name
-      - last_name
-      properties:
-        email:
-          type: string
-          format: email
-          example: hello@covetool.com
-        password:
-          type: string
-          format: password
-          example: mysupersecurepassword
-        first_name:
-          type: string
-          example: John
-        last_name:
-          type: string
-          example: Smith
     UserSignupOKResponses:
       type: object
       allOf:
@@ -140,9 +143,6 @@ components:
             size: null
         msg: A new user-profile was created. Activate via email.
         error: []
-  responses:
-    BadRequest:
-      description: Invalid request. Check contents of your response body.
   securitySchemes:
     apiKeyAuth:
       type: apiKey

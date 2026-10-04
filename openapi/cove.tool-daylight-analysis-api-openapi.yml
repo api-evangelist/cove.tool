@@ -116,46 +116,12 @@ paths:
       operationId: getAnalysisByProjectIdStop
       x-operation-id-source: derived
 components:
+  responses:
+    BadRequest:
+      description: Invalid request. Check contents of your response body.
+    NotFound:
+      description: The specified resource was not found. Verify if the URI is accurate.
   schemas:
-    RunDaylightAnalysisResponse:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/GeneralEndpointResponses'
-      - type: object
-      example:
-        data: null
-        msg: The analysis job was accepted.
-        errors: {}
-    GeneralEndpointResponses:
-      type: object
-      required:
-      - data
-      - msg
-      - errors
-      properties:
-        data:
-          type: object
-        msg:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-    RunDaylightAnalysisRequestBody:
-      type: object
-      required:
-      - project_id
-      - analysis_types
-      properties:
-        project_id:
-          type: number
-          example: 33
-        analysis_types:
-          type: array
-          items:
-            type: string
-          example:
-          - daylight
     DaylightAnalysisStatusResponseData:
       type: array
       items:
@@ -171,6 +137,80 @@ components:
             type: number
           jobs_remaining:
             type: number
+    DaylightAnalysisResultsResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DaylightAnalysisResultsResponseData'
+      example:
+        data:
+        - run_id: 3
+          building_type: Education
+          floors:
+          - id: 430
+            ase: 10.891089108910892
+            sda: 26.732673267326735
+          ase: 10.891089108910892
+          sda: 26.732673267326735
+        msg: Successfully found results.
+        errors: {}
+    DaylightAnalysisStatusResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DaylightAnalysisStatusResponseData'
+      example:
+        data:
+        - analysis: daylight
+          jobs_total: 5
+          jobs_remaining: 0
+        - analysis: covid
+          jobs_total: 5
+          jobs_remaining: 0
+        - analysis: lvc
+          jobs_total: 5
+          jobs_remaining: 0
+        - analysis: radiation
+          jobs_total: 6
+          jobs_remaining: 0
+        msg: Successfully retrieved resource.
+        errors: {}
+    RunDaylightAnalysisRequestBody:
+      type: object
+      required:
+      - project_id
+      - analysis_types
+      properties:
+        project_id:
+          type: number
+          example: 33
+        analysis_types:
+          type: array
+          items:
+            type: string
+          example:
+          - daylight
+    GeneralEndpointResponses:
+      type: object
+      required:
+      - data
+      - msg
+      - errors
+      properties:
+        data:
+          type: object
+        msg:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
     StopDaylightAnalysisResponse:
       type: object
       allOf:
@@ -179,6 +219,15 @@ components:
       example:
         data: null
         msg: All analyses were successfully halted.
+        errors: {}
+    RunDaylightAnalysisResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      example:
+        data: null
+        msg: The analysis job was accepted.
         errors: {}
     DaylightAnalysisResultsResponseData:
       type: array
@@ -218,55 +267,6 @@ components:
           sda:
             type: number
             format: double
-    DaylightAnalysisStatusResponse:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/GeneralEndpointResponses'
-      - type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/DaylightAnalysisStatusResponseData'
-      example:
-        data:
-        - analysis: daylight
-          jobs_total: 5
-          jobs_remaining: 0
-        - analysis: covid
-          jobs_total: 5
-          jobs_remaining: 0
-        - analysis: lvc
-          jobs_total: 5
-          jobs_remaining: 0
-        - analysis: radiation
-          jobs_total: 6
-          jobs_remaining: 0
-        msg: Successfully retrieved resource.
-        errors: {}
-    DaylightAnalysisResultsResponse:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/GeneralEndpointResponses'
-      - type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/DaylightAnalysisResultsResponseData'
-      example:
-        data:
-        - run_id: 3
-          building_type: Education
-          floors:
-          - id: 430
-            ase: 10.891089108910892
-            sda: 26.732673267326735
-          ase: 10.891089108910892
-          sda: 26.732673267326735
-        msg: Successfully found results.
-        errors: {}
-  responses:
-    BadRequest:
-      description: Invalid request. Check contents of your response body.
-    NotFound:
-      description: The specified resource was not found. Verify if the URI is accurate.
   securitySchemes:
     apiKeyAuth:
       type: apiKey

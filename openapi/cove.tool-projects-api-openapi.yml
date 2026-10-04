@@ -141,6 +141,18 @@ paths:
     - url: https://app.covetool.com/api/v2
 components:
   schemas:
+    AuthorizationToken:
+      type: string
+      format: string
+      example: 'Authorization: Token aaaa1111aaaa1111aaaa1111aaaa1111aaaa'
+    AllProjectsRequestsB:
+      oneOf:
+      - $ref: '#/components/schemas/ProjectsRequests'
+      example:
+        name: Project B
+        run_set:
+        - https://app.covetool.com/api/runs/2/
+        url: https://app.covetool.com/api/projects/2/
     AllProjectsRequestsA:
       oneOf:
       - $ref: '#/components/schemas/ProjectsRequests'
@@ -166,57 +178,16 @@ components:
         url:
           type: string
           format: string
-    AuthorizationToken:
-      type: string
-      format: string
-      example: 'Authorization: Token aaaa1111aaaa1111aaaa1111aaaa1111aaaa'
-    AllProjectsRequestsB:
-      oneOf:
-      - $ref: '#/components/schemas/ProjectsRequests'
-      example:
-        name: Project B
-        run_set:
-        - https://app.covetool.com/api/runs/2/
-        url: https://app.covetool.com/api/projects/2/
-    CreateProjectRequestBody:
+    EnergyCodeResponseData:
       type: object
       required:
+      - id
       - name
-      - location
-      - building_types
-      - energy_code_id
       properties:
+        id:
+          type: number
         name:
           type: string
-          example: Marietta Office Retail Space
-        location:
-          type: string
-          example: 34.177114, -86.830390
-        building_types:
-          type: array
-          items:
-            type: string
-          example:
-          - Office
-          - Retail
-        energy_code_id:
-          type: number
-          example: 12
-    GeneralEndpointResponses:
-      type: object
-      required:
-      - data
-      - msg
-      - errors
-      properties:
-        data:
-          type: object
-        msg:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
     GetProjectInfoResponse:
       type: object
       allOf:
@@ -251,6 +222,62 @@ components:
           updated_at: '2022-01-28T12:00:47.649935-05:00'
         msg: Successfully retrieved resource.
         errors: {}
+    CreateProjectResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CreateProjectResponseData'
+      example:
+        data:
+          id: 28
+          name: Marietta Office Retail Space
+          number: null
+          si_units: false
+          created_by:
+            id: 2
+            email: janewalker@company.com
+            first_name: Jane
+            last_name: Walker
+          business_id: 1045
+          eui: null
+          cbecs_eui: null
+          energy_code:
+            id: 12
+            name: ASHRAE 2019
+          climate_zone: null
+          editing: false
+          read_only: false
+          created_at: '2022-01-28T12:00:47.649935-05:00'
+          updated_at: '2022-01-28T12:00:47.649935-05:00'
+        msg: A new project was created.
+        errors: {}
+    CreateProjectRequestBody:
+      type: object
+      required:
+      - name
+      - location
+      - building_types
+      - energy_code_id
+      properties:
+        name:
+          type: string
+          example: Marietta Office Retail Space
+        location:
+          type: string
+          example: 34.177114, -86.830390
+        building_types:
+          type: array
+          items:
+            type: string
+          example:
+          - Office
+          - Retail
+        energy_code_id:
+          type: number
+          example: 12
     CreateProjectResponseData:
       type: object
       required:
@@ -301,48 +328,21 @@ components:
         updated_at:
           type: string
           format: date-time
-    EnergyCodeResponseData:
+    GeneralEndpointResponses:
       type: object
       required:
-      - id
-      - name
+      - data
+      - msg
+      - errors
       properties:
-        id:
-          type: number
-        name:
+        data:
+          type: object
+        msg:
           type: string
-    CreateProjectResponse:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/GeneralEndpointResponses'
-      - type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/CreateProjectResponseData'
-      example:
-        data:
-          id: 28
-          name: Marietta Office Retail Space
-          number: null
-          si_units: false
-          created_by:
-            id: 2
-            email: janewalker@company.com
-            first_name: Jane
-            last_name: Walker
-          business_id: 1045
-          eui: null
-          cbecs_eui: null
-          energy_code:
-            id: 12
-            name: ASHRAE 2019
-          climate_zone: null
-          editing: false
-          read_only: false
-          created_at: '2022-01-28T12:00:47.649935-05:00'
-          updated_at: '2022-01-28T12:00:47.649935-05:00'
-        msg: A new project was created.
-        errors: {}
+        errors:
+          type: array
+          items:
+            type: string
     CreatedByResponseData:
       type: object
       required:
@@ -363,12 +363,12 @@ components:
   responses:
     Unauthorized:
       description: Unauthorized request
+    BadRequest:
+      description: Invalid request. Check contents of your response body.
     Unauthorized_2:
       description: Unauthorized request. Check your API token if it is valid.
     NotFound:
       description: The specified resource was not found. Verify if the URI is accurate.
-    BadRequest:
-      description: Invalid request. Check contents of your response body.
   securitySchemes:
     AuthToken:
       type: apiKey

@@ -44,29 +44,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    UserProfileResponse:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/GeneralEndpointResponses'
-      properties:
-        data:
-          $ref: '#/components/schemas/UserInformationResponseData'
-      example:
-        data:
-          is_owner: true
-          is_admin: false
-          created_at: '2022-01-28T12:00:47.649935-05:00'
-          email: user@covetool.com
-          first_name: John
-          last_name: Smith
-          business:
-            name: Cove Tool
-            telephone: 770-777-7777
-            user_limit: 10
-            domain: covetool.com
-            size: null
-        msg: Successfully retrieved resource
-        errors: {}
     GeneralEndpointResponses:
       type: object
       required:
@@ -121,6 +98,29 @@ components:
               format: url
             size:
               type: number
+    UserProfileResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      properties:
+        data:
+          $ref: '#/components/schemas/UserInformationResponseData'
+      example:
+        data:
+          is_owner: true
+          is_admin: false
+          created_at: '2022-01-28T12:00:47.649935-05:00'
+          email: user@covetool.com
+          first_name: John
+          last_name: Smith
+          business:
+            name: Cove Tool
+            telephone: 770-777-7777
+            user_limit: 10
+            domain: covetool.com
+            size: null
+        msg: Successfully retrieved resource
+        errors: {}
   securitySchemes:
     apiKeyAuth:
       type: apiKey

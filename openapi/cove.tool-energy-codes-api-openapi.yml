@@ -49,48 +49,26 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    GeneralEndpointResponses:
+    EnergyCodesEnum:
+      type:
+      - string
+      - 'null'
+      description: Energy code names
+      enum:
+      - ASHRAE
+      - California
+      - Japan
+      - UK
+    EnergyCodeResponseData:
       type: object
       required:
-      - data
-      - msg
-      - errors
+      - id
+      - name
       properties:
-        data:
-          type: object
-        msg:
+        id:
+          type: number
+        name:
           type: string
-        errors:
-          type: array
-          items:
-            type: string
-    EnergyCodeForProjectsResponses:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/GeneralEndpointResponses'
-      - type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/EnergyCodeForProjectResponseData'
-      example:
-        data:
-        - id: 1
-          name: ASHRAE 2007
-          selected: false
-        - id: 2
-          name: ASHRAE 2010
-          selected: false
-        - id: 3
-          name: ASHRAE 2013
-          selected: true
-        - id: 7
-          name: ASHRAE 2016
-          selected: false
-        - id: 12
-          name: ASHRAE Residential 2018
-          selected: false
-        msg: Successfully found results.
-        errors: {}
     EnergyCodeResponses:
       type: object
       allOf:
@@ -137,6 +115,48 @@ components:
           name: UK NM
         msg: Successfully found results.
         errors: {}
+    GeneralEndpointResponses:
+      type: object
+      required:
+      - data
+      - msg
+      - errors
+      properties:
+        data:
+          type: object
+        msg:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    EnergyCodeForProjectsResponses:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/EnergyCodeForProjectResponseData'
+      example:
+        data:
+        - id: 1
+          name: ASHRAE 2007
+          selected: false
+        - id: 2
+          name: ASHRAE 2010
+          selected: false
+        - id: 3
+          name: ASHRAE 2013
+          selected: true
+        - id: 7
+          name: ASHRAE 2016
+          selected: false
+        - id: 12
+          name: ASHRAE Residential 2018
+          selected: false
+        msg: Successfully found results.
+        errors: {}
     EnergyCodeForProjectResponseData:
       type: object
       allOf:
@@ -147,26 +167,6 @@ components:
       properties:
         selected:
           type: boolean
-    EnergyCodeResponseData:
-      type: object
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: number
-        name:
-          type: string
-    EnergyCodesEnum:
-      type:
-      - string
-      - 'null'
-      description: Energy code names
-      enum:
-      - ASHRAE
-      - California
-      - Japan
-      - UK
   responses:
     Unauthorized:
       description: Unauthorized request. Check your API token if it is valid.
