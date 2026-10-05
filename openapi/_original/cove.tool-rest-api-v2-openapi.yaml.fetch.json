@@ -1,0 +1,12 @@
+{
+ "url": "https://developers.covetool.com/openapi.yaml",
+ "requested_url": "https://developers.covetool.com/openapi.yaml",
+ "status": 200,
+ "content_type": "binary/octet-stream",
+ "bytes": 84668,
+ "sha256": "9de746ce2434d826a62b2b4ec2720b8f42564dcdd0917d676130df8df0452764",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}
