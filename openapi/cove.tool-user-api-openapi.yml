@@ -43,28 +43,30 @@ components:
     BadRequest:
       description: Invalid request. Check contents of your response body.
   schemas:
-    UserSignupRequests:
+    UserSignupOKResponses:
       type: object
-      required:
-      - email
-      - password
-      - first_name
-      - last_name
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
       properties:
-        email:
-          type: string
-          format: email
-          example: hello@covetool.com
-        password:
-          type: string
-          format: password
-          example: mysupersecurepassword
-        first_name:
-          type: string
-          example: John
-        last_name:
-          type: string
-          example: Smith
+        data:
+          $ref: '#/components/schemas/UserInformationResponseData'
+      example:
+        data:
+          is_owner: false
+          is_admin: false
+          created_at: '2022-01-28T12:00:47.649935-05:00'
+          email: user@company.com
+          first_name: John
+          last_name: Smith
+          business:
+            name: My Company Name
+            telephone: 123-456-7890
+            user_limit: 10
+            domain: mycompanywebsite.com
+            size: null
+        msg: A new user-profile was created. Activate via email.
+        error: []
     UserInformationResponseData:
       type: object
       required:
@@ -104,6 +106,28 @@ components:
               format: url
             size:
               type: number
+    UserSignupRequests:
+      type: object
+      required:
+      - email
+      - password
+      - first_name
+      - last_name
+      properties:
+        email:
+          type: string
+          format: email
+          example: hello@covetool.com
+        password:
+          type: string
+          format: password
+          example: mysupersecurepassword
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Smith
     GeneralEndpointResponses:
       type: object
       required:
@@ -119,30 +143,6 @@ components:
           type: array
           items:
             type: string
-    UserSignupOKResponses:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/GeneralEndpointResponses'
-      - type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/UserInformationResponseData'
-      example:
-        data:
-          is_owner: false
-          is_admin: false
-          created_at: '2022-01-28T12:00:47.649935-05:00'
-          email: user@company.com
-          first_name: John
-          last_name: Smith
-          business:
-            name: My Company Name
-            telephone: 123-456-7890
-            user_limit: 10
-            domain: mycompanywebsite.com
-            size: null
-        msg: A new user-profile was created. Activate via email.
-        error: []
   securitySchemes:
     apiKeyAuth:
       type: apiKey
