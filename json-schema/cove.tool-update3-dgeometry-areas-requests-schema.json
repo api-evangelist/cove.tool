@@ -1,0 +1,211 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cove.tool/main/json-schema/cove.tool-update3-dgeometry-areas-requests-schema.json",
+  "title": "Update3DGeometryAreasRequests",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cove.tool-project-geometry-api-openapi.yml#/components/schemas/Update3DGeometryAreasRequests",
+  "type": "object",
+  "required": [
+    "source",
+    "run",
+    "walls",
+    "windows",
+    "roofs",
+    "floors",
+    "building_height"
+  ],
+  "properties": {
+    "run": {
+      "type": "string"
+    },
+    "source": {
+      "description": "Your app name and version identifier",
+      "type": "string"
+    },
+    "building_height": {
+      "type": "number"
+    },
+    "window_area_ne": {
+      "type": "number"
+    },
+    "wall_area_e": {
+      "type": "number"
+    },
+    "walls": {
+      "note": "refers to exterior walls",
+      "allOf": [
+        {
+          "$ref": "#/$defs/MeshObject"
+        }
+      ]
+    },
+    "windows": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MeshObject"
+        }
+      ]
+    },
+    "roofs": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MeshObject"
+        }
+      ]
+    },
+    "floors": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MeshObject"
+        }
+      ]
+    },
+    "rotation_angle": {
+      "description": "The rotation angle in degrees from North in a clockwise direction",
+      "type": "number"
+    },
+    "interior_walls": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MeshObject"
+        }
+      ]
+    },
+    "skylights": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MeshObject"
+        }
+      ]
+    },
+    "shading_devices": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MeshObject"
+        }
+      ]
+    },
+    "spandrels": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MeshObject"
+        }
+      ]
+    },
+    "outdoor_floors": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MeshObject"
+        }
+      ]
+    },
+    "furniture": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MeshObject"
+        }
+      ]
+    },
+    "below_grade_walls": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MeshObject"
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "CenterObject": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/VerticesModel"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "MeshObject": {
+      "description": "An array of objects represented as vertex and triangle data. Each mesh must have a list of Vertices along with Triangles which refer to Vertices by index. Normal and Center are required for each mesh so that the faces are rendered in the correct direction/position. LevelId and DerivingElementUniqueId are optional fields",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "Mesh",
+          "Center",
+          "Normal"
+        ],
+        "properties": {
+          "Mesh": {
+            "type": "object",
+            "required": [
+              "Vertices",
+              "Triangles"
+            ],
+            "properties": {
+              "Vertices": {
+                "$ref": "#/$defs/VerticesObject"
+              },
+              "Triangles": {
+                "$ref": "#/$defs/TrianglesArray"
+              }
+            }
+          },
+          "Center": {
+            "$ref": "#/$defs/CenterObject"
+          },
+          "Normal": {
+            "$ref": "#/$defs/NormalObject"
+          }
+        }
+      }
+    },
+    "NormalObject": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/VerticesModel"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "TrianglesArray": {
+      "allOf": [
+        {
+          "type": "array"
+        }
+      ]
+    },
+    "VerticesModel": {
+      "type": "object",
+      "properties": {
+        "X": {
+          "type": "number",
+          "format": "double"
+        },
+        "Y": {
+          "type": "number",
+          "format": "double"
+        },
+        "Z": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "VerticesObject": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/$defs/VerticesModel"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    }
+  }
+}

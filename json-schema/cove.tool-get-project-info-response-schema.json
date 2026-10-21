@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cove.tool/main/json-schema/cove.tool-get-project-info-response-schema.json",
+  "title": "GetProjectInfoResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cove.tool-projects-api-openapi.yml#/components/schemas/GetProjectInfoResponse",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "#/$defs/GeneralEndpointResponses"
+    },
+    {
+      "type": "object"
+    }
+  ],
+  "properties": {
+    "data": {
+      "$ref": "#/$defs/CreateProjectResponseData"
+    }
+  },
+  "$defs": {
+    "CreateProjectResponseData": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "number",
+        "si_units",
+        "created_by",
+        "business_id",
+        "eui",
+        "cbecs_eui",
+        "energy_code",
+        "climate_zone",
+        "editing",
+        "read_only",
+        "created_at",
+        "updated_at"
+      ],
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "name": {
+          "type": "string"
+        },
+        "number": {
+          "type": "number"
+        },
+        "si_units": {
+          "type": "boolean"
+        },
+        "created_by": {
+          "$ref": "#/$defs/CreatedByResponseData"
+        },
+        "business_id": {
+          "type": "number"
+        },
+        "eui": {
+          "type": "number",
+          "format": "double"
+        },
+        "cebcs_eui": {
+          "type": "number",
+          "format": "double"
+        },
+        "energy_code": {
+          "$ref": "#/$defs/EnergyCodeResponseData"
+        },
+        "climate_zone": {
+          "type": "object"
+        },
+        "editing": {
+          "type": "boolean"
+        },
+        "read_only": {
+          "type": "boolean"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "CreatedByResponseData": {
+      "type": "object",
+      "required": [
+        "id",
+        "email",
+        "first_name",
+        "last_name"
+      ],
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        }
+      }
+    },
+    "EnergyCodeResponseData": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "GeneralEndpointResponses": {
+      "type": "object",
+      "required": [
+        "data",
+        "msg",
+        "errors"
+      ],
+      "properties": {
+        "data": {
+          "type": "object"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

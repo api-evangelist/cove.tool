@@ -1,5 +1,5 @@
 ---
-name: cove.tool-run-daylight-analysis
+name: cove-tool-run-daylight-analysis
 description: >-
   Run a cove.tool daylight and energy analysis end to end — pick an energy code, create a project,
   upload building geometry, start the run, poll until the job queue drains, and read the EUI, sDA
@@ -11,13 +11,13 @@ source: openapi/cove.tool-rest-api-v2-openapi.yml
 api: cove.tool REST API v2
 base_url: https://app.covetool.com/api/v2
 operations:
-  - GET /energy-codes
-  - POST /projects/
-  - POST /projects/{project_id}/geometry
-  - POST /analysis
-  - GET /analysis/{project_id}/status
-  - GET /analysis/{project_id}
-  - GET /analysis/{project_id}/stop
+  - getEnergyCodes
+  - postProjects
+  - postProjectsByProjectIdGeometry
+  - postAnalysis
+  - getAnalysisByProjectIdStatus
+  - getAnalysisByProjectId
+  - getAnalysisByProjectIdStop
 operation_id_note: >-
   cove.tool's published OpenAPI declares NO operationId on any operation, so this skill binds to
   method + path, which are the provider's own. The names in

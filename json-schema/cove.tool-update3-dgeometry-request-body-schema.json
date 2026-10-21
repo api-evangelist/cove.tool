@@ -1,0 +1,499 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cove.tool/main/json-schema/cove.tool-update3-dgeometry-request-body-schema.json",
+  "title": "Update3DGeometryRequestBody",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cove.tool-project-geometry-api-openapi.yml#/components/schemas/Update3DGeometryRequestBody",
+  "type": "object",
+  "required": [
+    "floors",
+    "walls",
+    "windows",
+    "roofs",
+    "floor_area",
+    "roof_area",
+    "ground_floor_area",
+    "building_height",
+    "si_units"
+  ],
+  "properties": {
+    "floors": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MeshObject_2"
+        }
+      ]
+    },
+    "walls": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MeshObject_2"
+        }
+      ]
+    },
+    "windows": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MeshObject_2"
+        }
+      ]
+    },
+    "roofs": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MeshObject_2"
+        }
+      ]
+    },
+    "floor_area": {
+      "type": "number",
+      "format": "double"
+    },
+    "roof_area": {
+      "type": "number",
+      "format": "double"
+    },
+    "ground_floor_area": {
+      "type": "number",
+      "format": "double"
+    },
+    "building_height": {
+      "type": "number"
+    },
+    "si_units": {
+      "type": "boolean"
+    },
+    "below_grade_walls": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MeshObject_2"
+        }
+      ]
+    },
+    "outdoor_floors": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MeshObject_2"
+        }
+      ]
+    },
+    "interior_walls": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MeshObject_2"
+        }
+      ]
+    },
+    "spandrels": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MeshObject_2"
+        }
+      ]
+    },
+    "skylights": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MeshObject_2"
+        }
+      ]
+    },
+    "shading_devices": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MeshObject_2"
+        }
+      ]
+    },
+    "skylight_area": {
+      "type": "number",
+      "format": "double"
+    },
+    "underground_area": {
+      "type": "number",
+      "format": "double"
+    },
+    "rooms": {
+      "$ref": "#/$defs/RoomsMeshObject"
+    },
+    "wall_area_n": {
+      "type": "number",
+      "format": "double"
+    },
+    "wall_area_ne": {
+      "type": "number",
+      "format": "double"
+    },
+    "wall_area_e": {
+      "type": "number",
+      "format": "double"
+    },
+    "wall_area_se": {
+      "type": "number",
+      "format": "double"
+    },
+    "wall_area_s": {
+      "type": "number",
+      "format": "double"
+    },
+    "wall_area_sw": {
+      "type": "number",
+      "format": "double"
+    },
+    "wall_area_w": {
+      "type": "number",
+      "format": "double"
+    },
+    "wall_area_nw": {
+      "type": "number",
+      "format": "double"
+    },
+    "window_area_n": {
+      "type": "number",
+      "format": "double"
+    },
+    "window_area_ne": {
+      "type": "number",
+      "format": "double"
+    },
+    "window_area_e": {
+      "type": "number",
+      "format": "double"
+    },
+    "window_area_se": {
+      "type": "number",
+      "format": "double"
+    },
+    "window_area_s": {
+      "type": "number",
+      "format": "double"
+    },
+    "window_area_sw": {
+      "type": "number",
+      "format": "double"
+    },
+    "window_area_w": {
+      "type": "number",
+      "format": "double"
+    },
+    "window_area_nw": {
+      "type": "number",
+      "format": "double"
+    },
+    "roof_u_value": {
+      "type": "number",
+      "format": "double"
+    },
+    "ground_floor_u_value": {
+      "type": "number",
+      "format": "double"
+    },
+    "skylight_u_value": {
+      "type": "number",
+      "format": "double"
+    },
+    "skylight_shgc": {
+      "type": "number",
+      "format": "double"
+    },
+    "window_u_value_n": {
+      "type": "number",
+      "format": "double"
+    },
+    "wall_u_value_n": {
+      "type": "number",
+      "format": "double"
+    },
+    "basement_depth": {
+      "type": "number"
+    }
+  },
+  "$defs": {
+    "CenterObject": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/VerticesModel"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "MeshObjectV2": {
+      "type": "object",
+      "required": [
+        "Vertices",
+        "Triangles"
+      ],
+      "properties": {
+        "Vertices": {
+          "$ref": "#/$defs/VerticesObject_2"
+        },
+        "Triangles": {
+          "$ref": "#/$defs/TrianglesArray_2"
+        }
+      }
+    },
+    "MeshObject_2": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "Mesh",
+          "Center",
+          "Normal"
+        ],
+        "properties": {
+          "Mesh": {
+            "type": "object",
+            "required": [
+              "Vertices",
+              "Triangles"
+            ],
+            "properties": {
+              "Vertices": {
+                "$ref": "#/$defs/VerticesObject_2"
+              },
+              "Triangles": {
+                "$ref": "#/$defs/TrianglesArray_2"
+              }
+            }
+          },
+          "Center": {
+            "$ref": "#/$defs/CenterObject"
+          },
+          "Normal": {
+            "$ref": "#/$defs/NormalObject"
+          }
+        }
+      }
+    },
+    "NormalObject": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/VerticesModel"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "RoomsMeshObject": {
+      "type": "object",
+      "required": [
+        "rooms",
+        "Windows"
+      ],
+      "properties": {
+        "rooms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "Faces",
+              "area",
+              "volume",
+              "roomId",
+              "name",
+              "number",
+              "levelName",
+              "levelId"
+            ],
+            "properties": {
+              "Faces": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "Mesh"
+                  ],
+                  "properties": {
+                    "Mesh": {
+                      "$ref": "#/$defs/MeshObjectV2"
+                    },
+                    "areaIDs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    },
+                    "area": {
+                      "type": "number",
+                      "format": "double"
+                    },
+                    "Center": {
+                      "allOf": [
+                        {
+                          "$ref": "#/$defs/CenterObject"
+                        }
+                      ]
+                    },
+                    "Normal": {
+                      "allOf": [
+                        {
+                          "$ref": "#/$defs/NormalObject"
+                        }
+                      ]
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "roofId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "roofArea": {
+                      "type": "number",
+                      "format": "double"
+                    },
+                    "floorId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "obc": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "area": {
+                "type": "number",
+                "format": "double"
+              },
+              "volume": {
+                "type": "number",
+                "format": "double"
+              },
+              "roomId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "name": {
+                "type": "string"
+              },
+              "number": {
+                "type": "number"
+              },
+              "levelName": {
+                "type": "string"
+              },
+              "levelId": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        },
+        "Windows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "Center",
+              "Normal",
+              "Mesh",
+              "area",
+              "holeId"
+            ],
+            "properties": {
+              "Center": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/CenterObject"
+                  }
+                ]
+              },
+              "Normal": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/NormalObject"
+                  }
+                ]
+              },
+              "Mesh": {
+                "required": [
+                  "Vertices",
+                  "Triangles",
+                  "wallId"
+                ],
+                "properties": {
+                  "Vertices": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "allOf": [
+                        {
+                          "$ref": "#/$defs/VerticesObject_2"
+                        }
+                      ]
+                    }
+                  },
+                  "Triangles": {
+                    "type": "array",
+                    "items": {
+                      "allOf": [
+                        {
+                          "$ref": "#/$defs/TrianglesArray_2"
+                        }
+                      ]
+                    }
+                  },
+                  "wallId": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              },
+              "area": {
+                "type": "number",
+                "format": "double"
+              },
+              "holeId": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        }
+      }
+    },
+    "TrianglesArray_2": {
+      "allOf": [
+        {
+          "type": "array"
+        }
+      ]
+    },
+    "VerticesModel": {
+      "type": "object",
+      "properties": {
+        "X": {
+          "type": "number",
+          "format": "double"
+        },
+        "Y": {
+          "type": "number",
+          "format": "double"
+        },
+        "Z": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "VerticesObject_2": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/$defs/VerticesModel"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cove.tool/main/json-schema/cove.tool-energy-code-for-projects-responses-schema.json",
+  "title": "EnergyCodeForProjectsResponses",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cove.tool-energy-codes-api-openapi.yml#/components/schemas/EnergyCodeForProjectsResponses",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "#/$defs/GeneralEndpointResponses"
+    },
+    {
+      "type": "object"
+    }
+  ],
+  "properties": {
+    "data": {
+      "$ref": "#/$defs/EnergyCodeForProjectResponseData"
+    }
+  },
+  "$defs": {
+    "EnergyCodeForProjectResponseData": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/$defs/EnergyCodeResponseData"
+        },
+        {
+          "type": "object"
+        }
+      ],
+      "required": [
+        "selected"
+      ],
+      "properties": {
+        "selected": {
+          "type": "boolean"
+        }
+      }
+    },
+    "EnergyCodeResponseData": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "GeneralEndpointResponses": {
+      "type": "object",
+      "required": [
+        "data",
+        "msg",
+        "errors"
+      ],
+      "properties": {
+        "data": {
+          "type": "object"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

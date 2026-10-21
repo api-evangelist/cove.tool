@@ -1,5 +1,5 @@
 ---
-name: cove.tool-provision-team-access
+name: cove-tool-provision-team-access
 description: >-
   Provision and inspect cove.tool user accounts on an organization's license — create a user via
   the signup endpoint, then read the resulting profile to confirm business membership and admin
@@ -10,8 +10,8 @@ source: openapi/cove.tool-rest-api-v2-openapi.yml
 api: cove.tool REST API v2
 base_url: https://app.covetool.com/api/v2
 operations:
-  - POST /auth/signup
-  - GET /profiles/{profile_id}
+  - postAuthSignup
+  - getProfilesByProfileId
 operation_id_note: >-
   cove.tool's published OpenAPI declares no operationId. This skill binds to method + path. The
   names createUserAccount and getProfile come from

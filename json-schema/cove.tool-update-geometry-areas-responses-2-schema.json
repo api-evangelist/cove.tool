@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cove.tool/main/json-schema/cove.tool-update-geometry-areas-responses-2-schema.json",
+  "title": "UpdateGeometryAreasResponses_2",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cove.tool-project-geometry-api-openapi.yml#/components/schemas/UpdateGeometryAreasResponses_2",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "#/$defs/GeneralEndpointResponses"
+    }
+  ],
+  "properties": {
+    "data": {
+      "type": "object",
+      "required": [
+        "eui",
+        "eui_breakdown",
+        "floors_count",
+        "triangles_count"
+      ],
+      "properties": {
+        "eui_breakdown": {
+          "type": "object",
+          "required": [
+            "headers",
+            "values",
+            "total_gas",
+            "total_electric",
+            "total_electric_without_pv",
+            "Primary Energy Heating",
+            "Primary Energy Domestic Hot Water"
+          ],
+          "properties": {
+            "headers": {
+              "$ref": "#/$defs/EuiBreakdownHeaders"
+            },
+            "values": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "total_gas": {
+              "type": "number",
+              "format": "double"
+            },
+            "total_electric": {
+              "type": "number",
+              "format": "double"
+            },
+            "total_electric_without_pv": {
+              "type": "number",
+              "format": "double"
+            },
+            "Primary Energy Heating": {
+              "type": "string"
+            },
+            "Primary Energy Domestic Hot Water": {
+              "type": "string"
+            }
+          }
+        },
+        "floors_count": {
+          "type": "number"
+        },
+        "triangles_count": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "EuiBreakdownHeaders": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "GeneralEndpointResponses": {
+      "type": "object",
+      "required": [
+        "data",
+        "msg",
+        "errors"
+      ],
+      "properties": {
+        "data": {
+          "type": "object"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

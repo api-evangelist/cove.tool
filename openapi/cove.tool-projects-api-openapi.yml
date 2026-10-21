@@ -140,15 +140,16 @@ paths:
     servers:
     - url: https://app.covetool.com/api/v2
 components:
+  responses:
+    Unauthorized:
+      description: Unauthorized request
+    Unauthorized_2:
+      description: Unauthorized request. Check your API token if it is valid.
+    BadRequest:
+      description: Invalid request. Check contents of your response body.
+    NotFound:
+      description: The specified resource was not found. Verify if the URI is accurate.
   schemas:
-    AllProjectsRequestsA:
-      oneOf:
-      - $ref: '#/components/schemas/ProjectsRequests'
-      example:
-        name: Project A
-        run_set:
-        - https://app.covetool.com/api/runs/1/
-        url: https://app.covetool.com/api/projects/1/
     ProjectsRequests:
       type: object
       required:
@@ -178,6 +179,14 @@ components:
         run_set:
         - https://app.covetool.com/api/runs/2/
         url: https://app.covetool.com/api/projects/2/
+    AllProjectsRequestsA:
+      oneOf:
+      - $ref: '#/components/schemas/ProjectsRequests'
+      example:
+        name: Project A
+        run_set:
+        - https://app.covetool.com/api/runs/1/
+        url: https://app.covetool.com/api/projects/1/
     CreateProjectResponseData:
       type: object
       required:
@@ -228,6 +237,23 @@ components:
         updated_at:
           type: string
           format: date-time
+    CreatedByResponseData:
+      type: object
+      required:
+      - id
+      - email
+      - first_name
+      - last_name
+      properties:
+        id:
+          type: number
+        email:
+          type: string
+          format: email
+        first_name:
+          type: string
+        last_name:
+          type: string
     CreateProjectRequestBody:
       type: object
       required:
@@ -262,23 +288,21 @@ components:
           type: number
         name:
           type: string
-    CreatedByResponseData:
+    GeneralEndpointResponses:
       type: object
       required:
-      - id
-      - email
-      - first_name
-      - last_name
+      - data
+      - msg
+      - errors
       properties:
-        id:
-          type: number
-        email:
+        data:
+          type: object
+        msg:
           type: string
-          format: email
-        first_name:
-          type: string
-        last_name:
-          type: string
+        errors:
+          type: array
+          items:
+            type: string
     GetProjectInfoResponse:
       type: object
       allOf:
@@ -313,21 +337,6 @@ components:
           updated_at: '2022-01-28T12:00:47.649935-05:00'
         msg: Successfully retrieved resource.
         errors: {}
-    GeneralEndpointResponses:
-      type: object
-      required:
-      - data
-      - msg
-      - errors
-      properties:
-        data:
-          type: object
-        msg:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
     CreateProjectResponse:
       type: object
       allOf:
@@ -360,15 +369,6 @@ components:
           updated_at: '2022-01-28T12:00:47.649935-05:00'
         msg: A new project was created.
         errors: {}
-  responses:
-    Unauthorized:
-      description: Unauthorized request
-    Unauthorized_2:
-      description: Unauthorized request. Check your API token if it is valid.
-    BadRequest:
-      description: Invalid request. Check contents of your response body.
-    NotFound:
-      description: The specified resource was not found. Verify if the URI is accurate.
   securitySchemes:
     AuthToken:
       type: apiKey

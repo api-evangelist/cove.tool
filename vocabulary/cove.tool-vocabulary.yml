@@ -1,0 +1,212 @@
+generated: '2026-10-20'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/cove.tool-authentication-token-api-openapi.yml
+- openapi/cove.tool-daylight-analysis-api-openapi.yml
+- openapi/cove.tool-energy-codes-api-openapi.yml
+- openapi/cove.tool-profiles-api-openapi.yml
+- openapi/cove.tool-project-geometry-api-openapi.yml
+vocabulary:
+  name: Cove.Tool Domain Vocabulary
+  description: 'Terms declared by Cove.Tool''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-20'
+  terms:
+  - term: Authentication Token
+    definition: Attempting to make API requests without authentication will fail. API requests must be made over HTTPS. Authentication tokens
+      are used to help identify the user attempting to make the HTTP requests. By providing an authentication token on every request, it checks
+      whether the user is authorized and has permission to update and retrieve data. Be sure to include it in every request header once you st
+    tags:
+    - Resource Group
+    source: openapi/cove.tool-authentication-token-api-openapi.yml
+  - term: Project Geometry
+    definition: Update project geometry and obtain an Energy Use Intensity (EUI) breakdown of a given model.
+    tags:
+    - Resource Group
+    source: openapi/cove.tool-project-geometry-api-openapi.yml
+  - term: Projects
+    definition: Lists all the projects of current user and returns a list of objects with project name, runs, and its url.
+    tags:
+    - Resource Group
+    source: openapi/cove.tool-projects-api-openapi.yml
+  - term: AuthTokenResponses
+    definition: 'Object declared by the contract with fields: expires_in, token.'
+    tags:
+    - Object
+    source: openapi/cove.tool-authentication-token-api-openapi.yml#/components/schemas/AuthTokenResponses
+  - term: AuthTokenRequests
+    definition: 'Object declared by the contract with fields: username, password.'
+    tags:
+    - Object
+    source: openapi/cove.tool-authentication-token-api-openapi.yml#/components/schemas/AuthTokenRequests
+  - term: DaylightAnalysisStatusResponse
+    definition: 'Object declared by the contract with fields: data.'
+    tags:
+    - Object
+    source: openapi/cove.tool-daylight-analysis-api-openapi.yml#/components/schemas/DaylightAnalysisStatusResponse
+  - term: DaylightAnalysisResultsResponse
+    definition: 'Object declared by the contract with fields: data.'
+    tags:
+    - Object
+    source: openapi/cove.tool-daylight-analysis-api-openapi.yml#/components/schemas/DaylightAnalysisResultsResponse
+  - term: RunDaylightAnalysisRequestBody
+    definition: 'Object declared by the contract with fields: project_id, analysis_types.'
+    tags:
+    - Object
+    source: openapi/cove.tool-daylight-analysis-api-openapi.yml#/components/schemas/RunDaylightAnalysisRequestBody
+  - term: GeneralEndpointResponses
+    definition: 'Object declared by the contract with fields: data, msg, errors.'
+    tags:
+    - Object
+    source: openapi/cove.tool-daylight-analysis-api-openapi.yml#/components/schemas/GeneralEndpointResponses
+  - term: EnergyCodeForProjectsResponses
+    definition: 'Object declared by the contract with fields: data.'
+    tags:
+    - Object
+    source: openapi/cove.tool-energy-codes-api-openapi.yml#/components/schemas/EnergyCodeForProjectsResponses
+  - term: EnergyCodeResponseData
+    definition: 'Object declared by the contract with fields: id, name.'
+    tags:
+    - Object
+    source: openapi/cove.tool-energy-codes-api-openapi.yml#/components/schemas/EnergyCodeResponseData
+  - term: EnergyCodeForProjectResponseData
+    definition: 'Object declared by the contract with fields: selected.'
+    tags:
+    - Object
+    source: openapi/cove.tool-energy-codes-api-openapi.yml#/components/schemas/EnergyCodeForProjectResponseData
+  - term: EnergyCodeResponses
+    definition: 'Object declared by the contract with fields: data.'
+    tags:
+    - Object
+    source: openapi/cove.tool-energy-codes-api-openapi.yml#/components/schemas/EnergyCodeResponses
+  - term: EnergyCodesEnum
+    definition: Energy code names
+    tags:
+    - Enumeration
+    source: openapi/cove.tool-energy-codes-api-openapi.yml#/components/schemas/EnergyCodesEnum
+  - term: UserProfileResponse
+    definition: 'Object declared by the contract with fields: data.'
+    tags:
+    - Object
+    source: openapi/cove.tool-profiles-api-openapi.yml#/components/schemas/UserProfileResponse
+  - term: UserInformationResponseData
+    definition: 'Object declared by the contract with fields: is_owner, is_admin, created_at, email, first_name, last_name, business.'
+    tags:
+    - Object
+    source: openapi/cove.tool-profiles-api-openapi.yml#/components/schemas/UserInformationResponseData
+  - term: Update2DGeometryAreasRequests
+    definition: 'Object declared by the contract with fields: run, window_area_ne, roof_area, skylight_area, building_height, window_area_nw,
+      window_area_se, window_area_sw, si_units, floor_area, wall_area_sw, wall_area_nw. (10 more)'
+    tags:
+    - Object
+    source: openapi/cove.tool-project-geometry-api-openapi.yml#/components/schemas/Update2DGeometryAreasRequests
+  - term: UpdateGeometryAreasResponses
+    definition: 'Object declared by the contract with fields: data, result.'
+    tags:
+    - Object
+    source: openapi/cove.tool-project-geometry-api-openapi.yml#/components/schemas/UpdateGeometryAreasResponses
+  - term: VerticesModel
+    definition: 'Object declared by the contract with fields: X, Y, Z.'
+    tags:
+    - Object
+    source: openapi/cove.tool-project-geometry-api-openapi.yml#/components/schemas/VerticesModel
+  - term: MeshObject
+    definition: An array of objects represented as vertex and triangle data. Each mesh must have a list of Vertices along with Triangles which
+      refer to Vertices by index. Normal and Center are required for each mesh so that the faces are rendered in the correct direction/position.
+      LevelId and DerivingElementUniqueId are optional fields
+    tags:
+    - Object
+    source: openapi/cove.tool-project-geometry-api-openapi.yml#/components/schemas/MeshObject
+  - term: Update3DGeometryAreasRequests
+    definition: 'Object declared by the contract with fields: run, source, building_height, window_area_ne, wall_area_e, walls, windows, roofs,
+      floors, rotation_angle, interior_walls, skylights. (5 more)'
+    tags:
+    - Object
+    source: openapi/cove.tool-project-geometry-api-openapi.yml#/components/schemas/Update3DGeometryAreasRequests
+  - term: RoomsMeshObject
+    definition: 'Object declared by the contract with fields: rooms, Windows.'
+    tags:
+    - Object
+    source: openapi/cove.tool-project-geometry-api-openapi.yml#/components/schemas/RoomsMeshObject
+  - term: UpdateGeometryAreasResponses_2
+    definition: 'Object declared by the contract with fields: data.'
+    tags:
+    - Object
+    source: openapi/cove.tool-project-geometry-api-openapi.yml#/components/schemas/UpdateGeometryAreasResponses_2
+  - term: MeshObjectV2
+    definition: 'Object declared by the contract with fields: Vertices, Triangles.'
+    tags:
+    - Object
+    source: openapi/cove.tool-project-geometry-api-openapi.yml#/components/schemas/MeshObjectV2
+  - term: Update3DGeometryRequestBody
+    definition: 'Object declared by the contract with fields: floors, walls, windows, roofs, floor_area, roof_area, ground_floor_area, building_height,
+      si_units, below_grade_walls, outdoor_floors, interior_walls. (29 more)'
+    tags:
+    - Object
+    source: openapi/cove.tool-project-geometry-api-openapi.yml#/components/schemas/Update3DGeometryRequestBody
+  - term: ProjectsRequests
+    definition: 'Object declared by the contract with fields: name, run_set, url.'
+    tags:
+    - Object
+    source: openapi/cove.tool-projects-api-openapi.yml#/components/schemas/ProjectsRequests
+  - term: CreateProjectResponseData
+    definition: 'Object declared by the contract with fields: id, name, number, si_units, created_by, business_id, eui, cebcs_eui, energy_code,
+      climate_zone, editing, read_only. (2 more)'
+    tags:
+    - Object
+    source: openapi/cove.tool-projects-api-openapi.yml#/components/schemas/CreateProjectResponseData
+  - term: CreateProjectRequestBody
+    definition: 'Object declared by the contract with fields: name, location, building_types, energy_code_id.'
+    tags:
+    - Object
+    source: openapi/cove.tool-projects-api-openapi.yml#/components/schemas/CreateProjectRequestBody
+  - term: CreatedByResponseData
+    definition: 'Object declared by the contract with fields: id, email, first_name, last_name.'
+    tags:
+    - Object
+    source: openapi/cove.tool-projects-api-openapi.yml#/components/schemas/CreatedByResponseData
+  - term: GetProjectInfoResponse
+    definition: 'Object declared by the contract with fields: data.'
+    tags:
+    - Object
+    source: openapi/cove.tool-projects-api-openapi.yml#/components/schemas/GetProjectInfoResponse
+  - term: CreateProjectResponse
+    definition: 'Object declared by the contract with fields: data.'
+    tags:
+    - Object
+    source: openapi/cove.tool-projects-api-openapi.yml#/components/schemas/CreateProjectResponse
+  - term: UserSignupOKResponses
+    definition: 'Object declared by the contract with fields: data.'
+    tags:
+    - Object
+    source: openapi/cove.tool-user-api-openapi.yml#/components/schemas/UserSignupOKResponses
+  - term: UserSignupRequests
+    definition: 'Object declared by the contract with fields: email, password, first_name, last_name.'
+    tags:
+    - Object
+    source: openapi/cove.tool-user-api-openapi.yml#/components/schemas/UserSignupRequests
+  - term: Daylight Analysis
+    definition: 'Resource group in the contract; its operation POST /analysis: Fires off the daylight analysis calculations to start running for
+      a given project.'
+    tags:
+    - Resource Group
+    source: openapi/cove.tool-daylight-analysis-api-openapi.yml
+  - term: Energy Codes
+    definition: 'Resource group in the contract; its operation GET /energy-codes: Retrieve a list of available energy codes supported by cove.tool''s
+      automated model generation or for a specific project and its compatible energy codes depending on the query parameters passed in.'
+    tags:
+    - Resource Group
+    source: openapi/cove.tool-energy-codes-api-openapi.yml
+  - term: Profiles
+    definition: 'Resource group in the contract; its operation GET /profiles/{profile_id}: Retrieves the details of a user account within your
+      business/organiation if it exists.'
+    tags:
+    - Resource Group
+    source: openapi/cove.tool-profiles-api-openapi.yml
+  - term: User
+    definition: 'Resource group in the contract; its operation POST /auth/signup: cove.tool accounts can now be created via an API call within
+      your business/organization.'
+    tags:
+    - Resource Group
+    source: openapi/cove.tool-user-api-openapi.yml

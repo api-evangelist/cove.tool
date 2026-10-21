@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cove.tool/main/json-schema/cove.tool-user-signup-okresponses-schema.json",
+  "title": "UserSignupOKResponses",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cove.tool-user-api-openapi.yml#/components/schemas/UserSignupOKResponses",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "#/$defs/GeneralEndpointResponses"
+    },
+    {
+      "type": "object"
+    }
+  ],
+  "properties": {
+    "data": {
+      "$ref": "#/$defs/UserInformationResponseData"
+    }
+  },
+  "$defs": {
+    "GeneralEndpointResponses": {
+      "type": "object",
+      "required": [
+        "data",
+        "msg",
+        "errors"
+      ],
+      "properties": {
+        "data": {
+          "type": "object"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "UserInformationResponseData": {
+      "type": "object",
+      "required": [
+        "is_owner",
+        "is_admin",
+        "created_at",
+        "email",
+        "first_name",
+        "last_name",
+        "business"
+      ],
+      "properties": {
+        "is_owner": {
+          "type": "boolean"
+        },
+        "is_admin": {
+          "type": "boolean"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "business": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "telephone": {
+              "type": "number"
+            },
+            "user_limit": {
+              "type": "number"
+            },
+            "domain": {
+              "type": "string",
+              "format": "url"
+            },
+            "size": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,380 @@
+{
+  "@context": {
+    "@vocab": "https://cove.inc/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "covetool": "https://cove.inc/schema#",
+    "AuthTokenResponses": "covetool:AuthTokenResponses",
+    "expires_in": {
+      "@id": "covetool:expires_in",
+      "@type": "xsd:boolean"
+    },
+    "token": {
+      "@id": "covetool:token",
+      "@type": "xsd:string"
+    },
+    "AuthTokenRequests": "covetool:AuthTokenRequests",
+    "username": {
+      "@id": "covetool:username",
+      "@type": "xsd:string"
+    },
+    "password": {
+      "@id": "covetool:password",
+      "@type": "xsd:string"
+    },
+    "DaylightAnalysisStatusResponse": "covetool:DaylightAnalysisStatusResponse",
+    "data": {
+      "@id": "covetool:data",
+      "@type": "@id"
+    },
+    "DaylightAnalysisResultsResponse": "covetool:DaylightAnalysisResultsResponse",
+    "RunDaylightAnalysisRequestBody": "covetool:RunDaylightAnalysisRequestBody",
+    "project_id": {
+      "@id": "covetool:project_id",
+      "@type": "xsd:decimal"
+    },
+    "analysis_types": {
+      "@id": "covetool:analysis_types",
+      "@container": "@list"
+    },
+    "GeneralEndpointResponses": "covetool:GeneralEndpointResponses",
+    "msg": {
+      "@id": "covetool:msg",
+      "@type": "xsd:string"
+    },
+    "errors": {
+      "@id": "covetool:errors",
+      "@container": "@list"
+    },
+    "EnergyCodeForProjectsResponses": "covetool:EnergyCodeForProjectsResponses",
+    "EnergyCodeResponseData": "covetool:EnergyCodeResponseData",
+    "id": {
+      "@id": "covetool:id",
+      "@type": "xsd:decimal"
+    },
+    "name": {
+      "@id": "covetool:name",
+      "@type": "xsd:string"
+    },
+    "EnergyCodeForProjectResponseData": "covetool:EnergyCodeForProjectResponseData",
+    "selected": {
+      "@id": "covetool:selected",
+      "@type": "xsd:boolean"
+    },
+    "EnergyCodeResponses": "covetool:EnergyCodeResponses",
+    "EnergyCodesEnum": "covetool:EnergyCodesEnum",
+    "UserProfileResponse": "covetool:UserProfileResponse",
+    "UserInformationResponseData": "covetool:UserInformationResponseData",
+    "is_owner": {
+      "@id": "covetool:is_owner",
+      "@type": "xsd:boolean"
+    },
+    "is_admin": {
+      "@id": "covetool:is_admin",
+      "@type": "xsd:boolean"
+    },
+    "created_at": {
+      "@id": "covetool:created_at",
+      "@type": "xsd:dateTime"
+    },
+    "email": {
+      "@id": "covetool:email",
+      "@type": "xsd:string"
+    },
+    "first_name": {
+      "@id": "covetool:first_name",
+      "@type": "xsd:string"
+    },
+    "last_name": {
+      "@id": "covetool:last_name",
+      "@type": "xsd:string"
+    },
+    "business": {
+      "@id": "covetool:business"
+    },
+    "Update2DGeometryAreasRequests": "covetool:Update2DGeometryAreasRequests",
+    "run": {
+      "@id": "covetool:run",
+      "@type": "@id"
+    },
+    "window_area_ne": {
+      "@id": "covetool:window_area_ne",
+      "@type": "xsd:decimal"
+    },
+    "roof_area": {
+      "@id": "covetool:roof_area",
+      "@type": "xsd:decimal"
+    },
+    "skylight_area": {
+      "@id": "covetool:skylight_area",
+      "@type": "xsd:decimal"
+    },
+    "building_height": {
+      "@id": "covetool:building_height",
+      "@type": "xsd:decimal"
+    },
+    "window_area_nw": {
+      "@id": "covetool:window_area_nw",
+      "@type": "xsd:decimal"
+    },
+    "window_area_se": {
+      "@id": "covetool:window_area_se",
+      "@type": "xsd:decimal"
+    },
+    "window_area_sw": {
+      "@id": "covetool:window_area_sw",
+      "@type": "xsd:decimal"
+    },
+    "si_units": {
+      "@id": "covetool:si_units",
+      "@type": "xsd:boolean"
+    },
+    "floor_area": {
+      "@id": "covetool:floor_area",
+      "@type": "xsd:decimal"
+    },
+    "wall_area_sw": {
+      "@id": "covetool:wall_area_sw",
+      "@type": "xsd:decimal"
+    },
+    "wall_area_nw": {
+      "@id": "covetool:wall_area_nw",
+      "@type": "xsd:decimal"
+    },
+    "wall_area_ne": {
+      "@id": "covetool:wall_area_ne",
+      "@type": "xsd:decimal"
+    },
+    "wall_area_se": {
+      "@id": "covetool:wall_area_se",
+      "@type": "xsd:decimal"
+    },
+    "window_area_e": {
+      "@id": "covetool:window_area_e",
+      "@type": "xsd:decimal"
+    },
+    "wall_area_w": {
+      "@id": "covetool:wall_area_w",
+      "@type": "xsd:decimal"
+    },
+    "wall_area_s": {
+      "@id": "covetool:wall_area_s",
+      "@type": "xsd:decimal"
+    },
+    "window_area_n": {
+      "@id": "covetool:window_area_n",
+      "@type": "xsd:decimal"
+    },
+    "wall_area_n": {
+      "@id": "covetool:wall_area_n",
+      "@type": "xsd:decimal"
+    },
+    "window_area_s": {
+      "@id": "covetool:window_area_s",
+      "@type": "xsd:decimal"
+    },
+    "window_area_w": {
+      "@id": "covetool:window_area_w",
+      "@type": "xsd:decimal"
+    },
+    "wall_area_e": {
+      "@id": "covetool:wall_area_e",
+      "@type": "xsd:decimal"
+    },
+    "UpdateGeometryAreasResponses": "covetool:UpdateGeometryAreasResponses",
+    "result": {
+      "@id": "covetool:result",
+      "@type": "xsd:string"
+    },
+    "VerticesModel": "covetool:VerticesModel",
+    "X": {
+      "@id": "covetool:X",
+      "@type": "xsd:decimal"
+    },
+    "Y": {
+      "@id": "covetool:Y",
+      "@type": "xsd:decimal"
+    },
+    "Z": {
+      "@id": "covetool:Z",
+      "@type": "xsd:decimal"
+    },
+    "Update3DGeometryAreasRequests": "covetool:Update3DGeometryAreasRequests",
+    "source": {
+      "@id": "covetool:source",
+      "@type": "xsd:string"
+    },
+    "walls": {
+      "@id": "covetool:walls"
+    },
+    "windows": {
+      "@id": "covetool:windows"
+    },
+    "roofs": {
+      "@id": "covetool:roofs"
+    },
+    "floors": {
+      "@id": "covetool:floors"
+    },
+    "rotation_angle": {
+      "@id": "covetool:rotation_angle",
+      "@type": "xsd:decimal"
+    },
+    "interior_walls": {
+      "@id": "covetool:interior_walls"
+    },
+    "skylights": {
+      "@id": "covetool:skylights"
+    },
+    "shading_devices": {
+      "@id": "covetool:shading_devices"
+    },
+    "spandrels": {
+      "@id": "covetool:spandrels"
+    },
+    "outdoor_floors": {
+      "@id": "covetool:outdoor_floors"
+    },
+    "furniture": {
+      "@id": "covetool:furniture"
+    },
+    "below_grade_walls": {
+      "@id": "covetool:below_grade_walls"
+    },
+    "RoomsMeshObject": "covetool:RoomsMeshObject",
+    "rooms": {
+      "@id": "covetool:rooms",
+      "@container": "@list"
+    },
+    "Windows": {
+      "@id": "covetool:Windows",
+      "@container": "@list"
+    },
+    "UpdateGeometryAreasResponses_2": "covetool:UpdateGeometryAreasResponses_2",
+    "MeshObjectV2": "covetool:MeshObjectV2",
+    "Vertices": {
+      "@id": "covetool:Vertices",
+      "@type": "@id"
+    },
+    "Triangles": {
+      "@id": "covetool:Triangles",
+      "@type": "@id"
+    },
+    "Update3DGeometryRequestBody": "covetool:Update3DGeometryRequestBody",
+    "ground_floor_area": {
+      "@id": "covetool:ground_floor_area",
+      "@type": "xsd:decimal"
+    },
+    "underground_area": {
+      "@id": "covetool:underground_area",
+      "@type": "xsd:decimal"
+    },
+    "roof_u_value": {
+      "@id": "covetool:roof_u_value",
+      "@type": "xsd:decimal"
+    },
+    "ground_floor_u_value": {
+      "@id": "covetool:ground_floor_u_value",
+      "@type": "xsd:decimal"
+    },
+    "skylight_u_value": {
+      "@id": "covetool:skylight_u_value",
+      "@type": "xsd:decimal"
+    },
+    "skylight_shgc": {
+      "@id": "covetool:skylight_shgc",
+      "@type": "xsd:decimal"
+    },
+    "window_u_value_n": {
+      "@id": "covetool:window_u_value_n",
+      "@type": "xsd:decimal"
+    },
+    "wall_u_value_n": {
+      "@id": "covetool:wall_u_value_n",
+      "@type": "xsd:decimal"
+    },
+    "basement_depth": {
+      "@id": "covetool:basement_depth",
+      "@type": "xsd:decimal"
+    },
+    "ProjectsRequests": "covetool:ProjectsRequests",
+    "run_set": {
+      "@id": "covetool:run_set",
+      "@container": "@list"
+    },
+    "url": {
+      "@id": "covetool:url",
+      "@type": "xsd:string"
+    },
+    "CreateProjectResponseData": "covetool:CreateProjectResponseData",
+    "number": {
+      "@id": "covetool:number",
+      "@type": "xsd:decimal"
+    },
+    "created_by": {
+      "@id": "covetool:created_by",
+      "@type": "@id"
+    },
+    "business_id": {
+      "@id": "covetool:business_id",
+      "@type": "xsd:decimal"
+    },
+    "eui": {
+      "@id": "covetool:eui",
+      "@type": "xsd:decimal"
+    },
+    "cebcs_eui": {
+      "@id": "covetool:cebcs_eui",
+      "@type": "xsd:decimal"
+    },
+    "energy_code": {
+      "@id": "covetool:energy_code",
+      "@type": "@id"
+    },
+    "climate_zone": {
+      "@id": "covetool:climate_zone"
+    },
+    "editing": {
+      "@id": "covetool:editing",
+      "@type": "xsd:boolean"
+    },
+    "read_only": {
+      "@id": "covetool:read_only",
+      "@type": "xsd:boolean"
+    },
+    "updated_at": {
+      "@id": "covetool:updated_at",
+      "@type": "xsd:dateTime"
+    },
+    "CreateProjectRequestBody": "covetool:CreateProjectRequestBody",
+    "location": {
+      "@id": "covetool:location",
+      "@type": "xsd:string"
+    },
+    "building_types": {
+      "@id": "covetool:building_types",
+      "@container": "@list"
+    },
+    "energy_code_id": {
+      "@id": "covetool:energy_code_id",
+      "@type": "xsd:decimal"
+    },
+    "CreatedByResponseData": "covetool:CreatedByResponseData",
+    "GetProjectInfoResponse": "covetool:GetProjectInfoResponse",
+    "CreateProjectResponse": "covetool:CreateProjectResponse",
+    "UserSignupOKResponses": "covetool:UserSignupOKResponses",
+    "UserSignupRequests": "covetool:UserSignupRequests"
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "Cove.Tool API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects Cove.Tool's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-10-20) from openapi/cove.tool-authentication-token-api-openapi.yml, openapi/cove.tool-daylight-analysis-api-openapi.yml, openapi/cove.tool-energy-codes-api-openapi.yml.",
+  "dcterms:created": "2026-10-20",
+  "dcterms:source": [
+    "openapi/cove.tool-authentication-token-api-openapi.yml",
+    "openapi/cove.tool-daylight-analysis-api-openapi.yml",
+    "openapi/cove.tool-energy-codes-api-openapi.yml",
+    "openapi/cove.tool-profiles-api-openapi.yml",
+    "openapi/cove.tool-project-geometry-api-openapi.yml"
+  ]
+}

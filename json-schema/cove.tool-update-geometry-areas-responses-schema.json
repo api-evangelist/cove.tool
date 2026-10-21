@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cove.tool/main/json-schema/cove.tool-update-geometry-areas-responses-schema.json",
+  "title": "UpdateGeometryAreasResponses",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cove.tool-project-geometry-api-openapi.yml#/components/schemas/UpdateGeometryAreasResponses",
+  "type": "object",
+  "required": [
+    "data",
+    "result"
+  ],
+  "properties": {
+    "data": {
+      "type": "object",
+      "required": [
+        "eui_breakdown",
+        "eui_total"
+      ],
+      "properties": {
+        "eui_breakdown": {
+          "type": "object",
+          "required": [
+            "headers",
+            "values",
+            "total_gas",
+            "total_electric",
+            "total_electric_without_pv",
+            "Primary Energy Heating",
+            "Primary Energy Domestic Hot Water"
+          ],
+          "properties": {
+            "headers": {
+              "$ref": "#/$defs/EuiBreakdownHeaders"
+            },
+            "values": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "total_gas": {
+              "type": "number",
+              "format": "double"
+            },
+            "total_electric": {
+              "type": "number",
+              "format": "double"
+            },
+            "Primary Energy Heating": {
+              "type": "string"
+            },
+            "Primary Energy Domestic Hot Water": {
+              "type": "string"
+            }
+          }
+        },
+        "eui_total": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "result": {
+      "type": "string",
+      "format": "string"
+    }
+  },
+  "$defs": {
+    "EuiBreakdownHeaders": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

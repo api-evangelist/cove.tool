@@ -1,0 +1,18 @@
+generated: '2026-10-20'
+method: none
+source:
+- https://zapier.com/apps/cove.tool/integrations
+- https://zapier.com/apps/cove-tool/integrations
+- https://n8n.io/integrations/cove.tool/
+- https://composio.dev/toolkits/cove.tool
+- https://monid.ai/tools/cove.tool
+checked:
+- https://composio.dev/toolkits/cove.tool
+- https://monid.ai/tools/cove.tool
+- https://n8n.io/integrations/cove.tool/
+- https://zapier.com/apps/cove-tool/integrations
+- https://zapier.com/apps/cove.tool/integrations
+summary: null
+marketplace_apps: []
+edges: []
+templates: []

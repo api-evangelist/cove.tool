@@ -12,7 +12,7 @@ x-note: >-
   renamed the security scheme and replaced v1's run-values geometry model outright. This overlay
   assigns the operationIds v1 also lacks and records the version's real standing so a consumer
   reading only v1 is not left to assume it is current.
-extends: openapi/cove.tool-api-v1-openapi.yml
+extends: ../openapi/_original/cove.tool-api-v1-openapi.yml
 actions:
 - target: $.paths['/get-token'].post
   description: Assign a stable operationId.

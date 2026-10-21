@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cove.tool/main/json-schema/cove.tool-run-daylight-analysis-request-body-schema.json",
+  "title": "RunDaylightAnalysisRequestBody",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cove.tool-daylight-analysis-api-openapi.yml#/components/schemas/RunDaylightAnalysisRequestBody",
+  "type": "object",
+  "required": [
+    "project_id",
+    "analysis_types"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "number"
+    },
+    "analysis_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

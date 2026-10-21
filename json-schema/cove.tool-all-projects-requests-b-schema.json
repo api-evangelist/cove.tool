@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cove.tool/main/json-schema/cove.tool-all-projects-requests-b-schema.json",
+  "title": "AllProjectsRequestsB",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cove.tool-projects-api-openapi.yml#/components/schemas/AllProjectsRequestsB",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/ProjectsRequests"
+    }
+  ],
+  "$defs": {
+    "ProjectsRequests": {
+      "type": "object",
+      "required": [
+        "name",
+        "run_set",
+        "url"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "format": "string"
+        },
+        "run_set": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "url": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cove.tool/main/json-schema/cove.tool-create-project-request-body-schema.json",
+  "title": "CreateProjectRequestBody",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cove.tool-projects-api-openapi.yml#/components/schemas/CreateProjectRequestBody",
+  "type": "object",
+  "required": [
+    "name",
+    "location",
+    "building_types",
+    "energy_code_id"
+  ],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "building_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "energy_code_id": {
+      "type": "number"
+    }
+  }
+}

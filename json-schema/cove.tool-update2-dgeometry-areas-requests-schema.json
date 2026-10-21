@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cove.tool/main/json-schema/cove.tool-update2-dgeometry-areas-requests-schema.json",
+  "title": "Update2DGeometryAreasRequests",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cove.tool-project-geometry-api-openapi.yml#/components/schemas/Update2DGeometryAreasRequests",
+  "type": "object",
+  "required": [
+    "run",
+    "building_height",
+    "roof_area",
+    "floor_area"
+  ],
+  "properties": {
+    "run": {
+      "type": "string",
+      "format": "url"
+    },
+    "window_area_ne": {
+      "type": "number",
+      "minimum": 0
+    },
+    "roof_area": {
+      "type": "number",
+      "minimum": 0
+    },
+    "skylight_area": {
+      "type": "number",
+      "minimum": 0
+    },
+    "building_height": {
+      "type": "number",
+      "minimum": 0
+    },
+    "window_area_nw": {
+      "type": "number",
+      "minimum": 0
+    },
+    "window_area_se": {
+      "type": "number",
+      "minimum": 0
+    },
+    "window_area_sw": {
+      "type": "number",
+      "minimum": 0
+    },
+    "si_units": {
+      "type": "boolean"
+    },
+    "floor_area": {
+      "type": "number",
+      "minimum": 0
+    },
+    "wall_area_sw": {
+      "type": "number",
+      "minimum": 0
+    },
+    "wall_area_nw": {
+      "type": "number",
+      "minimum": 0
+    },
+    "wall_area_ne": {
+      "type": "number",
+      "minimum": 0
+    },
+    "wall_area_se": {
+      "type": "number",
+      "minimum": 0
+    },
+    "window_area_e": {
+      "type": "number",
+      "minimum": 0
+    },
+    "wall_area_w": {
+      "type": "number",
+      "minimum": 0
+    },
+    "wall_area_s": {
+      "type": "number",
+      "minimum": 0
+    },
+    "window_area_n": {
+      "type": "number",
+      "minimum": 0
+    },
+    "wall_area_n": {
+      "type": "number",
+      "minimum": 0
+    },
+    "window_area_s": {
+      "type": "number",
+      "minimum": 0
+    },
+    "window_area_w": {
+      "type": "number",
+      "minimum": 0
+    },
+    "wall_area_e": {
+      "type": "number",
+      "minimum": 0
+    }
+  }
+}

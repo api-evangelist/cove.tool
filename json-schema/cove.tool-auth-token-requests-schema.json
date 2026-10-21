@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cove.tool/main/json-schema/cove.tool-auth-token-requests-schema.json",
+  "title": "AuthTokenRequests",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cove.tool-authentication-token-api-openapi.yml#/components/schemas/AuthTokenRequests",
+  "type": "object",
+  "required": [
+    "username",
+    "password"
+  ],
+  "properties": {
+    "username": {
+      "type": "string",
+      "format": "email"
+    },
+    "password": {
+      "type": "string",
+      "format": "string"
+    }
+  }
+}

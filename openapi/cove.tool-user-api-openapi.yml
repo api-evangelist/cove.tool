@@ -8,7 +8,59 @@ info:
     altText: cove.tool logo
   description: '# Introduction
 
-    The cove.tool API is a set of HTTP endpoints that help your app integrate with cove.tool.'
+    The cove.tool API is a set of HTTP endpoints that help your app integrate with cove.tool. The cove.tool API is developed around the RESTful architecture
+
+
+    Recently, we released the cove.tool API v2. The cove.tool API v2 includes a modern foundation, new and advanced features to how cove.tool can integrate seamlessly into your app.
+
+
+    # Getting Started
+
+    In order to start making calls to the API, each request will have to be authenticated. This is done by providing an authentication token on every request. It checks whether the user is authorized and has permission to perform the following actions. See more in Authentication section.
+
+    1. **Cove.tool account** - Make sure to have access to a valid (trial/licensed) cove.tool account.
+
+    2. **Projects created with cove.tool** - Once you login to your cove.tool account, make sure to create project(s) you wish to start making API requests with! As these are the projects that the API relies on to obtain, update and retrieve information.
+
+
+    # Authentication
+
+    By providing an authentication token on every request, it checks whether the user is authorized and has permission to update and retrieve data.
+
+    ## Generating an API Token
+
+    | URL | https://app.covetool.com/api/get-token |
+
+    |-----|----------------------------------------|
+
+
+    # Testing
+
+    In order to understand how the cove.tool API can work for you, the easiest way is to start making requests! We recommend using standard API testing tools such as HTTPie or Postman to start interacting with the API over HTTP.
+
+
+    # Error Codes
+
+    | HTTP Status Code | Category |
+
+    |:----------------:|:---------------------:|
+
+    | 200 | OK |
+
+    | 201 | Updated |
+
+    | 202 | Accepted |
+
+    | 400 | Bad Request |
+
+    | 401 | Unauthorized Request |
+
+    | 404 | Resource Not Found |
+
+    | 5xx | Internal Server Error |
+
+
+    _Happy Developing!_'
 servers:
 - url: https://app.covetool.com/api/v2
 tags:
@@ -43,6 +95,21 @@ components:
     BadRequest:
       description: Invalid request. Check contents of your response body.
   schemas:
+    GeneralEndpointResponses:
+      type: object
+      required:
+      - data
+      - msg
+      - errors
+      properties:
+        data:
+          type: object
+        msg:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
     UserSignupOKResponses:
       type: object
       allOf:
@@ -67,6 +134,28 @@ components:
             size: null
         msg: A new user-profile was created. Activate via email.
         error: []
+    UserSignupRequests:
+      type: object
+      required:
+      - email
+      - password
+      - first_name
+      - last_name
+      properties:
+        email:
+          type: string
+          format: email
+          example: hello@covetool.com
+        password:
+          type: string
+          format: password
+          example: mysupersecurepassword
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Smith
     UserInformationResponseData:
       type: object
       required:
@@ -106,43 +195,6 @@ components:
               format: url
             size:
               type: number
-    UserSignupRequests:
-      type: object
-      required:
-      - email
-      - password
-      - first_name
-      - last_name
-      properties:
-        email:
-          type: string
-          format: email
-          example: hello@covetool.com
-        password:
-          type: string
-          format: password
-          example: mysupersecurepassword
-        first_name:
-          type: string
-          example: John
-        last_name:
-          type: string
-          example: Smith
-    GeneralEndpointResponses:
-      type: object
-      required:
-      - data
-      - msg
-      - errors
-      properties:
-        data:
-          type: object
-        msg:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

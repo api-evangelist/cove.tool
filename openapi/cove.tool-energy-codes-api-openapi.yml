@@ -8,7 +8,59 @@ info:
     altText: cove.tool logo
   description: '# Introduction
 
-    The cove.tool API is a set of HTTP endpoints that help your app integrate with cove.tool.'
+    The cove.tool API is a set of HTTP endpoints that help your app integrate with cove.tool. The cove.tool API is developed around the RESTful architecture
+
+
+    Recently, we released the cove.tool API v2. The cove.tool API v2 includes a modern foundation, new and advanced features to how cove.tool can integrate seamlessly into your app.
+
+
+    # Getting Started
+
+    In order to start making calls to the API, each request will have to be authenticated. This is done by providing an authentication token on every request. It checks whether the user is authorized and has permission to perform the following actions. See more in Authentication section.
+
+    1. **Cove.tool account** - Make sure to have access to a valid (trial/licensed) cove.tool account.
+
+    2. **Projects created with cove.tool** - Once you login to your cove.tool account, make sure to create project(s) you wish to start making API requests with! As these are the projects that the API relies on to obtain, update and retrieve information.
+
+
+    # Authentication
+
+    By providing an authentication token on every request, it checks whether the user is authorized and has permission to update and retrieve data.
+
+    ## Generating an API Token
+
+    | URL | https://app.covetool.com/api/get-token |
+
+    |-----|----------------------------------------|
+
+
+    # Testing
+
+    In order to understand how the cove.tool API can work for you, the easiest way is to start making requests! We recommend using standard API testing tools such as HTTPie or Postman to start interacting with the API over HTTP.
+
+
+    # Error Codes
+
+    | HTTP Status Code | Category |
+
+    |:----------------:|:---------------------:|
+
+    | 200 | OK |
+
+    | 201 | Updated |
+
+    | 202 | Accepted |
+
+    | 400 | Bad Request |
+
+    | 401 | Unauthorized Request |
+
+    | 404 | Resource Not Found |
+
+    | 5xx | Internal Server Error |
+
+
+    _Happy Developing!_'
 servers:
 - url: https://app.covetool.com/api/v2
 tags:
@@ -48,44 +100,10 @@ paths:
       operationId: getEnergyCodes
       x-operation-id-source: derived
 components:
+  responses:
+    Unauthorized:
+      description: Unauthorized request. Check your API token if it is valid.
   schemas:
-    EnergyCodeForProjectsResponses:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/GeneralEndpointResponses'
-      - type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/EnergyCodeForProjectResponseData'
-      example:
-        data:
-        - id: 1
-          name: ASHRAE 2007
-          selected: false
-        - id: 2
-          name: ASHRAE 2010
-          selected: false
-        - id: 3
-          name: ASHRAE 2013
-          selected: true
-        - id: 7
-          name: ASHRAE 2016
-          selected: false
-        - id: 12
-          name: ASHRAE Residential 2018
-          selected: false
-        msg: Successfully found results.
-        errors: {}
-    EnergyCodeResponseData:
-      type: object
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: number
-        name:
-          type: string
     EnergyCodeForProjectResponseData:
       type: object
       allOf:
@@ -142,6 +160,16 @@ components:
           name: UK NM
         msg: Successfully found results.
         errors: {}
+    EnergyCodeResponseData:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: number
+        name:
+          type: string
     GeneralEndpointResponses:
       type: object
       required:
@@ -157,6 +185,33 @@ components:
           type: array
           items:
             type: string
+    EnergyCodeForProjectsResponses:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/GeneralEndpointResponses'
+      - type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/EnergyCodeForProjectResponseData'
+      example:
+        data:
+        - id: 1
+          name: ASHRAE 2007
+          selected: false
+        - id: 2
+          name: ASHRAE 2010
+          selected: false
+        - id: 3
+          name: ASHRAE 2013
+          selected: true
+        - id: 7
+          name: ASHRAE 2016
+          selected: false
+        - id: 12
+          name: ASHRAE Residential 2018
+          selected: false
+        msg: Successfully found results.
+        errors: {}
     EnergyCodesEnum:
       type:
       - string
@@ -167,9 +222,6 @@ components:
       - California
       - Japan
       - UK
-  responses:
-    Unauthorized:
-      description: Unauthorized request. Check your API token if it is valid.
   securitySchemes:
     apiKeyAuth:
       type: apiKey

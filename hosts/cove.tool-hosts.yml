@@ -1,0 +1,136 @@
+generated: '2026-10-20'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 10
+  own: 2
+  other_domain: 7
+  platform: 1
+  roles:
+  - api
+  - docs
+  - identity
+  - legal
+  - other
+  - portal
+  - source
+  - website
+hosts:
+- host: api.cove.inc
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: cove.inc
+  role: api
+  relation: own
+- host: api.cove.tools
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: cove.tools
+  role: api
+  relation: other-domain
+- host: api.covetool.com
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: covetool.com
+  role: api
+  relation: other-domain
+- host: app.covetool.com
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - contract-discovery
+  - well-known
+  types:
+  - SignUp
+  serves:
+  - api
+  registrable_domain: covetool.com
+  role: identity
+  relation: other-domain
+- host: cove.inc
+  found_by:
+  - pointer
+  - probed
+  - well-known
+  types:
+  - Website
+  serves: []
+  registrable_domain: cove.inc
+  role: website
+  relation: own
+- host: developers-staging.covetool.com
+  found_by:
+  - probed
+  - site-links
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: covetool.com
+  role: other
+  relation: other-domain
+- host: developers.covetool.com
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - docs-index
+  - spec-found
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - DeveloperPortal
+  - APIReference
+  serves:
+  - docs
+  - spec
+  - cdn
+  - documentation
+  vendor: cloudflare
+  registrable_domain: covetool.com
+  role: portal
+  relation: other-domain
+- host: github.com
+  found_by:
+  - pointer
+  types:
+  - GitHubOrganization
+  serves: []
+  registrable_domain: github.com
+  role: source
+  relation: platform
+- host: help.covetool.com
+  found_by:
+  - pointer
+  - probed
+  - docs-index
+  - well-known
+  types:
+  - Documentation
+  - GettingStarted
+  - Support
+  - HelpCenter
+  serves:
+  - docs
+  registrable_domain: covetool.com
+  role: docs
+  relation: other-domain
+- host: www.cove.tools
+  found_by:
+  - pointer
+  - probed
+  - well-known
+  types:
+  - TermsOfService
+  serves: []
+  registrable_domain: cove.tools
+  role: legal
+  relation: other-domain

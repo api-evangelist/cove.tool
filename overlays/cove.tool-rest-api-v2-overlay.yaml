@@ -14,7 +14,7 @@ x-note: >-
   own vocabulary, records the runtime headers the API demonstrably returns but does not document,
   and flags two contract defects without silently correcting them. It ADDS to the published
   contract and never mutates the original file.
-extends: openapi/cove.tool-rest-api-v2-openapi.yml
+extends: ../openapi/_original/cove.tool-rest-api-v2-openapi.yml
 actions:
 - target: $.paths['/auth/signup'].post
   description: Assign a stable operationId.

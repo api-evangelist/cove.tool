@@ -21,7 +21,52 @@ info:
   description: '# Introduction
 
 
-    The cove.tool API contain the following HTTP endpoints to upload your project''s geometry and obtain an Energy Usage Intensity (EUI) breakdown.'
+    The cove.tool API contain the following HTTP endpoints to upload your project''s geometry and obtain an Energy Usage Intensity (EUI) breakdown. The cove.tool API is developed around the RESTful architecture which offers resource-based URLs, and uses standard HTTP methods and status codes. We recently released the cove.tool API v2 as of February 2022! The cove.tool API v2 features a completely full-fledged way to start analyzing building performance metrics into your projects such as creating users, projects, obtaining user information and geometry values such as meshes and more! # Getting Started
+
+    Every call made to the cove.tool API requires the following:
+
+
+    1. **cove.tool account** - Make sure to have access to a valid (trial/licensed) cove.tool account. - If you do not have a cove.tool account, you can register for one here. 2. **Projects created with cove.tool** - Once you login to your cove.tool account, make sure to create project(s) you wish to update the geometry and obtain an EUI breakdown for! As these are the projects that the API relies on to obtain and retrieve information. 3. **Authentication token** - In order to start making calls to the API, each request will have to be authenticated. This is done by providing an authentication token on every request. It checks whether the user is authorized and has permission to perform the following actions. See more in the Authentication section below. # Prerequisite Knowledge
+
+    It is imperative to take note of the 3 basic objects (**project**, **runs**, **run values**); how they interact and relate with one another when trying to make updates to project geometry. _An individual project has many runs, and a run has many run values._
+
+
+    The run represents the data for a given building type/use type. We currently offer the following use types:
+
+    - Office
+
+    - Apartments
+
+    - Education
+
+    - Hospital
+
+    - Hotel
+
+    - Lab
+
+    - Retail
+
+    - Single Family Home
+
+
+    A mixed use project with Office, Retail and Apartments would have 3 runs. The _"unique ID"_ is the **url** which must be included when updating an object. # Authentication
+
+    The following table contains more information on setting the Authentication token to each API request. Attempting to make API requests without authentication will fail. API requests must be made
+
+    over HTTPS. Authentication tokens are used to help identify the user
+
+    attempting to make the HTTP requests. By providing an authentication token on every request, it checks whether
+
+    the user is authorized and has permission to update and retrieve data. Be sure to include it in every request header once you start making API calls. For a concrete example, please see the list all project details section, particularly the **Header Parameters** section. # API Helper Functions
+
+
+    The following code snippet contains a Python utility class function that enables your application to start utilizing the data returned from the cove.tool API. Passing in valid cove.tool credentials to the an instance of the helper class function will allow you to start making HTTP calls. See the Python request samples in the appropriate endpoints below to see how you can make calls with `ApiHelpers` function. # Testing
+
+    Utilizing standard API testing tools such as HTTPie or Postman is a great way to start making calls to the cove.tool API. # Error Codes
+
+
+    The cove.tool API uses conventional HTTP status codes to indicate the success or failure of an API request. Listed below are the general status codes our API currently returns, and how to further troubleshoot the most common errors you will see when trying to make API calls. Status codes in the `2xx` range usually indicate a successful request. Status codes in the `4xx` range usually indicate an error in response to the information provided with the request. Status codes in the `5xx` range usually indicate an unexpected error.'
 servers:
 - url: https://app.covetool.com/api
 tags:
@@ -75,20 +120,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    AuthTokenResponses:
-      type: object
-      required:
-      - expires_in
-      - token
-      properties:
-        expires_in:
-          type: boolean
-          format: string
-          example: '604799.998047'
-        token:
-          type: string
-          format: string
-          example: aaaa1111aaaa1111aaaa1111aaaa1111aaaa
     AuthTokenRequests:
       type: object
       required:
@@ -103,6 +134,20 @@ components:
           type: string
           format: string
           example: mysupersecurepassword
+    AuthTokenResponses:
+      type: object
+      required:
+      - expires_in
+      - token
+      properties:
+        expires_in:
+          type: boolean
+          format: string
+          example: '604799.998047'
+        token:
+          type: string
+          format: string
+          example: aaaa1111aaaa1111aaaa1111aaaa1111aaaa
   responses:
     BadRequest:
       description: Bad/Invalid request

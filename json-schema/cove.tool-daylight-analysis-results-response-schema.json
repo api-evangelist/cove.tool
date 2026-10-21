@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cove.tool/main/json-schema/cove.tool-daylight-analysis-results-response-schema.json",
+  "title": "DaylightAnalysisResultsResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cove.tool-daylight-analysis-api-openapi.yml#/components/schemas/DaylightAnalysisResultsResponse",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "#/$defs/GeneralEndpointResponses"
+    },
+    {
+      "type": "object"
+    }
+  ],
+  "properties": {
+    "data": {
+      "$ref": "#/$defs/DaylightAnalysisResultsResponseData"
+    }
+  },
+  "$defs": {
+    "DaylightAnalysisResultsResponseData": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "run_id",
+          "building_type",
+          "floors",
+          "ase",
+          "sda"
+        ],
+        "properties": {
+          "run_id": {
+            "type": "number"
+          },
+          "building_type": {
+            "type": "string"
+          },
+          "floors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "ase",
+                "sda"
+              ],
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "ase": {
+                  "type": "number",
+                  "format": "double"
+                },
+                "sda": {
+                  "type": "number",
+                  "format": "double"
+                }
+              }
+            }
+          },
+          "ase": {
+            "type": "number",
+            "format": "double"
+          },
+          "sda": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      }
+    },
+    "GeneralEndpointResponses": {
+      "type": "object",
+      "required": [
+        "data",
+        "msg",
+        "errors"
+      ],
+      "properties": {
+        "data": {
+          "type": "object"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
